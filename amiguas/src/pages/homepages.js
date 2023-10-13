@@ -1,9 +1,15 @@
 import React from 'react'
+import styled from 'styled-components'
+import Header from '../components/Header'
 
-const homepages = () => {
+const Homepages = () => {
     return (
-        <div>Homepages</div>
+        <Container>
+            <Header />
+        </Container>
     )   
 }
 
-export default homepages
+export default Homepages
+
+const Container = styled.div``;

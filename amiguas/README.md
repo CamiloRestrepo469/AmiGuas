@@ -75,6 +75,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ¡Excelente! Parece que has creado correctamente una nueva aplicación de React llamada "amiguas" usando Create React App. Aquí tienes algunas instrucciones sobre los comandos que puedes usar para trabajar en tu aplicación:
 
+ 2. Luego, intenta instalar la versión LTS "Gallium" de Node.js.
+
+// ```bash
+// nvm install lts/gallium
+// ```
+se inicia con este comando 
 1. **npm start:** Este comando inicia el servidor de desarrollo. Puedes ejecutarlo en el directorio de tu proyecto (`cd amiguas`) y luego escribir `npm start` en la terminal para iniciar el servidor. Esto abrirá automáticamente tu aplicación en tu navegador web predeterminado y te permitirá ver los cambios en tiempo real a medida que trabajas en tu proyecto.
 
 2. **npm run build:** Cuando estés listo para desplegar tu aplicación en producción, utiliza este comando. Empaquetará tu aplicación en archivos estáticos optimizados que puedes subir a un servidor web para que sea accesible en línea.
@@ -102,4 +108,22 @@ Para comenzar a trabajar en tu aplicación, abre una terminal, navega al directo
         </a>
       </header>
 ´´´
+// 1. Abre una terminal y navega al directorio donde no esté relacionado con tu proyecto, por ejemplo, tu directorio de inicio.
+
+// ```bash
+// cd ~
+// ```
+
+// 2. Luego, intenta instalar la versión LTS "Gallium" de Node.js.
+
+// ```bash
+// nvm install lts/gallium
+// ```
+
+// Esto debería descargar e instalar la versión correcta de Node.js. Después de completar la instalación, puedes volver al directorio de tu proyecto y usar la nueva versión de Node.js para trabajar en él.
+
+// ```bash
+// cd /ruta/a/tu/proyecto
+// nvm use lts/gallium
+// ```
 ###
