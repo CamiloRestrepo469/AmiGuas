@@ -8,6 +8,22 @@ import StorefrontIcon from '@mui/icons-material/Storefront';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import MenuIcon from '@mui/icons-material/Menu';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import MessageIcon from '@mui/icons-material/Message';
+import ScreenShareIcon from '@mui/icons-material/ScreenShare';
+import ShareIcon from '@mui/icons-material/Share';
+import campana from '../assets/img/campana.png';
+import compartir from '../assets/img/compartir.png';
+import like from '../assets/img/like.png';
+import message from '../assets/img/message.png';
+import puntossuspenvios from '../assets/img/puntossuspenvios.png';
+import menupuntos from '../assets/img/menupuntos.png';
+import puntosM from '../assets/img/puntosM.png';
+import AppsIcon from '@mui/icons-material/Apps';
+import { Avatar } from '@mui/material';
+
+
 
 const Header = () => {
     return (
@@ -35,10 +51,32 @@ const Header = () => {
                 <IconCenter>
                     <DashboardCustomizeIcon />
                 </IconCenter>
-                <IconCenter>
+                <IconCenterMenu>
                     <MenuIcon />
-                </IconCenter>
+                </IconCenterMenu>
             </HeaderCenter>
+            {/* menu derecha */}
+            <HeaderRight>
+                <IconRight>
+                <AppsIcon />
+                    {/* <img src={puntosM} alt='puntos' /> */}
+                </IconRight>
+                <IconRight>
+                    <MessageIcon />
+                    {/* <img src={message} alt='menssage' /> */}
+
+                </IconRight>
+                <IconRight>
+                    <NotificationsActiveIcon />
+                    {/* <img src={campana} alt='campana' /> */}
+
+                </IconRight>
+                <IconRight>
+                    {/* <ThumbUpOffAltIcon /> */}
+                </IconRight>
+                <Avatar />
+            </HeaderRight>
+           
         </Container>
     )   
 }
@@ -118,6 +156,58 @@ const HeaderCenter = styled.div`
     align-Items: center;
     justify-content: space-around;
     padding: 0 15px;
+
+    @media (max-width: 990px) {
+        justify-content: flex-start;
+    }
 `;
 
-const IconCenter = styled.div``;
+const IconCenter = styled.div`
+    flex: 0.20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    // Para ampliar los iconos del menú
+    .MuiSvgIcon-root {
+        font-size: 40px;
+        transition: color 0.2s; /* Agrega una transición suave para el cambio de color */
+    }
+    
+    :hover {
+        border-bottom: 5px solid #ffff;
+        
+        .MuiSvgIcon-root {
+            color: #ffff !important; /* Usa !important para aumentar la especificidad */
+        }
+    }
+
+    @media (max-width: 990px){
+        display: none;
+    }
+`;
+
+const IconCenterMenu = styled(IconCenter)`
+    display: none;
+
+    @media (max-width: 990px) {
+        display: flex;
+    }
+`;
+
+const HeaderRight = styled.div`
+    flex: 0.25;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 20px;
+`;
+
+const IconRight = styled.div`
+    .MuiSvgIcon-root {
+        font-size: 40px;
+    }
+`;
+
+
