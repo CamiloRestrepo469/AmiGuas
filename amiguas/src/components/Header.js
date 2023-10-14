@@ -71,9 +71,6 @@ const Header = () => {
                     {/* <img src={campana} alt='campana' /> */}
 
                 </IconRight>
-                <IconRight>
-                    {/* <ThumbUpOffAltIcon /> */}
-                </IconRight>
                 <Avatar />
             </HeaderRight>
            
@@ -202,11 +199,26 @@ const HeaderRight = styled.div`
     align-items: center;
     justify-content: flex-end;
     padding: 0 20px;
+
+    .MuiAvatar-root {
+        width: 40px;
+        height: 40px;
+        
+    }
 `;
 
 const IconRight = styled.div`
+    width: 40px;
+    height: 40px;
+    background-color: #C0C0C0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-right: 15px;
+
     .MuiSvgIcon-root {
-        font-size: 40px;
+        font-size: 30px;
     }
 `;
 
