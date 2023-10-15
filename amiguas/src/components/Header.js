@@ -9,17 +9,7 @@ import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import MessageIcon from '@mui/icons-material/Message';
-import ScreenShareIcon from '@mui/icons-material/ScreenShare';
-import ShareIcon from '@mui/icons-material/Share';
-import campana from '../assets/img/campana.png';
-import compartir from '../assets/img/compartir.png';
-import like from '../assets/img/like.png';
-import message from '../assets/img/message.png';
-import puntossuspenvios from '../assets/img/puntossuspenvios.png';
-import menupuntos from '../assets/img/menupuntos.png';
-import puntosM from '../assets/img/puntosM.png';
 import AppsIcon from '@mui/icons-material/Apps';
 import { Avatar } from '@mui/material';
 
@@ -90,22 +80,22 @@ const Container = styled.div`
     top: 0;
     left: 0;
     z-index: 100;
-    background: linear-gradient(to right, #0ef, #93C4A2); /* Gradiente de color desde verde a un tono más claro */
-    border-bottom: 3px solid transparent; /* Borde inferior transparente inicialmente */
-    padding: 0 10px; /* Agrega espaciado en los lados */
+    background: linear-gradient(to right, #0ef, #93C4A2);
+    border-image: linear-gradient(to right, #0ef, #93C4A2);
+    border-image-slice: 1;
+    border-image-width: 0 0 3px 0; /* Ancho de 3px para el borde inferior */
+    border-image-outset: 0;
+    padding: 0 10px;
 
-    @media (max-width: 1200px){
+    @media (max-width: 1200px) {
         background: linear-gradient(to right, #0ef, #fff); /* Cambio de gradiente para pantallas más pequeñas */
     }
 `;
 
-
-
-
 const HeaderLeft = styled.div`
     display: flex;
-    align-items: center; /* Centrar verticalmente */
-    justify-content: center; /* Centrar horizontalmente */
+    align-items: center;
+    justify-content: center;
     flex: 0.25;
     padding: 1px 5px 5px 10px;
 
@@ -123,7 +113,7 @@ const InputSearch = styled.div`
     border-radius: 25px;
     background-color: #cfcfcfc;
     padding: 0 8px;
-    
+
     input {
         background-color: transparent;
         border: none;
@@ -133,15 +123,13 @@ const InputSearch = styled.div`
         font-size: 13px;
     }
 
-    @media (max-width: 1200px){
+    @media (max-width: 1200px) {
         width: 40px;
         height: 40px;
         border: 2px solid black;
 
-        input{
-            width: 0; /* Reducir el ancho para ocultar el input en pantallas más pequeñas */
-            padding: 0;
-            border: none;
+        input {
+            display: none; 
         }
     }
 `;
@@ -169,18 +157,20 @@ const IconCenter = styled.div`
     // Para ampliar los iconos del menú
     .MuiSvgIcon-root {
         font-size: 40px;
-        transition: color 0.2s; /* Agrega una transición suave para el cambio de color */
-    }
-    
-    :hover {
-        border-bottom: 5px solid #ffff;
-        
-        .MuiSvgIcon-root {
-            color: #ffff !important; /* Usa !important para aumentar la especificidad */
-        }
+        transition: color 0.3s; /* Agregado: transición para suavizar el cambio de color */
     }
 
-    @media (max-width: 990px){
+    :hover {
+        border-bottom: 5px solid #FFFF;
+
+        .MuiSvgIcon-root {
+            color: #FFFF !important;
+        }
+
+        cursor: pointer;
+    }
+
+    @media (max-width: 990px) {
         display: none;
     }
 `;
@@ -193,17 +183,17 @@ const IconCenterMenu = styled(IconCenter)`
     }
 `;
 
+
 const HeaderRight = styled.div`
     flex: 0.25;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     padding: 0 20px;
-
     .MuiAvatar-root {
         width: 40px;
         height: 40px;
-        
+        color: #000;    
     }
 `;
 
@@ -216,9 +206,8 @@ const IconRight = styled.div`
     align-items: center;
     border-radius: 50%;
     margin-right: 15px;
-
     .MuiSvgIcon-root {
-        font-size: 30px;
+        font-size: 30px;    
     }
 `;
 
