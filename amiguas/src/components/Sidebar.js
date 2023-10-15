@@ -42,7 +42,10 @@ const Container = styled.div`
     height: 100vh;
 
     @media (max-width: 1200px){
-        flex: 0.15;
+        flex: 0.10;
+        padding: 0 1px;
+        background: linear-gradient(to right, #0ef, #fff);
+
     }
 `;
 

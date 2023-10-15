@@ -80,15 +80,16 @@ const Container = styled.div`
     top: 0;
     left: 0;
     z-index: 100;
-    background: linear-gradient(to right, #0ef, #93C4A2);
-    border-image: linear-gradient(to right, #0ef, #93C4A2);
+    background: linear-gradient(to right, #0ef, #fff);
+    border-image: linear-gradient(to right, #0ef, #fff);
     border-image-slice: 1;
-    border-image-width: 0 0 3px 0; /* Ancho de 3px para el borde inferior */
+    border-image-width: 0 0 3px 0; 
     border-image-outset: 0;
     padding: 0 10px;
 
     @media (max-width: 1200px) {
-        background: linear-gradient(to right, #0ef, #fff); /* Cambio de gradiente para pantallas más pequeñas */
+        width: 50%;
+        height: 4em;  
     }
 `;
 
@@ -103,6 +104,9 @@ const HeaderLeft = styled.div`
         width: 50px;
         height: 50px;
     }
+    :hover {
+        background: linear-gradient(to right, #cfcfcf, #fff);
+    }
 `;
 
 const InputSearch = styled.div`
@@ -113,6 +117,7 @@ const InputSearch = styled.div`
     border-radius: 25px;
     background-color: #cfcfcfc;
     padding: 0 8px;
+    transition: background-color 0.3s;
 
     input {
         background-color: transparent;
@@ -123,6 +128,7 @@ const InputSearch = styled.div`
         font-size: 13px;
     }
 
+
     @media (max-width: 1200px) {
         width: 40px;
         height: 40px;
@@ -132,6 +138,7 @@ const InputSearch = styled.div`
             display: none; 
         }
     }
+
 `;
 
 
