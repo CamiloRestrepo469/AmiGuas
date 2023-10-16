@@ -45,27 +45,20 @@ const Header = () => {
                     <MenuIcon />
                 </IconCenterMenu>
             </HeaderCenter>
-            {/* menu derecha */}
             <HeaderRight>
                 <IconRight>
-                <AppsIcon />
-                    {/* <img src={puntosM} alt='puntos' /> */}
+                    <AppsIcon />
                 </IconRight>
                 <IconRight>
                     <MessageIcon />
-                    {/* <img src={message} alt='menssage' /> */}
-
                 </IconRight>
                 <IconRight>
                     <NotificationsActiveIcon />
-                    {/* <img src={campana} alt='campana' /> */}
-
                 </IconRight>
                 <Avatar />
             </HeaderRight>
-           
         </Container>
-    )   
+    )
 }
 
 export default Header;
@@ -128,7 +121,6 @@ const InputSearch = styled.div`
         font-size: 13px;
     }
 
-
     @media (max-width: 1200px) {
         width: 40px;
         height: 40px;
@@ -137,9 +129,7 @@ const InputSearch = styled.div`
         input {
             display: none; 
         }
-
     }
-
 `;
 
 

@@ -11,22 +11,21 @@ const Body = () => {
     return (
         <Container>
             <Sidebar />
-             <Feed>
+            <Feed>
                 <Carousel>
-                    <Stories drag='x' dragConstraints={{right: 0, left: -270}}>
+                    <Stories drag='x' dragConstraints={{ right: 0, left: -270 }}>
                         {ImgStory.map((image) => (
-                            <Story 
+                            <Story
                                 img={image.imgProfile}
                                 bgImage={image.url}
                                 user={image.name}
                             />))}
                     </Stories>
-                   
                 </Carousel>
                 <NewPost />
             </Feed>
         </Container>
-    )   
+    )
 }
 
 export default Body;
@@ -35,9 +34,6 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     background-color: #FFFF;
-
-    
-
 `;
 
 const Feed = styled.div`
@@ -52,8 +48,6 @@ const Feed = styled.div`
         height: auto; 
         overflow: hidden;
     }
-
-
 `;
 
 const Carousel = styled(motion.div)`
@@ -67,7 +61,6 @@ const Carousel = styled(motion.div)`
     @media (max-width: 1200px) {
         width: 60em;
     }
-
 `;
 
 const Stories = styled(motion.div)`
@@ -80,5 +73,5 @@ const Stories = styled(motion.div)`
         width: 100em;
         border-radius: 1px 1px;
     }
-`;    
+`;
 

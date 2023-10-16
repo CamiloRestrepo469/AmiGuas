@@ -8,27 +8,27 @@ const NewPost = () => {
     const [showInput, setShowInput] = useState(false);
 
     return (
-        <Container>   
+        <Container>
             <InputText>
                 <Avatar />
                 <input
                     onClick={() => setShowInput(true)}
-                    type='text' 
-                    placeholder='¿Qué estás pensando?' 
+                    type='text'
+                    placeholder='¿Qué estás pensando?'
                 />
             </InputText>
 
             {showInput && (
                 <InputImage>
                     <ImageIcon />
-                    <input 
-                        type='text' 
-                        placeholder='Agregar Imagen' 
+                    <input
+                        type='text'
+                        placeholder='Agregar Imagen'
                     />
                     <ArrowDropUpIcon onClick={() => setShowInput(false)} />
                 </InputImage>
             )}
-            
+
             <BtnSubmit>
                 Publicar
             </BtnSubmit>
