@@ -79,8 +79,9 @@ const Container = styled.div`
 
     @media (max-width: 1200px){
         width: 100%;
-
+        max-width: 100%;
         background: linear-gradient(to right, #0ef, #FFFF);
+        color: transparent; 
 
     }
 `;

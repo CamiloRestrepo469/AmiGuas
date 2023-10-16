@@ -23,6 +23,8 @@ const Container = styled.div`
     align-items: center;
     padding: 15px 20px;
 
+    
+
     .MuiAvatar-root {
         width: 50px;
         height: 50px;
@@ -43,4 +45,6 @@ const Container = styled.div`
     :hover {
         background: linear-gradient(to right, #cfcfcf, #fff);
     }
+
+    
 `;

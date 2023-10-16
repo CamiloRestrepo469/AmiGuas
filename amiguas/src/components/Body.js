@@ -36,6 +36,8 @@ const Container = styled.div`
     display: flex;
     background-color: #FFFF;
 
+    
+
 `;
 
 const Feed = styled.div`
@@ -43,6 +45,14 @@ const Feed = styled.div`
     flex-direction: column;
     flex: 0.50;
     align-items: center;
+
+    @media (max-width: 1200px) {
+        width: 100%;
+        max-width: 100%;   
+        height: auto; 
+        overflow: hidden;
+    }
+
 
 `;
 
@@ -53,6 +63,11 @@ const Carousel = styled(motion.div)`
     margin-top: 20px;
     border-radius: 15px;
     overflow: hidden;
+
+    @media (max-width: 1200px) {
+        width: 60em;
+    }
+
 `;
 
 const Stories = styled(motion.div)`
@@ -60,5 +75,10 @@ const Stories = styled(motion.div)`
     height: 100%;
     width: 90em;
     flex-wrap: wrap;
-`;
+
+    @media (max-width: 1200px) {
+        width: 100em;
+        border-radius: 1px 1px;
+    }
+`;    
 

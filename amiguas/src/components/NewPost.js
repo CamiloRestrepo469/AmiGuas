@@ -49,6 +49,14 @@ const Container = styled.div`
     align-items: center;
     padding: 15px 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+
+    @media (max-width: 1200px) {
+        display: flex;
+        flex-direction: column;
+        width: 95%;
+        height: auto;
+
+    }
 `;
 
 
@@ -59,6 +67,11 @@ const InputText = styled.div`
     .MuiAvatar-root {
         width: 45px;
         height: 45px;
+
+        @media (max-width: 1200px) {
+           color: black;
+           
+        }
     }
     
     input {
@@ -71,6 +84,12 @@ const InputText = styled.div`
         padding: 10px;
         border: none;
         outline: none;
+
+        @media (max-width: 1200px) {
+            width: 80%;
+            height: 45px;
+            font-size: 14px;
+        }
     }
 `;
 
@@ -96,6 +115,12 @@ const InputImage = styled.div`
         padding: 10px;
         border: none;
         outline: none;
+
+        @media (max-width: 1200px) {
+            width: 70%;
+            height: 45px;
+            font-size: 14px;
+        }
     }
 `;
 
@@ -110,11 +135,19 @@ const BtnSubmit = styled.div`
     cursor: pointer;
     font-weight: 600;
     text-align: center;
-    transition: background-color 0.3s;
-
+    
     :hover {
-        background-color: #7587d9;
+        background-color: red; 
     }
 
+    @media (max-width: 1200px) {
+        width: 50%;
+        height: 45px;
+        font-size: 15px;
+        :hover {
+            background-color: #7587d9; 
+        }
+    }
 `;
+
 

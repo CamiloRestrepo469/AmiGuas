@@ -98,7 +98,7 @@ const HeaderLeft = styled.div`
     align-items: center;
     justify-content: center;
     flex: 0.25;
-    padding: 1px 5px 5px 10px;
+    padding: 10px 15px 15px 10px;
 
     img {
         width: 50px;
@@ -112,7 +112,7 @@ const HeaderLeft = styled.div`
 const InputSearch = styled.div`
     display: flex;
     align-items: center;
-    margin-left: 10px;
+    margin-left: 20px;
     border: 3px solid black;
     border-radius: 25px;
     background-color: #cfcfcfc;
@@ -123,7 +123,7 @@ const InputSearch = styled.div`
         background-color: transparent;
         border: none;
         outline: none;
-        margin-left: 5px;
+        margin-left: 10px;
         width: 100%;
         font-size: 13px;
     }
@@ -137,6 +137,7 @@ const InputSearch = styled.div`
         input {
             display: none; 
         }
+
     }
 
 `;
@@ -164,17 +165,14 @@ const IconCenter = styled.div`
     // Para ampliar los iconos del menú
     .MuiSvgIcon-root {
         font-size: 40px;
-        transition: color 0.3s; /* Agregado: transición para suavizar el cambio de color */
+        transition: color 0.3s;
     }
 
     :hover {
         border-bottom: 5px solid #FFFF;
-
-        .MuiSvgIcon-root {
-            color: #FFFF !important;
-        }
-
+        color: #FFFF !important;
         cursor: pointer;
+        font-size: 40px;
     }
 
     @media (max-width: 990px) {
