@@ -4,6 +4,7 @@ import Sidebar from './Sidebar';
 import Story from './Story';
 import ImgStory from '../ImageStore';
 import { motion } from "framer-motion";
+import NewPost from './NewPost';
 
 
 const Body = () => {
@@ -19,9 +20,10 @@ const Body = () => {
                                 bgImage={image.url}
                                 user={image.name}
                             />))}
-                        <Story />
                     </Stories>
+                   
                 </Carousel>
+                <NewPost />
             </Feed>
         </Container>
     )   
@@ -32,7 +34,7 @@ export default Body;
 const Container = styled.div`
     width: 100%;
     display: flex;
-    background-color: #cfcfcf;
+    background-color: #FFFF;
 
 `;
 
@@ -45,16 +47,12 @@ const Feed = styled.div`
 `;
 
 const Carousel = styled(motion.div)`
-    width: 60em;
+    width: 50em;
     background-color: #FFFF;
     height: 30vh;
     margin-top: 20px;
     border-radius: 15px;
     overflow: hidden;
-
-    @media (max-width: 1200px){
-        width: 35em;
-    }
 `;
 
 const Stories = styled(motion.div)`

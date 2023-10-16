@@ -2,9 +2,9 @@ import styled from '@emotion/styled';
 import { Avatar } from '@mui/material';
 import React from 'react';
 
-const ListItem = ({avatar, img, name, Icon}) => {
+const ListItem = ({avatar, img, name, Icon, onClick}) => {
     return (
-        <Container>
+        <Container onClick={onClick}>
             {avatar &&
                 <Avatar src={img} alt='logo'/>
             }
