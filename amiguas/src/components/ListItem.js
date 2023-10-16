@@ -34,6 +34,9 @@ const Container = styled.div`
         font-size: 20px;
         font-weight: 500;
     }
+    &:hover {
+        background: linear-gradient(to right, #cfcfcf, #FFFF);
+    }
 
     .MuiSvgIcon-root {
         font-size: 30px;
@@ -44,13 +47,8 @@ const Container = styled.div`
                 border: 2px solid #FFFF;
                 border-radius: 50px;
                 background: linear-gradient(to right, #cfcfcf, #000);
-            } 
+        } 
     }
     
-    :hover {
-        background: linear-gradient(to right, #cfcfcf, #FFFF);
-    }  
-
-    
-    }
+     
 `;
