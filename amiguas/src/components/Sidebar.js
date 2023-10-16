@@ -77,13 +77,18 @@ const Container = styled.div`
     flex: 0.20;
     height: 100vh;
 
-    @media (max-width: 1200px){
+    @media (max-width: 1200px) {
         width: 100%;
-        max-width: 100%;
         background: linear-gradient(to right, #0ef, #FFFF);
-        color: transparent; 
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        padding: 3px 5px 5px 5px;
+        color: transparent;
+        height: 100vh;
     }
 `;
+
 
 const GroupList = styled.div``;
 
@@ -96,8 +101,19 @@ const OptionsList = styled(motion.div)`
     position: sticky;
     top: 8vh;
     left: 0;
-    height: 100vh;
+    height: auto;
     font-size: 14px;
     overflow: auto;
+
+    @media (max-width: 1200px){
+        background: linear-gradient(to right, #0ef, #FFFF);
+        color: transparent;
+        align-items: center; 
+        height: auto;
+        width: 100%;
+        padding: 1px 1px 1px 5px;
+        left: 0;
+        
+    }
 `;
 

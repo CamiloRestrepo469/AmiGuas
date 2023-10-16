@@ -38,9 +38,19 @@ const Container = styled.div`
     .MuiSvgIcon-root {
         font-size: 30px;
         color: #3964bf;
+
+        @media (max-width: 1200px) {
+            &:hover {
+                border: 2px solid #FFFF;
+                border-radius: 50px;
+                background: linear-gradient(to right, #cfcfcf, #000);
+            } 
     }
     
     :hover {
-        background: linear-gradient(to right, #cfcfcf, #fff);
+        background: linear-gradient(to right, #cfcfcf, #FFFF);
     }  
+
+    
+    }
 `;

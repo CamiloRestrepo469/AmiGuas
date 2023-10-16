@@ -3,6 +3,10 @@ import { Avatar } from '@mui/material';
 import styled from 'styled-components';
 import ImageIcon from '@mui/icons-material/Image';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SendIcon from '@mui/icons-material/Send';
+import Stack from '@mui/material/Stack';
 
 const NewPost = () => {
     const [showInput, setShowInput] = useState(false);
@@ -29,9 +33,14 @@ const NewPost = () => {
                 </InputImage>
             )}
 
-            <BtnSubmit>
-                Publicar
-            </BtnSubmit>
+            <Stack direction="row" spacing={2}>
+                <StyledButtonRed variant="outlined">
+                    <DeleteIcon />
+                </StyledButtonRed>
+                <StyledButton variant="contained">
+                    <SendIcon />
+                </StyledButton>
+            </Stack>
         </Container>
     );
 }
@@ -51,14 +60,10 @@ const Container = styled.div`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 
     @media (max-width: 1200px) {
-        display: flex;
-        flex-direction: column;
         width: 95%;
         height: auto;
-
     }
 `;
-
 
 const InputText = styled.div`
     display: flex;
@@ -70,7 +75,6 @@ const InputText = styled.div`
 
         @media (max-width: 1200px) {
            color: black;
-           
         }
     }
     
@@ -124,30 +128,130 @@ const InputImage = styled.div`
     }
 `;
 
-const BtnSubmit = styled.div`
-    background-color: #1c36ad;
-    width: 90%;
-    margin-top: 20px;
-    border-radius: 15px;
-    font-size: 18px;
-    padding: 10px 0;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    text-align: center;
-    
-    :hover {
-        background-color: red; 
-    }
+const StyledButtonRed = styled(Button)`
+    && {
+        background-color: #FF5733;
+        width: 65%;
+        height: 65%;
+        margin-top: 25px;
+        border-radius: 15px;
+        border: none;
+        cursor: pointer;
 
-    @media (max-width: 1200px) {
-        width: 50%;
-        height: 45px;
-        font-size: 15px;
-        :hover {
-            background-color: #7587d9; 
+        .MuiSvgIcon-root {
+            font-size: 30px;
+            color: #FFFF;
+        }
+
+        &:hover {
+            background-color: #FF9999;
+            border: none;
+        }
+
+        &:hover::before {
+            content: 'Eliminar';
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            color: #000;
+            border: none;
+        }
+
+        @media (max-width: 1200px) {
+            width: 55%;
+            height: 55%;
+            font-size: 15px;
+            border-radius: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .MuiSvgIcon-root {
+                font-size: 20px;
+                color: #FFFF;
+            }
+
+            &:hover {
+                background-color: #FF9999;
+                border: none;
+            }
+
+            &:hover::before {
+                content: 'Eliminar';
+                position: absolute;
+                top: -20px;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                font-size: 10px;
+                color: #000;
+            }
         }
     }
 `;
 
+const StyledButton = styled(Button)`
+    && {
+        background-color: #3498DB;
+        width: 65%;
+        height: 65%;
+        margin-top: 25px;
+        border-radius: 15px;
+        cursor: pointer;
+        position: relative;
 
+        .MuiSvgIcon-root {
+            font-size: 30px;
+            color: #FFFF;
+        }
+
+        &:hover {
+            background-color: #7587d9;
+            border: none;
+        }
+
+        &:hover::before {
+            content: 'Publicar';
+            position: absolute;
+            top: -20px; 
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            color: #000;
+        }
+
+        @media (max-width: 1200px) {
+            width: 55%;
+            height: 55%;
+            font-size: 15px;
+            border-radius: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .MuiSvgIcon-root {
+                font-size: 20px;
+            }
+
+            &:hover {
+                background-color: #7587d9;
+                border: none;
+            }
+
+            &:hover::before {
+                content: 'Publicar';
+                position: absolute;
+                top: -20px; // Ajusta la posición vertical como desees
+                left: 0;
+                width: 100%;
+                text-align: center;
+                font-size: 10px;
+                color: #000;
+            }
+        }
+    }
+`;
