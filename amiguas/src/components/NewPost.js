@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Avatar } from '@mui/material';
+import { Avatar, useStepContext } from '@mui/material';
 import styled from 'styled-components';
 import ImageIcon from '@mui/icons-material/Image';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
@@ -7,18 +7,46 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const NewPost = () => {
     const [showInput, setShowInput] = useState(false);
 
+    const [postText, setPostText] = useState('');
+    const [postImage, setPostImage] = useState('');
+
+    
+    const createPost = async () => {
+        try {
+            const collectionRef = collection(db, 'posts');
+
+            const docRef = await addDoc (collectionRef, {
+                imgProfile: 'https://media.istockphoto.com/id/1209807747/es/foto/fondo-tecnol%C3%B3gico-en-color-azul-tel%C3%B3n-de-fondo-de-tecnolog%C3%ADa-futurista-renderizado-3d.webp?s=2048x2048&w=is&k=20&c=MoITMaf1eHoxuzsMD4r9TH9Eda-w_cFUN1WJ1wuBzX4=',
+                name: 'uno',
+                postText: postText,
+                postImage: postImage,
+            });
+            console.log("id", docRef.id);
+            setPostText('');
+            setPostImage('');
+        }
+        catch (error){
+            console.log('error al agregar el documento', error);
+        }
+    };
+
+
     return (
         <Container>
             <InputText>
-                <Avatar />
+                <Avatar src='https://media.istockphoto.com/id/1209807747/es/foto/fondo-tecnol%C3%B3gico-en-color-azul-tel%C3%B3n-de-fondo-de-tecnolog%C3%ADa-futurista-renderizado-3d.webp?s=2048x2048&w=is&k=20&c=MoITMaf1eHoxuzsMD4r9TH9Eda-w_cFUN1WJ1wuBzX4='/>
                 <input
                     onClick={() => setShowInput(true)}
                     type='text'
                     placeholder='¿Qué estás pensando?'
+                    onChange={(event) => {setPostText(event.target.value)}}
+                    value={postText}
                 />
             </InputText>
 
@@ -28,6 +56,8 @@ const NewPost = () => {
                     <input
                         type='text'
                         placeholder='Agregar Imagen'
+                        onChange={(event) => {setPostImage(event.target.value)}}
+                        value={postImage}
                     />
                     <ArrowDropUpIcon onClick={() => setShowInput(false)} />
                 </InputImage>
@@ -37,8 +67,8 @@ const NewPost = () => {
                 <StyledButtonRed variant="outlined">
                     <DeleteIcon />
                 </StyledButtonRed>
-                <StyledButton variant="contained">
-                    <SendIcon />
+                <StyledButton variant="contained" onClick={createPost} >
+                    <SendIcon onClick={createPost} />
                 </StyledButton>
             </Stack>
         </Container>

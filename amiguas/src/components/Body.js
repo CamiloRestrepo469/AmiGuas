@@ -14,8 +14,9 @@ const Body = () => {
             <Feed>
                 <Carousel>
                     <Stories drag='x' dragConstraints={{ right: 0, left: -270 }}>
-                        {ImgStory.map((image) => (
+                        {ImgStory.map((image, index) => (
                             <Story
+                                key={index}
                                 img={image.imgProfile}
                                 bgImage={image.url}
                                 user={image.name}
