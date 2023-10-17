@@ -5,6 +5,7 @@ import Story from './Story';
 import ImgStory from '../ImageStore';
 import { motion } from "framer-motion";
 import NewPost from './NewPost';
+import Post from './Post';
 
 
 const Body = () => {
@@ -24,7 +25,8 @@ const Body = () => {
                     </Stories>
                 </Carousel>
                 <NewPost />
-            </Feed>
+              <Post />
+            </Feed>    
         </Container>
     )
 }
