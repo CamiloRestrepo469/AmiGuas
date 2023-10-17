@@ -37,6 +37,10 @@ const Container = styled.div`
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 
+    @media (max-width: 1200px) {
+        width: 95%;
+        height: auto;
+    }
 `;
 
 const Header = styled.div`
@@ -61,12 +65,39 @@ const HeaderUser = styled.div`
         border-radius: 50%;
         object-fit: cover;
     }
-     h4 {
+    
+    h4 {
         margin-left: 10px;
         font-size: 18px;
         font-weight: 500;
         color: #6b6b6b;
-     }
+    }
 `;
 
-const PostContent = styled.div``;
+const PostContent = styled.div`
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    img {
+        width: 100%;
+        height: 90%;
+        object-fit: cover;
+    }
+
+    @media (max-width: 1200px) {
+        width: 100%;
+        height: 90%;
+        flex-direction: column;
+        justify-content: space-between;
+        object-fit: cover;
+    }
+
+    p {
+        height: 10%;
+        padding: 15px 10px;
+        font-size: 18px;
+        overflow-y: auto;
+    }
+`;
