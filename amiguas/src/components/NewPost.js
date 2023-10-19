@@ -7,10 +7,11 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 
 const NewPost = () => {
+    const [userName, setUserName] = useState('');
     const [showInput, setShowInput] = useState(false);
 
     const [postText, setPostText] = useState('');
@@ -32,6 +33,7 @@ const NewPost = () => {
                 name: 'uno',
                 postText: postText,
                 postImage: postImage,
+                timeStamp: serverTimestamp(),
             });
             console.log("ID del documento agregado:", docRef.id);
             setPostText('');
@@ -52,7 +54,7 @@ const NewPost = () => {
                 <input
                     onClick={() => setShowInput(true)}
                     type='text'
-                    placeholder='¿Qué estás pensando?'
+                    placeholder={`¿Qué estás pensando, ${userName}?`} 
                     onChange={(event) => {setPostText(event.target.value)}}
                     value={postText}
                 />
@@ -76,7 +78,7 @@ const NewPost = () => {
                     <DeleteIcon />
                 </StyledButtonRed>
                 <StyledButton variant="contained" onClick={createPost} >
-                    <SendIcon onClick={createPost} />
+                    <SendIcon />
                 </StyledButton>
             </Stack>
         </Container>

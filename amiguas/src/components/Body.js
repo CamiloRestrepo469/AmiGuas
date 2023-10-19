@@ -7,15 +7,16 @@ import { motion } from "framer-motion";
 import NewPost from './NewPost';
 import Post from './Post';
 import { useEffect, useState } from 'react';
-import { collection, onSnapshot, query } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from '../firebase';
+import RedeemIcon from '@mui/icons-material/Redeem';
 
 
 const Body = () => {
     const [posts, setposts] = useState([]);
 
     useEffect(() => {
-        const q = query(collection(db, 'posts'));
+        const q = query(collection(db, 'posts'), orderBy('timeStamp', 'desc'));
 
         onSnapshot(q, (snapshot) => {
             setposts(snapshot.docs.map((doc) => doc.data()));
@@ -49,8 +50,16 @@ const Body = () => {
                         />
                     );
                 })}
-              <Post />
-            </Feed>    
+            </Feed>
+            <SectionRight>
+                <TopBar>
+                    <h3>Cumpleaños</h3>
+                    <Birthday>
+                        <RedeemIcon />
+                        <h4>Hoy es el Cumpleaños de dos de tus amigos</h4>
+                    </Birthday>
+                </TopBar>
+            </SectionRight> 
         </Container>
     )
 }
@@ -102,3 +111,43 @@ const Stories = styled(motion.div)`
     }
 `;
 
+const SectionRight = styled.div`
+    flex: 0.25;
+    top: 8vh;
+    position: sticky; 
+    background-color: #cfcfcf;
+    right: 0;
+    height: 92vh;
+`;
+
+const TopBar = styled.div`
+    background-color: #f0f0f0;
+    width: 100%;
+    padding: 30px 15px;
+    border-bottom: 1px solid #6b6b6b;
+    padding-bottom: 15px;
+
+
+    h3 {
+        font-size: 24px;
+        color: #6b6b6b;
+    }
+`;
+
+const Birthday = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+
+    .MuiSvgIcon-root {
+        font-size: 40px;
+        color: #3964bf;
+    }
+
+    h4 {
+        font-size: 17px;
+        margin-left: 10px;
+        font-weight: 500;
+        color: #6b6b6b;
+    }
+`;

@@ -74,18 +74,12 @@ const Container = styled.div`
     position: sticky;
     left: 0;
     background: linear-gradient(to right, #0ef, #fff);
-    flex: 0.20;
-    height: 100%;
+    flex: 0.25;
+    top: 8vh;
+    height: 92vh;
 
     @media (max-width: 1200px) {
-        width: 100%;
-        background: linear-gradient(to right, #0ef, #FFFF);
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        padding: 3px 5px 5px 5px;
-        color: transparent;
-        height: 100vh;
+        display: none;
     }
 `;
 
