@@ -19,22 +19,30 @@ const NewPost = () => {
     
     const createPost = async () => {
         try {
+            if (!postText || !postImage) {
+                // Si postText o postImage están vacíos, muestra un mensaje de error al usuario.
+                alert('Los campos Texto y campo Imagen no pueden estar vacíos');
+                return; // Sale de la función sin agregar el documento.
+            }
+    
             const collectionRef = collection(db, 'posts');
-
-            const docRef = await addDoc (collectionRef, {
+    
+            const docRef = await addDoc(collectionRef, {
                 imgProfile: 'https://media.istockphoto.com/id/1209807747/es/foto/fondo-tecnol%C3%B3gico-en-color-azul-tel%C3%B3n-de-fondo-de-tecnolog%C3%ADa-futurista-renderizado-3d.webp?s=2048x2048&w=is&k=20&c=MoITMaf1eHoxuzsMD4r9TH9Eda-w_cFUN1WJ1wuBzX4=',
                 name: 'uno',
                 postText: postText,
                 postImage: postImage,
             });
-            console.log("id", docRef.id);
+            console.log("ID del documento agregado:", docRef.id);
             setPostText('');
             setPostImage('');
-        }
-        catch (error){
-            console.log('error al agregar el documento', error);
+        } catch (error) {
+            console.log('Error al agregar el documento', error);
+            // Puedes mostrar un mensaje de error al usuario aquí si lo prefieres.
+            alert('Error al agregar el documento. Por favor, inténtelo de nuevo.');
         }
     };
+    
 
 
     return (

@@ -7,21 +7,21 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import TextsmsIcon from '@mui/icons-material/Textsms';
 import ShareIcon from '@mui/icons-material/Share';
 
-const Post = ({ name }) => {
+const Post = ({ name,imgProfile, postText, postImage }) => {
     return (
         <Container>
             <Header>
                 <HeaderUser>
-                    <img src='https://media.istockphoto.com/id/1209807747/es/foto/fondo-tecnol%C3%B3gico-en-color-azul-tel%C3%B3n-de-fondo-de-tecnolog%C3%ADa-futurista-renderizado-3d.webp?s=2048x2048&w=is&k=20&c=MoITMaf1eHoxuzsMD4r9TH9Eda-w_cFUN1WJ1wuBzX4='
+                    <img src={imgProfile}
                     alt='imagen user' />
                     <h4>{name}</h4>
                 </HeaderUser>
                 <MoreHorizIcon />
             </Header>
             <PostContent>
-                <p>esta es tu publicación</p>
+                <p>{postText}</p>
                 <img
-                    src='https://media.istockphoto.com/id/1018442074/es/foto/ind%C3%ADgenas-brasile%C3%B1os-j%C3%B3venes-hombre-retrato-de-etnia-guaran%C3%AD-dar-la-bienvenida-al-turista.jpg?s=612x612&w=0&k=20&c=ahjJaU1G0RBafwPqpykHbbyyu3yoPX2-C01ImW2lDnA='
+                    src={postImage}
                     alt='imagen de la publicación..'
                 />
             </PostContent>
@@ -96,7 +96,6 @@ const HeaderUser = styled.div`
         color: #6b6b6b;
     }
 `;
-
 const PostContent = styled.div`
     height: 90vh;
     display: flex;
@@ -115,11 +114,11 @@ const PostContent = styled.div`
 
     p {
         width: 100%;
-        height: 10%;
-        padding: 15px;
+        padding: 5px;
         font-size: 18px;
-        margin: 5px 0; /* Espacio en la parte inferior */
+        margin: 20px 10px;
         overflow-y: auto;
+        color: #6b6b6b;
     }
 
     @media (max-width: 1200px) {
@@ -140,14 +139,15 @@ const PostContent = styled.div`
 
         p {
             width: 100%;
-            height: 10%;
             padding: 5px;
+            margin: 20px 10px;
             font-size: 14px;
             margin: 5px 0; /* Espacio en la parte inferior */
             overflow-y: auto;
         }
     }
 `;
+
 
 const Footer = styled.div`
     display: flex;

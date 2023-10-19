@@ -43,6 +43,9 @@ const Body = () => {
                         <Post
                             key={index}
                             name={post.name}
+                            imgProfile={post.imgProfile}
+                            postText={post.postText}
+                            postImage={post.postImage}
                         />
                     );
                 })}
