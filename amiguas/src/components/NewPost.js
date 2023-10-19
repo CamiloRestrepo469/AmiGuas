@@ -184,10 +184,13 @@ const StyledButtonRed = styled(Button)`
             top: -20px;
             left: 0;
             width: 100%;
+            height: 49%%;
             text-align: center;
-            font-size: 12px;
-            color: #000;
-            border: none;
+            font-size: 10px;
+            color: red;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.2);
+            
         }
 
         @media (max-width: 1200px) {
@@ -216,8 +219,10 @@ const StyledButtonRed = styled(Button)`
                 left: 0;
                 width: 100%;
                 text-align: center;
-                font-size: 10px;
-                color: #000;
+                font-size: 9px;
+                color: red;
+                border-radius: 10px;
+                background-color: rgba(0, 0, 0, 0.2);
             }
         }
     }
@@ -250,8 +255,10 @@ const StyledButton = styled(Button)`
             left: 0;
             width: 100%;
             text-align: center;
-            font-size: 12px;
-            color: #000;
+            font-size: 10px;
+            color: blue;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.2);
         }
 
         @media (max-width: 1200px) {
@@ -279,8 +286,10 @@ const StyledButton = styled(Button)`
                 left: 0;
                 width: 100%;
                 text-align: center;
-                font-size: 10px;
-                color: #000;
+                font-size: 9px;
+                color: blue;
+                border-radius: 10px;
+                background-color: rgba(0, 0, 0, 0.2);
             }
         }
     }

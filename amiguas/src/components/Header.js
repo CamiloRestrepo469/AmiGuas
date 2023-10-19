@@ -45,6 +45,7 @@ const Header = () => {
                     <MenuIcon />
                 </IconCenterMenu>
             </HeaderCenter>
+            
             <HeaderRight>
                 <IconRight>
                     <AppsIcon />
@@ -73,7 +74,7 @@ const Container = styled.div`
     top: 0;
     left: 0;
     z-index: 100;
-    background: linear-gradient(to right, #0ef, #fff);
+    background: linear-gradient(to right, #FFF, #fff);
     border-image: linear-gradient(to right, #0ef, #fff);
     border-image-slice: 1;
     border-image-width: 0 0 3px 0; 
@@ -201,8 +202,15 @@ const IconRight = styled.div`
     align-items: center;
     border-radius: 50%;
     margin-right: 15px;
+
     .MuiSvgIcon-root {
         font-size: 30px;    
+    }
+
+    .MuiSvgIcon-root {
+        font-size: 30px;
+        transition: color 0.3s;
+        color: #6b6b6b;
     }
 `;
 

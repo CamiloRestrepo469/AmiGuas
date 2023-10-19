@@ -70,12 +70,12 @@ const Sidebar = () => {
 export default Sidebar;
 
 const Container = styled.div`
+    width: 100%;
     position: sticky;
-    top: 8vh;
     left: 0;
     background: linear-gradient(to right, #0ef, #fff);
     flex: 0.20;
-    height: 100vh;
+    height: 100%;
 
     @media (max-width: 1200px) {
         width: 100%;

@@ -6,9 +6,22 @@ import ImgStory from '../ImageStore';
 import { motion } from "framer-motion";
 import NewPost from './NewPost';
 import Post from './Post';
+import { useEffect, useState } from 'react';
+import { collection, onSnapshot, query } from 'firebase/firestore';
+import { db } from '../firebase';
 
 
 const Body = () => {
+    const [posts, setposts] = useState([]);
+
+    useEffect(() => {
+        const q = query(collection(db, 'posts'));
+
+        onSnapshot(q, (snapshot) => {
+            setposts(snapshot.docs.map((doc) => doc.data()));
+        })
+    },[])
+
     return (
         <Container>
             <Sidebar />
@@ -25,6 +38,14 @@ const Body = () => {
                     </Stories>
                 </Carousel>
                 <NewPost />
+                {posts.map((post, index) => {
+                    return (
+                        <Post
+                            key={index}
+                            name={post.name}
+                        />
+                    );
+                })}
               <Post />
             </Feed>    
         </Container>
@@ -36,7 +57,7 @@ export default Body;
 const Container = styled.div`
     width: 100%;
     display: flex;
-    background-color: #FFFF;
+    background-color: blue;
 `;
 
 const Feed = styled.div`
