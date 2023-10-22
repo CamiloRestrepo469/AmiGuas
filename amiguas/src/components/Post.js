@@ -29,7 +29,7 @@ const Post = ({ name,imgProfile, postText, postImage }) => {
                 <IconFooter>
                     {/* <ThumbUpIcon /> negro*/}
                     <ThumbUpOffAltIcon />
-                    <h4>Me Gusta</h4>
+                    <h4>Like</h4>
                 </IconFooter>
                 <IconFooter>
                     {/* <TextsmsIcon /> negro*/}
@@ -69,7 +69,7 @@ const Header = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 10px 15px;
-    flex-direction: row; /* Cambio aquí */
+    flex-direction: row;
 
     img {
         width: 30px;
@@ -97,7 +97,8 @@ const HeaderUser = styled.div`
     }
 `;
 const PostContent = styled.div`
-    height: 90vh;
+    height: 70vh;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -107,19 +108,23 @@ const PostContent = styled.div`
         width: 100%;
         height: 90%;
         object-fit: cover;
-        border-radius: 10px;
+        border-radius: 15px;
         padding: 5px;
+        object-fit: contain; 
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     }
 
     p {
         width: 100%;
-        padding: 5px;
+        padding: 15px;
         font-size: 18px;
-        margin: 20px 10px;
+        margin: auto; 
+        margin-left: 10px; 
+        margin-right: 10px;
         overflow-y: auto;
         color: #6b6b6b;
     }
+    
 
     @media (max-width: 1200px) {
         width: 100%;
@@ -134,6 +139,7 @@ const PostContent = styled.div`
             object-fit: cover;
             border-radius: 10px;
             padding: 5px;
+            object-fit: contain; 
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
         }
 
@@ -142,7 +148,7 @@ const PostContent = styled.div`
             padding: 5px;
             margin: 20px 10px;
             font-size: 14px;
-            margin: 5px 0; /* Espacio en la parte inferior */
+            margin: 5px 0;
             overflow-y: auto;
         }
     }
@@ -154,16 +160,19 @@ const Footer = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 15px;
-    border-top: 5px solid red;
+    border-top: 5px solid blue;
 `;
 
 const IconFooter = styled.div`
     display: flex;
     align-items: center;
+    margin-right: 50px; 
+    margin-left: 55px; 
 
     .MuiSvgIcon-root {
         font-size: 25px;
         color: #3964bf;
+        
     }
 
     h4 {

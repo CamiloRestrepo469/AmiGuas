@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from '../firebase';
 import RedeemIcon from '@mui/icons-material/Redeem';
+import Chats from './Chats';
 
 
 const Body = () => {
@@ -59,6 +60,7 @@ const Body = () => {
                         <h4>Hoy es el Cumpleaños de dos de tus amigos</h4>
                     </Birthday>
                 </TopBar>
+                <Chats />
             </SectionRight> 
         </Container>
     )
@@ -70,6 +72,8 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     background-color: blue;
+
+    
 `;
 
 const Feed = styled.div`
@@ -79,10 +83,11 @@ const Feed = styled.div`
     align-items: center;
 
     @media (max-width: 1200px) {
-        width: 100%;
-        max-width: 100%;   
-        height: auto; 
-        overflow: hidden;
+        flex: 0.70;
+    }
+
+    @media (max-width: 990px) {
+        flex: 0.25;
     }
 `;
 
@@ -96,6 +101,10 @@ const Carousel = styled(motion.div)`
 
     @media (max-width: 1200px) {
         width: 60em;
+    }
+
+    @media (max-width: 990px) {
+        width: 47em;
     }
 `;
 
@@ -118,6 +127,15 @@ const SectionRight = styled.div`
     background-color: #cfcfcf;
     right: 0;
     height: 92vh;
+    overflow-x: scroll; 
+
+    @media (max-width: 1200px) {
+        flex:0.30;
+    }
+
+    @media (max-width: 990px) {
+        display: none;
+    }
 `;
 
 const TopBar = styled.div`
@@ -126,7 +144,8 @@ const TopBar = styled.div`
     padding: 30px 15px;
     border-bottom: 1px solid #6b6b6b;
     padding-bottom: 15px;
-
+    margin: 5px;
+    border-radius: 8px;
 
     h3 {
         font-size: 24px;

@@ -12,10 +12,17 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import MessageIcon from '@mui/icons-material/Message';
 import AppsIcon from '@mui/icons-material/Apps';
 import { Avatar } from '@mui/material';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase';
 
 
 
 const Header = () => {
+
+    const logout = async () => {
+        await signOut(auth);
+    }
+
     return (
         <Container>
             <HeaderLeft>
@@ -56,7 +63,7 @@ const Header = () => {
                 <IconRight>
                     <NotificationsActiveIcon />
                 </IconRight>
-                <Avatar />
+                <Avatar onClick={logout} />
             </HeaderRight>
         </Container>
     )
@@ -160,8 +167,8 @@ const IconCenter = styled.div`
     }
 
     :hover {
-        border-bottom: 5px solid #FFFF;
-        color: #FFFF !important;
+        border-bottom: 5px solid #3964bf;
+        color: #3964bf !important;
         cursor: pointer;
         font-size: 40px;
     }
@@ -186,10 +193,15 @@ const HeaderRight = styled.div`
     align-items: center;
     justify-content: flex-end;
     padding: 0 20px;
+
     .MuiAvatar-root {
         width: 40px;
         height: 40px;
-        color: #000;    
+        color: #000;
+        
+        &:hover {
+            cursor: pointer;
+        }
     }
 `;
 

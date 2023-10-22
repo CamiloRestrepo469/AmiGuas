@@ -70,13 +70,13 @@ const Sidebar = () => {
 export default Sidebar;
 
 const Container = styled.div`
-    width: 100%;
-    position: sticky;
-    left: 0;
-    background: linear-gradient(to right, #0ef, #fff);
     flex: 0.25;
     top: 8vh;
+    position: sticky; 
+    background-color: #f0f0f0;
+    right: 0;
     height: 92vh;
+    overflow-x: scroll; 
 
     @media (max-width: 1200px) {
         display: none;
@@ -90,7 +90,7 @@ const GroupList = styled.div``;
 const OptionsList = styled(motion.div)`
     width: 100%;
     margin-top: 10px;
-    background: linear-gradient(to right, #0ef, #fff);
+    background-color: #f0f0f0;
     padding: 10px;
     position: sticky;
     top: 8vh;
@@ -100,7 +100,7 @@ const OptionsList = styled(motion.div)`
     overflow: auto;
 
     @media (max-width: 1200px){
-        background: linear-gradient(to right, #0ef, #FFFF);
+        background-color: #f0f0f0;
         color: transparent;
         align-items: center; 
         height: auto;
