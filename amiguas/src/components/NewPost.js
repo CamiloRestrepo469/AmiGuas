@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Avatar, useStepContext } from '@mui/material';
+import { Avatar } from '@mui/material';
 import styled from 'styled-components';
 import ImageIcon from '@mui/icons-material/Image';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';

@@ -1,9 +1,9 @@
-import React , { useState } from "react";
+import React, { useState } from "react";
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
-import { styled } from "styled-components"; // Cambiado "styled-components" a "styled"
+import { styled } from "styled-components";
 import logo from '../assets/img/amiGuas.png';
 import { Avatar } from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
@@ -14,26 +14,28 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 
 const LoginPage = () => {
-
     const [openRegister, setopenRegister] = useState(false);
-
     const [loginEmail, setloginEmail] = useState('');
     const [loginPassword, setloginPassword] = useState('');
-
     const [loginError, setLoginError] = useState(null);
+    const [emptyFieldsError, setEmptyFieldsError] = useState(null); // Nuevo estado
 
     const loginFuntion = async () => {
         try {
+            if (!loginEmail.trim() || !loginPassword.trim()) {
+                setEmptyFieldsError('Ambos campos son obligatorios');
+                return;
+            }
+
             const user = await signInWithEmailAndPassword(
                 auth,
                 loginEmail,
                 loginPassword
-
             );
             console.log(user);
         } catch (error) {
             console.log(error.message);
-            setLoginError(error.message); 
+            setLoginError(error.message);
         }
     }
 
@@ -44,37 +46,38 @@ const LoginPage = () => {
                 src={logo}
                 alt="logo amigas"
                 />
-                <p>AmiGuas te ayuda a comunicarte y compartir con las personas que forman parte de tu vida.</p> {/* Corregido "persona" a "personas" */}
+                <p>AmiGuas te ayuda a comunicarte y compartir con las personas que forman parte de tu vida.</p>
             </LoginLeft>
             <FormLogin>
                 <FormComponent>
                     <AccountCircleIcon />
                     <input 
-                    value={loginEmail}
-                    onChange={(event) => {setloginEmail(event.target.value)}}
-                    type="text"
-                    placeholder="Correo Electrónico"
-                      />    
+                        value={loginEmail}
+                        onChange={(event) => {setloginEmail(event.target.value)}}
+                        type="text"
+                        placeholder="Correo Electrónico"
+                    />    
                     <input
-                    value={loginPassword}
-                    onChange={(event) => {setloginPassword(event.target.value)}}
-                    type="password" 
-                    placeholder="Contraseña"/>
+                        value={loginPassword}
+                        onChange={(event) => {setloginPassword(event.target.value)}}
+                        type="password" 
+                        placeholder="Contraseña"
+                    />
                     <BtnSubmit>
                         <Button onClick={loginFuntion} variant="contained" endIcon={<SendIcon />}>
                             Inicio Sesion
                         </Button>
                     </BtnSubmit>
-                    <BtnSubmit >
+                    <BtnSubmit>
                         <Button onClick={() => {setopenRegister(true)}} variant="contained" color="success" endIcon={<PersonIcon />}>
                             Crear Nueva Cuenta
                         </Button>
                     </BtnSubmit>
-                    {loginError &&
-                     <ErrorMessage>
-                        "Usuario o contraseña incorrectos"
-                     </ErrorMessage>
-                     }          
+                    {emptyFieldsError &&
+                        <ErrorMessage>
+                            {emptyFieldsError}
+                        </ErrorMessage>
+                    }
                 </FormComponent>
             </FormLogin>
             {openRegister &&
@@ -85,19 +88,23 @@ const LoginPage = () => {
     )
 }
 
-export default LoginPage
+export default LoginPage;
+
 
 const Container = styled.div`
     width: 90vw;
-    height: 100vh;
+    min-height: 100vh; /* Cambiado de height a min-height */
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 auto; /* Margen para centrar verticalmente */
 `;
 
+
 const LoginLeft = styled.div`
-    width: 40%;
+    width: 50%;
     height: 60%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -128,7 +135,8 @@ const LoginLeft = styled.div`
 const FormLogin = styled.div`
     width: 35%;
     max-width: 450px;
-    height: 59%;
+    height: auto;
+    min-height: 100vh; 
     box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
     display: flex;
     flex-direction: column;
@@ -138,11 +146,16 @@ const FormLogin = styled.div`
 
     @media (max-width: 1500px) {
         width: 70%;
+        max-width: 450px;
+        height: auto;
+        min-height: 100vh; 
     }
 
     @media (max-width: 1200px) {
-        width: 70%;
-        max-width: 400px;
+        width: 80%;
+        max-width: 450px;
+        height: auto;
+        min-height: 100vh; 
     }
 `;
 
@@ -150,6 +163,7 @@ const FormLogin = styled.div`
 const FormComponent = styled.div`
     width: 90%;
     display: flex;
+    min-height: 100vh;
     flex-direction: column;
     align-items: center;
     padding-bottom: 0px;

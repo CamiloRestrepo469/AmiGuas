@@ -126,4 +126,14 @@ Para comenzar a trabajar en tu aplicación, abre una terminal, navega al directo
 // cd /ruta/a/tu/proyecto
 // nvm use lts/gallium
 // ```
+
+
+####
+```
+//este comando sirve para que corra la aplicacion en el archivo principal, de lo contrario no sirbe. 
+npx serve -s build
+
+```
+`npx serve -s build`
+
 ###

@@ -1,64 +1,125 @@
-import React , { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SendIcon from '@mui/icons-material/Send';
 import Button from '@mui/material/Button';
-import { auth  } from '../firebase';
+import { auth } from '../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
-const RegisterComponent = ({setopenRegister}) => {
+const RegisterComponent = ({ setopenRegister }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [formError, setFormError] = useState('');
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const validateEmail = (email) => {
+    const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+    return emailRegex.test(email);
+  };
 
-    const registerFunction = async () => {
-        try {
-            const user = await createUserWithEmailAndPassword(auth, 
-                email, password);
-            console.log(user);
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    return passwordRegex.test(password);
+  };
 
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
+  const registerFunction = async () => {
+    setEmailError('');
+    setPasswordError('');
+    setFormError('');
+  
+    if (email.length === 0) {
+      setEmailError('El correo electrónico es obligatorio');
+      return;
+    }
+  
+    if (password.length === 0) {
+      setPasswordError('La contraseña es obligatoria');
+      return;
+    }
+  
+    if (!validateEmail(email)) {
+      setEmailError('Correo electrónico inválido');
+      return;
+    }
+  
+    if (!validatePassword(password)) {
+      setPasswordError('La contraseña debe contener al menos 8 caracteres, una mayúscula, una minúscula y un número');
+      return;
+    }
+  
+    try {
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(user);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  
 
-    return (
-        <Container>
-           <RegisterForm>
-            <HeaderRegister>
-                <TitleForm>
-                    <h3>Registrate</h3>
-                    <p>Es rapido y facil</p>
-                </TitleForm>
-                <CloseIcon onClick={() => setopenRegister(false)} />
-            </HeaderRegister>
-            <FormComponent>
-            <AccountCircleIcon />
-                    <input 
-                    value={email}
-                    onChange={(event) => {setEmail(event.target.value)}}
-                    type="text" 
-                    placeholder="Correo Electrónico" 
-                    />    
-                    <input 
-                    value={password}
-                    onChange={(event) => {setPassword(event.target.value)}}
-                    type="password" 
-                    placeholder="Contraseña"
-                    />
-                    <BtnSubmit>
-                        <Button variant="contained" onClick={registerFunction} color="success" endIcon={<SendIcon />}>
-                            Registrarse
-                        </Button>
-                    </BtnSubmit>
-            </FormComponent>
-           </RegisterForm>
-        </Container>
-    )
-}
+  return (
+    <Container>
+      <RegisterForm>
+        <HeaderRegister>
+          <TitleForm>
+            <h3>Regístrate</h3>
+            <p>Es rápido y fácil</p>
+          </TitleForm>
+          <CloseIcon onClick={() => setopenRegister(false)} />
+        </HeaderRegister>
+        <FormComponent>
+          <AccountCircleIcon />
+          <input
+            value={email}
+            onChange={(event) => {
+              setEmail(event.target.value);
+              setEmailError('');
+              setFormError('');
+            }}
+            type="text"
+            placeholder="Correo Electrónico"
+          />
+          <input
+            value={password}
+            onChange={(event) => {
+              setPassword(event.target.value);
+              setPasswordError('');
+              setFormError('');
+            }}
+            type="password"
+            placeholder="Contraseña"
+          />
+          <BtnSubmit>
+            <Button variant="contained" onClick={registerFunction} color="success" endIcon={<SendIcon />}>
+              Registrarse
+            </Button>
+          </BtnSubmit>
+          {formError && <ErrorMessage>{formError}</ErrorMessage>}
+          {emailError && <ErrorMessage>{emailError}</ErrorMessage>}
+          {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
+        </FormComponent>
+      </RegisterForm>
+    </Container>
+  );
+};
 
 export default RegisterComponent;
+
+const ErrorMessage = styled.p`
+    width: 70%;
+    max-width: 450px;
+    height: auto;
+    box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(111, 161, 255);
+    border-radius: 10px;
+    color: #000; 
+    font-size: 16px;
+    margin-top: 10px;
+`;
 
 const Container = styled.div`
     position: absolute;
