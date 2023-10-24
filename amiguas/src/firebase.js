@@ -2,6 +2,8 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from 'firebase/auth'
+import { getStorage, ref, uploadBytes  } from 'firebase/storage';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCwrLT4S3Czr3DInkVlNE_aLdOf9Y-DVjo",
@@ -16,5 +18,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+export const store = getStorage(app);
 
-
+export function uploadFile(file) {
+  const storageRef = ref(store, 'some-child')
+  uploadBytes(storageRef, file).then(snapshot => {
+    console.log(snapshot)
+  })
+}

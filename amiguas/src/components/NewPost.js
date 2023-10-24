@@ -9,6 +9,7 @@ import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
+import {uploadFile} from '../firebase';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
@@ -61,14 +62,13 @@ const NewPost = () => {
                     value={postText}
                 />
             </InputText>
-            
 
+            <InputText>
+                
+            </InputText>
             {showInput && (  
                 <InputImage>
-                <btn component="label" variant="contained" startIcon={<ImageIcon />}>
-                    <VisuallyHiddenInput type="file" startIcon={<ImageIcon />}/>
-                </btn>
-                    <ImageIcon />
+                    <ImageIcon />                
                     <input
                         type='text'
                         placeholder='Agregar Imagen'
@@ -76,6 +76,11 @@ const NewPost = () => {
                         value={postImage}
                     />
                     <ArrowDropUpIcon onClick={() => setShowInput(false)} />
+                    <input
+                    type='file'
+                    placeholder={`¿Qué estás pensando`} 
+                    onChange={e => uploadFile(e.target.files[0])}
+                />
                 </InputImage>
                 
             )}
@@ -168,7 +173,7 @@ const InputImage = styled.div`
         outline: none;
 
         @media (max-width: 1200px) {
-            width: 30%;
+            width: 50%;
             height: 45px;
             font-size: 14px;
         }
