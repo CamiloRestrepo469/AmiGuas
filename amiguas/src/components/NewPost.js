@@ -9,6 +9,8 @@ import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
 
 const NewPost = () => {
     const [userName, setUserName] = useState('');
@@ -59,9 +61,13 @@ const NewPost = () => {
                     value={postText}
                 />
             </InputText>
+            
 
-            {showInput && (
+            {showInput && (  
                 <InputImage>
+                <btn component="label" variant="contained" startIcon={<ImageIcon />}>
+                    <VisuallyHiddenInput type="file" startIcon={<ImageIcon />}/>
+                </btn>
                     <ImageIcon />
                     <input
                         type='text'
@@ -71,8 +77,9 @@ const NewPost = () => {
                     />
                     <ArrowDropUpIcon onClick={() => setShowInput(false)} />
                 </InputImage>
+                
             )}
-
+                
             <Stack direction="row" spacing={2}>
                 <StyledButtonRed variant="outlined">
                     <DeleteIcon />
@@ -161,7 +168,7 @@ const InputImage = styled.div`
         outline: none;
 
         @media (max-width: 1200px) {
-            width: 70%;
+            width: 30%;
             height: 45px;
             font-size: 14px;
         }
@@ -303,4 +310,20 @@ const StyledButton = styled(Button)`
             }
         }
     }
+`;
+
+const VisuallyHiddenInput = styled('input')`
+    clip: 'rect(0 0 0 0)';
+    clipPath: 'inset(50%)';
+    height: 2;
+    overflow: 'hidden';
+    position: 'absolute';
+    bottom: 0;
+    left: 10;
+    whiteSpace: 'nowrap';
+    width: 1;
+    background-color: red;
+
+    
+
 `;
