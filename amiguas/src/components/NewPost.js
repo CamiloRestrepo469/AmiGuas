@@ -9,6 +9,7 @@ import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
+import Post from './Post';
 import {uploadFile} from '../firebase';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
@@ -20,13 +21,34 @@ const NewPost = () => {
     const [postText, setPostText] = useState('');
     const [postImage, setPostImage] = useState('');
 
+    const [File, setFile] = useState(null);
+    const [imageUrl, setImageUrl] = useState(null);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const result = await uploadFile(File);
+            console.log(result);
+            if (result) {
+                setImageUrl(result);
+                createPost();
+            } else {
+                alert('La imagen no se ha subido correctamente.');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Fallo interno. Intente mas tarde');
+        };
+    };
+    
     
     const createPost = async () => {
         try {
-            if (!postText || !postImage) {
+            if (!postText || !imageUrl) {
                 // Si postText o postImage están vacíos, muestra un mensaje de error al usuario.
                 alert('Los campos Texto y campo Imagen no pueden estar vacíos');
-                return; // Sale de la función sin agregar el documento.
+                 // Sale de la función sin agregar el documento.
+                 return;
             }
     
             const collectionRef = collection(db, 'posts');
@@ -37,10 +59,12 @@ const NewPost = () => {
                 postText: postText,
                 postImage: postImage,
                 timeStamp: serverTimestamp(),
+                imageUrl: imageUrl,
             });
             console.log("ID del documento agregado:", docRef.id);
             setPostText('');
             setPostImage('');
+            imageUrl('');
         } catch (error) {
             console.log('Error al agregar el documento', error);
             // Puedes mostrar un mensaje de error al usuario aquí si lo prefieres.
@@ -62,37 +86,59 @@ const NewPost = () => {
                     value={postText}
                 />
             </InputText>
-
-            <InputText>
-                
+            <InputText>          
             </InputText>
             {showInput && (  
                 <InputImage>
-                    <ImageIcon />                
-                    <input
+                                 
+                    {/* <input
                         type='text'
                         placeholder='Agregar Imagen'
                         onChange={(event) => {setPostImage(event.target.value)}}
                         value={postImage}
-                    />
-                    <ArrowDropUpIcon onClick={() => setShowInput(false)} />
+                    /> */}
+                 <ArrowDropUpIcon onClick={() => setShowInput(false)} />
+
+
+
+                <form onSubmit={handleSubmit}>
                     <input
                     type='file'
-                    placeholder={`¿Qué estás pensando`} 
-                    onChange={e => uploadFile(e.target.files[0])}
-                />
-                </InputImage>
-                
+                    name=''
+                    id=''
+                    onChange={e => setFile(e.target.files[0])}
+                    />
+                <button color='primari'>
+                    update
+                </button>
+                </form>
+                <Stack direction="row" spacing={2}>
+                        {/* <StyledButtonRed variant="outlined">
+                            <DeleteIcon />
+                        </StyledButtonRed> */}
+                        {/* <StyledButton variant="contained" onClick={() => {
+                            createPost(); // Llama a la primera función
+                            handleSubmit(); // Llama a la segunda función
+                            }}>
+                              <SendIcon />
+                        </StyledButton> */}
+                                
+                        <StyledButton variant="contained" onClick={createPost}>
+                            <SendIcon />
+
+                        </StyledButton>
+                    </Stack>
+
+                </InputImage> 
+                 
+                   
             )}
-                
-            <Stack direction="row" spacing={2}>
-                <StyledButtonRed variant="outlined">
-                    <DeleteIcon />
-                </StyledButtonRed>
-                <StyledButton variant="contained" onClick={createPost} >
-                    <SendIcon />
-                </StyledButton>
-            </Stack>
+            <InputImage>
+            
+
+                {/* {imageUrl && <Post imageUrl={imageUrl} />} */}
+            </InputImage> 
+           
         </Container>
     );
 }

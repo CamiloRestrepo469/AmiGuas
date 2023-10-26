@@ -39,7 +39,7 @@ const Container = styled.div`
     }
 
     .MuiSvgIcon-root {
-        font-size: 30px;
+        font-size: 40px;
         color: #3964bf;
 
         @media (max-width: 1200px) {

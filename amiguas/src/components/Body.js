@@ -48,6 +48,7 @@ const Body = () => {
                             imgProfile={post.imgProfile}
                             postText={post.postText}
                             postImage={post.postImage}
+                            imageUrl={post.imageUrl}
                         />
                     );
                 })}
@@ -159,7 +160,7 @@ const Birthday = styled.div`
     padding: 10px 0;
 
     .MuiSvgIcon-root {
-        font-size: 40px;
+        font-size: 50px;
         color: #3964bf;
     }
 

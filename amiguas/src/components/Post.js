@@ -7,7 +7,8 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import TextsmsIcon from '@mui/icons-material/Textsms';
 import ShareIcon from '@mui/icons-material/Share';
 
-const Post = ({ name,imgProfile, postText, postImage }) => {
+const Post = ({ name,imgProfile, postText, postImage, imageUrl }) => {
+    console.log('URL de la imagen:', imageUrl);
     return (
         <Container>
             <Header>
@@ -21,10 +22,19 @@ const Post = ({ name,imgProfile, postText, postImage }) => {
             <PostContent>
                 <p>{postText}</p>
                 <img
-                    src={postImage}
+                    src={imageUrl}
                     alt='imagen de la publicación..'
                 />
             </PostContent>
+            {/* <div>
+                {imageUrl && (
+                    <div>
+                    <img 
+                    src={imageUrl}
+                    alt="Imagen subida" />
+                    </div>
+                )}
+            </div> */}
             <Footer>
                 <IconFooter>
                     {/* <ThumbUpIcon /> negro*/}

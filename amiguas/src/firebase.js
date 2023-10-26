@@ -2,8 +2,8 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from 'firebase/auth'
-import { getStorage, ref, uploadBytes  } from 'firebase/storage';
-
+import { getStorage, ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
+import { v4 } from 'uuid';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCwrLT4S3Czr3DInkVlNE_aLdOf9Y-DVjo",
@@ -20,9 +20,9 @@ export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const store = getStorage(app);
 
-export function uploadFile(file) {
-  const storageRef = ref(store, 'some-child')
-  uploadBytes(storageRef, file).then(snapshot => {
-    console.log(snapshot)
-  })
+export async function uploadFile(file) {
+  const storageRef = ref(store, `img/${v4()}`)
+  await uploadBytes(storageRef, file)
+  const url = await getDownloadURL(storageRef)
+  return url;
 }
