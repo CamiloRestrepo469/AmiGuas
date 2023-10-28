@@ -31,7 +31,6 @@ const NewPost = () => {
             console.log(result);
             if (result) {
                 setImageUrl(result);
-                createPost();
             } else {
                 alert('La imagen no se ha subido correctamente.');
             }
@@ -156,6 +155,9 @@ const Container = styled.div`
     align-items: center;
     padding: 15px 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     @media (max-width: 1200px) {
         width: 95%;
@@ -186,6 +188,9 @@ const InputText = styled.div`
         padding: 10px;
         border: none;
         outline: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         @media (max-width: 1200px) {
             width: 80%;

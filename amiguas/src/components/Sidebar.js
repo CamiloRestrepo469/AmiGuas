@@ -44,7 +44,7 @@ const Sidebar = () => {
         <Container>
             <GroupList>
                 <ListItem avatar
-                    img='https://media.istockphoto.com/id/1209807747/es/foto/fondo-tecnol%C3%B3gico-en-color-azul-tel%C3%B3n-de-fondo-de-tecnolog%C3%ADa-futurista-renderizado-3d.webp?s=2048x2048&w=is&k=20&c=MoITMaf1eHoxuzsMD4r9TH9Eda-w_cFUN1WJ1wuBzX4='
+                    img='https://thumbs.dreamstime.com/b/colores-vivos-10349002.jpg'
                     name='Usuario'
                 />
                 <ListItem Icon={PeopleIcon} name='Amigos' />

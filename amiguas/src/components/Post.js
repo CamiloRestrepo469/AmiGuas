@@ -67,6 +67,7 @@ const Container = styled.div`
     border: 1px solid #f0f0f0;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    
 
     @media (max-width: 1200px) {
         width: 95%;
@@ -131,7 +132,7 @@ const PostContent = styled.div`
         margin: auto; 
         margin-left: 10px; 
         margin-right: 10px;
-        overflow-y: auto;
+        overflow: auto;
         color: #6b6b6b;
     }
     

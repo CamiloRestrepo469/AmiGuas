@@ -11,6 +11,7 @@ import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from '../firebase';
 import RedeemIcon from '@mui/icons-material/Redeem';
 import Chats from './Chats';
+import SidebarOculto from './SidebarOculto'
 
 
 const Body = () => {

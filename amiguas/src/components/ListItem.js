@@ -1,17 +1,20 @@
 import styled from '@emotion/styled';
 import { Avatar } from '@mui/material';
+import Alert from '@mui/material/Alert';
 import React from 'react';
 
 const ListItem = ({ avatar, img, name, Icon, onClick }) => {
     return (
         <Container onClick={onClick}>
             {avatar &&
-                <Avatar src={img} alt='logo' />
+                <Avatar src={img} alt='logo' 
+                />
             }
             {Icon &&
                 <Icon />
             }
             <h4>{name}</h4>
+            
         </Container>
     )
 }
@@ -22,6 +25,7 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     padding: 15px 20px;
+    cursor: pointer;
 
     .MuiAvatar-root {
         width: 50px;

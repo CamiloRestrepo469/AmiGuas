@@ -5,6 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ListItem from './ListItem';
 import ImgStory from '../ImageStore';
+import Alert from '@mui/material/Alert';
 
 const Chats = () => {
     return (
@@ -24,6 +25,7 @@ const Chats = () => {
                     img={img.imgProfile}
                     name={img.name}
                 />
+                
             ))}
         </Container>
     );

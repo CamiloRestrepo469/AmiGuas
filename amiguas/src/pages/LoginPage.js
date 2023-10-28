@@ -93,7 +93,7 @@ export default LoginPage;
 
 const Container = styled.div`
     width: 90vw;
-    min-height: 100vh; /* Cambiado de height a min-height */
+    min-height: 50vh; /* Cambiado de height a min-height */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -104,7 +104,7 @@ const Container = styled.div`
 const LoginLeft = styled.div`
     width: 50%;
     height: 60%;
-    min-height: 100vh;
+    min-height: 10vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -135,7 +135,7 @@ const LoginLeft = styled.div`
 const FormLogin = styled.div`
     width: 35%;
     max-width: 450px;
-    height: auto;
+    height: 70vh;
     min-height: 100vh; 
     box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
     display: flex;
@@ -163,6 +163,7 @@ const FormLogin = styled.div`
 const FormComponent = styled.div`
     width: 90%;
     display: flex;
+    height: 50px;
     min-height: 100vh;
     flex-direction: column;
     align-items: center;

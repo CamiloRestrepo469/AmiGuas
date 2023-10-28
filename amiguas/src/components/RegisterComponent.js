@@ -78,6 +78,37 @@ const RegisterComponent = ({ setopenRegister }) => {
               setFormError('');
             }}
             type="text"
+            placeholder="Nombre Completo"
+          />
+                    <input
+            value={email}
+            onChange={(event) => {
+              setEmail(event.target.value);
+              setEmailError('');
+              setFormError('');
+            }}
+            type="text"
+            placeholder="Alias"
+          />
+                    <input
+            value={email}
+            onChange={(event) => {
+              setEmail(event.target.value);
+              setEmailError('');
+              setFormError('');
+            }}
+            type="text"
+            placeholder="telefono"
+          />
+
+                    <input
+            value={email}
+            onChange={(event) => {
+              setEmail(event.target.value);
+              setEmailError('');
+              setFormError('');
+            }}
+            type="text"
             placeholder="Correo Electrónico"
           />
           <input
@@ -109,7 +140,7 @@ export default RegisterComponent;
 const ErrorMessage = styled.p`
     width: 70%;
     max-width: 450px;
-    height: auto;
+    height: 100%;
     box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
     display: flex;
     flex-direction: column;
@@ -172,15 +203,16 @@ const HeaderRegister = styled.div`
 const FormComponent = styled.div`
     width: 90%;
     display: flex;
+    height: 100vh; 
     flex-direction: column;
     align-items: center;
     padding-bottom: 0px;
 
     input {
-        margin-top: 30px;
-        width: 90%;
-        padding: 15px;
-        border-radius: 15px;
+        margin-top: 10px;
+        width: 70%;
+        padding: 8px;
+        border-radius: 12px;
         border: 1px solid #cfcfcf;
         outline: none;
         font-size: 14px;
