@@ -11,7 +11,7 @@ import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from '../firebase';
 import RedeemIcon from '@mui/icons-material/Redeem';
 import Chats from './Chats';
-import SidebarOculto from './SidebarOculto'
+import UserProfile from './UserProfile'
 
 
 const Body = () => {
@@ -62,7 +62,8 @@ const Body = () => {
                         <h4>Hoy es el Cumpleaños de dos de tus amigos</h4>
                     </Birthday>
                 </TopBar>
-                <Chats />
+                <UserProfile />
+                {/* <Chats /> */}
             </SectionRight> 
         </Container>
     )

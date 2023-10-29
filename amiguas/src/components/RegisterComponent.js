@@ -5,11 +5,18 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SendIcon from '@mui/icons-material/Send';
 import Button from '@mui/material/Button';
 import { auth } from '../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import Alert from '@mui/material/Alert';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 const RegisterComponent = ({ setopenRegister }) => {
+  const [nombreCompleto, setNombreCompleto] = useState('');
+  const [alias, setAlias] = useState('');
+  const [telefono, setTelefono] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [nombreCompletoError, setNombreCompletoError] = useState('');
+  const [aliasError, setAliasError] = useState('');
+  const [telefonoError, setTelefonoError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [formError, setFormError] = useState('');
@@ -24,39 +31,80 @@ const RegisterComponent = ({ setopenRegister }) => {
     return passwordRegex.test(password);
   };
 
+// Validar la entrada de teléfono en tiempo real
+const handleTelefonoChange = (event) => {
+  const input = event.target.value;
+  if (/^\+?[0-9]{0,12}$/.test(input)) { // Se permite un signo '+' al inicio
+    setTelefono(input);
+    setTelefonoError('');
+  } else {
+    setTelefonoError('El número de teléfono es incorrecto, ejemplo +573213213232');
+  }
+};
+
   const registerFunction = async () => {
     setEmailError('');
     setPasswordError('');
     setFormError('');
-  
+    setNombreCompletoError('');
+    setAliasError('');
+    setTelefonoError('');
+
+    if (nombreCompleto.length === 0) {
+      setNombreCompletoError('El nombre completo es obligatorio');
+      return;
+    }
+
+    if (alias.length === 0) {
+      setAliasError('El alias es obligatorio');
+      return;
+    }
+
+    if (telefono.length === 0) {
+      setTelefonoError('El teléfono es obligatorio');
+      return;
+    }  
+
     if (email.length === 0) {
       setEmailError('El correo electrónico es obligatorio');
       return;
     }
-  
+
     if (password.length === 0) {
       setPasswordError('La contraseña es obligatoria');
       return;
     }
-  
+    //-----validaciones-----------
     if (!validateEmail(email)) {
-      setEmailError('Correo electrónico inválido');
+      setEmailError('Correo electrónico inválido debe de tener extension @gmail.com o @hotmail.com');
       return;
     }
-  
+
     if (!validatePassword(password)) {
       setPasswordError('La contraseña debe contener al menos 8 caracteres, una mayúscula, una minúscula y un número');
       return;
     }
-  
+
+
     try {
-      const user = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+    
+      // Agregar campos personalizados a la información del usuario en Firebase
+      await updateProfile(user, {
+        displayName: nombreCompleto, // Nombre completo
+        photoURL: alias, // Alias
+        phoneNumber: telefono, // Teléfono
+      });
       console.log(user);
+    
+      // Resto del código
     } catch (error) {
       console.log(error.message);
     }
+    
   };
-  
+
 
   return (
     <Container>
@@ -71,37 +119,38 @@ const RegisterComponent = ({ setopenRegister }) => {
         <FormComponent>
           <AccountCircleIcon />
           <input
-            value={email}
+            value={nombreCompleto}
             onChange={(event) => {
-              setEmail(event.target.value);
-              setEmailError('');
+              setNombreCompleto(event.target.value);
+              setNombreCompletoError('');
               setFormError('');
+
             }}
             type="text"
-            placeholder="Nombre Completo"
+            placeholder="Nombre Pepito Perez"
           />
-                    <input
-            value={email}
+          <input
+            value={alias}
             onChange={(event) => {
-              setEmail(event.target.value);
-              setEmailError('');
+              setAlias(event.target.value);
+              setAliasError('');
               setFormError('');
             }}
             type="text"
-            placeholder="Alias"
+            placeholder="Alias, ejemplo PepitoP"
           />
-                    <input
-            value={email}
+          <input
+            value={telefono}
             onChange={(event) => {
-              setEmail(event.target.value);
-              setEmailError('');
+              setTelefono(event.target.value);
+              setTelefonoError('');
               setFormError('');
             }}
             type="text"
-            placeholder="telefono"
+            placeholder="Numero de telefono +573213213232"
           />
 
-                    <input
+          <input
             value={email}
             onChange={(event) => {
               setEmail(event.target.value);
@@ -109,7 +158,7 @@ const RegisterComponent = ({ setopenRegister }) => {
               setFormError('');
             }}
             type="text"
-            placeholder="Correo Electrónico"
+            placeholder="Email pepitoperez@gmail.com"
           />
           <input
             value={password}
@@ -119,13 +168,16 @@ const RegisterComponent = ({ setopenRegister }) => {
               setFormError('');
             }}
             type="password"
-            placeholder="Contraseña"
+            placeholder="Contraseña PepitoPerez123"
           />
           <BtnSubmit>
             <Button variant="contained" onClick={registerFunction} color="success" endIcon={<SendIcon />}>
               Registrarse
             </Button>
           </BtnSubmit>
+          {nombreCompletoError && <ErrorMessage>{nombreCompletoError}</ErrorMessage>}
+          {aliasError && <ErrorMessage>{aliasError}</ErrorMessage>}
+          {telefonoError && <ErrorMessage>{telefonoError}</ErrorMessage>}
           {formError && <ErrorMessage>{formError}</ErrorMessage>}
           {emailError && <ErrorMessage>{emailError}</ErrorMessage>}
           {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
@@ -140,7 +192,6 @@ export default RegisterComponent;
 const ErrorMessage = styled.p`
     width: 70%;
     max-width: 450px;
-    height: 100%;
     box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
     display: flex;
     flex-direction: column;
@@ -166,7 +217,7 @@ const Container = styled.div`
 
 const RegisterForm = styled.div`
     width: 55%;
-    height: 59%;
+    height: 70%;
     max-widht: 400px;
     box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
     display: flex;

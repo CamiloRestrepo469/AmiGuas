@@ -78,6 +78,12 @@ const LoginPage = () => {
                             {emptyFieldsError}
                         </ErrorMessage>
                     }
+
+                    {loginError &&
+                        <ErrorMessage>
+                            {loginError}
+                        </ErrorMessage>
+                    }
                 </FormComponent>
             </FormLogin>
             {openRegister &&
@@ -97,7 +103,7 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto; /* Margen para centrar verticalmente */
+    margin: 50; /* Margen para centrar verticalmente */
 `;
 
 
@@ -118,9 +124,10 @@ const LoginLeft = styled.div`
     
 
     p {
-        font-size: 25px;
+        font-size: 23px;
         font-weight: 400;
-        padding-top: 25px;
+        padding-top: 15px;
+        text-align: center;
     }
 
     @media (max-width: 1500px) {
@@ -134,9 +141,9 @@ const LoginLeft = styled.div`
 
 const FormLogin = styled.div`
     width: 35%;
-    max-width: 450px;
-    height: 70vh;
-    min-height: 100vh; 
+    max-width: 4500px;
+    height: 60vh;
+    margin-top: 20vh;
     box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
     display: flex;
     flex-direction: column;
@@ -147,14 +154,14 @@ const FormLogin = styled.div`
     @media (max-width: 1500px) {
         width: 70%;
         max-width: 450px;
-        height: auto;
+        height: 70%;
         min-height: 100vh; 
     }
 
     @media (max-width: 1200px) {
         width: 80%;
         max-width: 450px;
-        height: auto;
+        height: 70%;
         min-height: 100vh; 
     }
 `;

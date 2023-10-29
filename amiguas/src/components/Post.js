@@ -8,7 +8,6 @@ import TextsmsIcon from '@mui/icons-material/Textsms';
 import ShareIcon from '@mui/icons-material/Share';
 
 const Post = ({ name,imgProfile, postText, postImage, imageUrl }) => {
-    console.log('URL de la imagen:', imageUrl);
     return (
         <Container>
             <Header>

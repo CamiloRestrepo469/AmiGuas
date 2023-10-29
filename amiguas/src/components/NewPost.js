@@ -10,7 +10,7 @@ import Stack from '@mui/material/Stack';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 import Post from './Post';
-import {uploadFile} from '../firebase';
+import { uploadFile } from '../firebase';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
@@ -39,19 +39,19 @@ const NewPost = () => {
             alert('Fallo interno. Intente mas tarde');
         };
     };
-    
-    
+
+
     const createPost = async () => {
         try {
             if (!postText || !imageUrl) {
                 // Si postText o postImage están vacíos, muestra un mensaje de error al usuario.
                 alert('Los campos Texto y campo Imagen no pueden estar vacíos');
-                 // Sale de la función sin agregar el documento.
-                 return;
+                // Sale de la función sin agregar el documento.
+                return;
             }
-    
+
             const collectionRef = collection(db, 'posts');
-    
+
             const docRef = await addDoc(collectionRef, {
                 imgProfile: 'https://media.istockphoto.com/id/1209807747/es/foto/fondo-tecnol%C3%B3gico-en-color-azul-tel%C3%B3n-de-fondo-de-tecnolog%C3%ADa-futurista-renderizado-3d.webp?s=2048x2048&w=is&k=20&c=MoITMaf1eHoxuzsMD4r9TH9Eda-w_cFUN1WJ1wuBzX4=',
                 name: 'uno',
@@ -67,77 +67,64 @@ const NewPost = () => {
         } catch (error) {
             console.log('Error al agregar el documento', error);
             // Puedes mostrar un mensaje de error al usuario aquí si lo prefieres.
-            alert('Error al agregar el documento. Por favor, inténtelo de nuevo.');
+            alert('Esta seguro que quiere publicarlo.');
         }
     };
-    
+
 
 
     return (
         <Container>
             <InputText>
-                <Avatar src='https://media.istockphoto.com/id/1209807747/es/foto/fondo-tecnol%C3%B3gico-en-color-azul-tel%C3%B3n-de-fondo-de-tecnolog%C3%ADa-futurista-renderizado-3d.webp?s=2048x2048&w=is&k=20&c=MoITMaf1eHoxuzsMD4r9TH9Eda-w_cFUN1WJ1wuBzX4='/>
+                <Avatar src='https://media.istockphoto.com/id/1209807747/es/foto/fondo-tecnol%C3%B3gico-en-color-azul-tel%C3%B3n-de-fondo-de-tecnolog%C3%ADa-futurista-renderizado-3d.webp?s=2048x2048&w=is&k=20&c=MoITMaf1eHoxuzsMD4r9TH9Eda-w_cFUN1WJ1wuBzX4=' />
                 <input
                     onClick={() => setShowInput(true)}
                     type='text'
-                    placeholder={`¿Qué estás pensando, ${userName}?`} 
-                    onChange={(event) => {setPostText(event.target.value)}}
+                    placeholder={`¿Qué estás pensando, ${userName}?`}
+                    onChange={(event) => { setPostText(event.target.value) }}
                     value={postText}
                 />
             </InputText>
-            <InputText>          
+            
+            <InputText>
             </InputText>
-            {showInput && (  
+            {showInput && (
                 <InputImage>
-                                 
+
                     {/* <input
                         type='text'
                         placeholder='Agregar Imagen'
                         onChange={(event) => {setPostImage(event.target.value)}}
                         value={postImage}
                     /> */}
-                 <ArrowDropUpIcon onClick={() => setShowInput(false)} />
-
-
-
-                <form onSubmit={handleSubmit}>
-                    <input
-                    type='file'
-                    name=''
-                    id=''
-                    onChange={e => setFile(e.target.files[0])}
-                    />
-                <button color='primari'>
-                    update
-                </button>
-                </form>
-                <Stack direction="row" spacing={2}>
-                        {/* <StyledButtonRed variant="outlined">
-                            <DeleteIcon />
-                        </StyledButtonRed> */}
-                        {/* <StyledButton variant="contained" onClick={() => {
-                            createPost(); // Llama a la primera función
-                            handleSubmit(); // Llama a la segunda función
-                            }}>
-                              <SendIcon />
-                        </StyledButton> */}
-                                
+                    <ArrowDropUpIcon onClick={() => setShowInput(false)} />
+                    <form onSubmit={handleSubmit}>
+                        <input
+                            type='file'
+                            name=''
+                            id=''
+                            onChange={e => setFile(e.target.files[0])}
+                        />
+                        <button ariant="contained" color="success">
+                            update
+                        </button>
+                    </form>
+                    <Stack direction="row" spacing={2}>
                         <StyledButton variant="contained" onClick={createPost}>
                             <SendIcon />
 
                         </StyledButton>
                     </Stack>
 
-                </InputImage> 
-                 
-                   
+                </InputImage>
+
             )}
             <InputImage>
-            
+
 
                 {/* {imageUrl && <Post imageUrl={imageUrl} />} */}
-            </InputImage> 
-           
+            </InputImage>
+
         </Container>
     );
 }
