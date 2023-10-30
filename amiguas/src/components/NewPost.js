@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Avatar } from '@mui/material';
 import styled from 'styled-components';
 import ImageIcon from '@mui/icons-material/Image';
@@ -9,12 +9,16 @@ import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
+import { auth } from '../firebase';
 import Post from './Post';
 import { uploadFile } from '../firebase';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
 const NewPost = () => {
+
+
+
     const [userName, setUserName] = useState('');
     const [showInput, setShowInput] = useState(false);
 
@@ -24,6 +28,44 @@ const NewPost = () => {
     const [File, setFile] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
 
+    //usuario
+
+    const [userProfile, setUserProfile] = useState(null);
+
+    useEffect(() => {
+        const user = auth.currentUser;
+        if (user) {
+            const displayName = user.displayName;
+            const photoURL = user.photoURL;
+            const phoneNumber = user.phoneNumber;
+
+            setUserProfile({ displayName, photoURL, phoneNumber });
+        }
+    }, []);
+
+    function renderUserProfile() {
+        if (userProfile) {
+            const userProfileData = [
+                <h3>Bienvenido, {userProfile.displayName}</h3>,
+                <Avatar src='https://media.istockphoto.com/id/1209807747/es/foto/fondo-tecnol%C3%B3gico-en-color-azul-tel%C3%B3n-de-fondo-de-tecnolog%C3%ADa-futurista-renderizado-3d.webp?s=2048x2048&w=is&k=20&c=MoITMaf1eHoxuzsMD4r9TH9Eda-w_cFUN1WJ1wuBzX4=' />,
+                <input
+                    onClick={() => setShowInput(true)}
+                    type="text"
+                    placeholder={`¿Qué estás pensando,${userProfile.photoURL}?`}
+                    onChange={(e) => setPostText(e.target.value)}
+                    value={postText}
+                />,
+            ];
+            return userProfileData.map((data, index) => (
+                <p key={index}
+                >{data}</p>
+            ));
+        } else {
+            return <p>No se han cargado los datos del usuario.</p>;
+        }
+    }
+ 
+    //subir archivos 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -40,7 +82,7 @@ const NewPost = () => {
         };
     };
 
-
+    //crear post
     const createPost = async () => {
         try {
             if (!postText || !imageUrl) {
@@ -49,7 +91,6 @@ const NewPost = () => {
                 // Sale de la función sin agregar el documento.
                 return;
             }
-
             const collectionRef = collection(db, 'posts');
 
             const docRef = await addDoc(collectionRef, {
@@ -71,32 +112,14 @@ const NewPost = () => {
         }
     };
 
-
-
     return (
         <Container>
             <InputText>
-                <Avatar src='https://media.istockphoto.com/id/1209807747/es/foto/fondo-tecnol%C3%B3gico-en-color-azul-tel%C3%B3n-de-fondo-de-tecnolog%C3%ADa-futurista-renderizado-3d.webp?s=2048x2048&w=is&k=20&c=MoITMaf1eHoxuzsMD4r9TH9Eda-w_cFUN1WJ1wuBzX4=' />
-                <input
-                    onClick={() => setShowInput(true)}
-                    type='text'
-                    placeholder={`¿Qué estás pensando, ${userName}?`}
-                    onChange={(event) => { setPostText(event.target.value) }}
-                    value={postText}
-                />
-            </InputText>
             
-            <InputText>
+              {renderUserProfile()}       
             </InputText>
             {showInput && (
                 <InputImage>
-
-                    {/* <input
-                        type='text'
-                        placeholder='Agregar Imagen'
-                        onChange={(event) => {setPostImage(event.target.value)}}
-                        value={postImage}
-                    /> */}
                     <ArrowDropUpIcon onClick={() => setShowInput(false)} />
                     <form onSubmit={handleSubmit}>
                         <input
@@ -106,7 +129,7 @@ const NewPost = () => {
                             onChange={e => setFile(e.target.files[0])}
                         />
                         <button ariant="contained" color="success">
-                            update
+                            Subir
                         </button>
                     </form>
                     <Stack direction="row" spacing={2}>
@@ -115,13 +138,9 @@ const NewPost = () => {
 
                         </StyledButton>
                     </Stack>
-
                 </InputImage>
-
             )}
             <InputImage>
-
-
                 {/* {imageUrl && <Post imageUrl={imageUrl} />} */}
             </InputImage>
 
@@ -153,23 +172,27 @@ const Container = styled.div`
 `;
 
 const InputText = styled.div`
-    display: flex;
+    position: flex;
+    flex-direction: row;
     width: 100%;
 
     .MuiAvatar-root {
         width: 45px;
         height: 45px;
+        position: relative;
+        top: 45px;
+        margin-left: 20px;  
 
         @media (max-width: 1200px) {
-           color: black;
+            color: black;
         }
     }
     
     input {
         background-color: #cfcfcf;
-        width: 90%;
+        width: 70%;
         height: 45px;
-        margin-left: 10px;
+        margin-left: 80px;
         border-radius: 25px;
         font-size: 18px;
         padding: 10px;
@@ -185,18 +208,33 @@ const InputText = styled.div`
             font-size: 14px;
         }
     }
+
+    h3 {
+        font-size: 18px;
+        color: red;
+        position: relative;
+        top: -50; 
+        left: 0;
+        /* Centra verticalmente el contenido */
+        text-align: center; /* Centra horizontalmente el texto */
+        width: 100%;  
+    }
 `;
+
+
 
 const InputImage = styled.div`
     width: 100%;
     display: flex;
-    margin-top: 20px;
     align-items: center;
     justify-content: space-around;
+    flex-direction: column;
 
     .MuiSvgIcon-root {
         font-size: 20px;
         color: green;
+        margin: 10px;
+        cursor: pointer;
     }
 
     input {
@@ -209,6 +247,7 @@ const InputImage = styled.div`
         padding: 10px;
         border: none;
         outline: none;
+        margin: 1em;
 
         @media (max-width: 1200px) {
             width: 50%;
@@ -293,10 +332,11 @@ const StyledButton = styled(Button)`
         background-color: #3498DB;
         width: 65%;
         height: 65%;
-        margin-top: 25px;
+        margin-lef: 5px;
         border-radius: 15px;
         cursor: pointer;
         position: relative;
+        margin-left: -100px; 
 
         .MuiSvgIcon-root {
             font-size: 30px;

@@ -7,14 +7,14 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import TextsmsIcon from '@mui/icons-material/Textsms';
 import ShareIcon from '@mui/icons-material/Share';
 
-const Post = ({ name,imgProfile, postText, postImage, imageUrl }) => {
+const Post = ({ photoURL,imgProfile, postText, postImage, imageUrl }) => {
     return (
         <Container>
             <Header>
                 <HeaderUser>
                     <img src={imgProfile}
                     alt='imagen user' />
-                    <h4>{name}</h4>
+                    <h4>{photoURL}</h4>
                 </HeaderUser>
                 <MoreHorizIcon />
             </Header>

@@ -15,6 +15,8 @@ import UserProfile from './UserProfile'
 
 
 const Body = () => {
+    const [userProfile, setUserProfile] = useState(null);
+
     const [posts, setposts] = useState([]);
 
     useEffect(() => {
@@ -45,7 +47,7 @@ const Body = () => {
                     return (
                         <Post
                             key={index}
-                            name={post.name}
+                            name={userProfile ? userProfile.displayName : 'Usuario Anónimo'}                            
                             imgProfile={post.imgProfile}
                             postText={post.postText}
                             postImage={post.postImage}
@@ -61,10 +63,9 @@ const Body = () => {
                         <RedeemIcon />
                         <h4>Hoy es el Cumpleaños de dos de tus amigos</h4>
                     </Birthday>
-                </TopBar>
+                </TopBar>              
                 <UserProfile />
-                {/* <Chats /> */}
-            </SectionRight> 
+         </SectionRight> 
         </Container>
     )
 }
