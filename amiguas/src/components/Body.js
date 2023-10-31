@@ -65,6 +65,7 @@ const Body = () => {
                     </Birthday>
                 </TopBar>              
                 <UserProfile />
+                <Chats />
          </SectionRight> 
         </Container>
     )

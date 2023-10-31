@@ -24,7 +24,7 @@ function UserProfile() {
         <Avatar />,
         <input
         type="text"
-        placeholder={`¿Qué estás pensando,${userProfile.photoURL}?`}
+        placeholder={`¿Qué estás pensando,${userProfile.phoneNumber}?`}
         onChange={(e) => setUserProfile(e.target.value)}
       />,
       ];

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Search from '@mui/icons-material/Search';
 import amiguas from '../assets/img/amiGuas.png';
@@ -14,10 +14,17 @@ import AppsIcon from '@mui/icons-material/Apps';
 import { Avatar } from '@mui/material';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
+import Chat from './Chat';
 
 
 
 const Header = () => {
+
+    const [isChatOpen, setIsChatOpen] = useState(false);
+
+    const handleChatIconClick = () => {
+        setIsChatOpen(true);
+    };
 
     const logout = async () => {
         await signOut(auth);
@@ -58,8 +65,9 @@ const Header = () => {
                     <AppsIcon />
                 </IconRight>
                 <IconRight>
-                    <MessageIcon />
+                    <MessageIcon onClick={handleChatIconClick} />
                 </IconRight>
+                    {isChatOpen && <Chat />}
                 <IconRight>
                     <NotificationsActiveIcon />
                 </IconRight>
@@ -164,6 +172,7 @@ const IconCenter = styled.div`
     .MuiSvgIcon-root {
         font-size: 40px;
         transition: color 0.3s;
+        cursor: pointer;
     }
 
     :hover {
@@ -216,7 +225,8 @@ const IconRight = styled.div`
     margin-right: 15px;
 
     .MuiSvgIcon-root {
-        font-size: 30px;    
+        font-size: 30px;
+        cursor: pointer;   
     }
 
     .MuiSvgIcon-root {

@@ -51,7 +51,7 @@ const NewPost = () => {
                 <input
                     onClick={() => setShowInput(true)}
                     type="text"
-                    placeholder={`¿Qué estás pensando,${userProfile.photoURL}?`}
+                    placeholder={`¿Qué estás pensando, ${userProfile.displayName}?`}
                     onChange={(e) => setPostText(e.target.value)}
                     value={postText}
                 />,

@@ -24,8 +24,7 @@ const Chats = () => {
                     avatar
                     img={img.imgProfile}
                     name={img.name}
-                />
-                
+                />    
             ))}
         </Container>
     );

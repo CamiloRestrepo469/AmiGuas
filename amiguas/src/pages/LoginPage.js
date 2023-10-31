@@ -11,7 +11,10 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import RegisterComponent from '../components/RegisterComponent';
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, provider } from "../firebase";
+import { signInWithPopup } from "firebase/auth";
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const LoginPage = () => {
     const [openRegister, setopenRegister] = useState(false);
@@ -20,7 +23,19 @@ const LoginPage = () => {
     const [loginError, setLoginError] = useState(null);
     const [emptyFieldsError, setEmptyFieldsError] = useState(null); // Nuevo estado
 
+    const signInWithGoogle = async () => {
+        try{
+        const result = await signInWithPopup(auth, provider);
+        cookies.set('auth-token', result.user.refreshToken);
+        console.log(result);
+        } catch (error) {
+            console.error(error);
+        }
+
+    };
+
     const loginFuntion = async () => {
+        
         try {
             if (!loginEmail.trim() || !loginPassword.trim()) {
                 setEmptyFieldsError('Ambos campos son obligatorios');
@@ -37,7 +52,7 @@ const LoginPage = () => {
             console.log(error.message);
             setLoginError(error.message);
         }
-    }
+    };
 
     return (
         <Container>
@@ -71,6 +86,12 @@ const LoginPage = () => {
                     <BtnSubmit>
                         <Button onClick={() => {setopenRegister(true)}} variant="contained" color="success" endIcon={<PersonIcon />}>
                             Crear Nueva Cuenta
+                        </Button>
+                    </BtnSubmit>
+                    <BtnSubmit>
+                        <p>Sign In With Google To Continue</p>
+                        <Button onClick={signInWithGoogle} variant="contained">
+                            Sign In With Google
                         </Button>
                     </BtnSubmit>
                     {emptyFieldsError &&
@@ -142,7 +163,7 @@ const LoginLeft = styled.div`
 const FormLogin = styled.div`
     width: 35%;
     max-width: 4500px;
-    height: 60vh;
+    height: 70vh;
     margin-top: 20vh;
     box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
     display: flex;
@@ -201,7 +222,7 @@ const BtnSubmit = styled.div`
     padding: 10px 0;
     margin-top: 20px;
     text-align: center;
-    border-radius: 10px;
+    border-radius: 12px;
     // cambiar el color 
     // background-color: ${props => props.color}
 
