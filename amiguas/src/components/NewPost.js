@@ -125,12 +125,15 @@ const NewPost = () => {
                         <input
                             type='file'
                             name=''
-                            id=''
+                            id='file'
                             onChange={e => setFile(e.target.files[0])}
                         />
                         <button ariant="contained" color="success">
                             Subir
                         </button>
+                        <label htmlFor='file'>
+                            <img src='' alt='otro forma'/>
+                        </label>
                     </form>
                     <Stack direction="row" spacing={2}>
                         <StyledButton variant="contained" onClick={createPost}>

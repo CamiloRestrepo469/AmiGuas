@@ -12,6 +12,8 @@ import { db } from '../firebase';
 import RedeemIcon from '@mui/icons-material/Redeem';
 import Chats from './Chats';
 import UserProfile from './UserProfile'
+import Chatss from './Chatss'
+import Home from '../pages/home';
 
 
 const Body = () => {
@@ -65,7 +67,9 @@ const Body = () => {
                     </Birthday>
                 </TopBar>              
                 <UserProfile />
-                <Chats />
+                <Home />
+                <Chatss/>
+                {/* <Chats /> */}
          </SectionRight> 
         </Container>
     )
