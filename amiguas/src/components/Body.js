@@ -13,7 +13,7 @@ import RedeemIcon from '@mui/icons-material/Redeem';
 import Chats from './Chats';
 import UserProfile from './UserProfile'
 import Chatss from './Chatss'
-import Home from '../pages/home';
+import Home from '../pages/Home';
 
 
 const Body = () => {
@@ -67,8 +67,7 @@ const Body = () => {
                     </Birthday>
                 </TopBar>              
                 <UserProfile />
-                <Home />
-                <Chatss/>
+                <Chats/>
                 {/* <Chats /> */}
          </SectionRight> 
         </Container>

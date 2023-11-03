@@ -8,6 +8,7 @@ import Cookies from 'universal-cookie';
 
 
 function App() {
+
   const [user, setUser] = useState(null); 
 
   useEffect(() => { 

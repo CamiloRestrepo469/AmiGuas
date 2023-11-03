@@ -16,7 +16,9 @@ import { signInWithPopup } from "firebase/auth";
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-const LoginPage = () => {
+const LoginPage = (props) => {
+    const { setUser } = props;
+
     const [openRegister, setopenRegister] = useState(false);
     const [loginEmail, setloginEmail] = useState('');
     const [loginPassword, setloginPassword] = useState('');
@@ -27,6 +29,7 @@ const LoginPage = () => {
         try{
         const result = await signInWithPopup(auth, provider);
         cookies.set('auth-token', result.user.refreshToken);
+        setUser(true);
         console.log(result);
         } catch (error) {
             console.error(error);

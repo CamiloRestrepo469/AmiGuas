@@ -15,6 +15,7 @@ import { Avatar } from '@mui/material';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
 import Chat from './Chat';
+import Home from '../pages/Home';
 
 
 
@@ -67,7 +68,7 @@ const Header = () => {
                 <IconRight>
                     <MessageIcon onClick={handleChatIconClick} />
                 </IconRight>
-                    {isChatOpen && <Chat />}
+                    {isChatOpen && <Home />}
                 <IconRight>
                     <NotificationsActiveIcon />
                 </IconRight>
