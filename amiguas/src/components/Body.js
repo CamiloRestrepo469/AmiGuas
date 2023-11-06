@@ -14,6 +14,7 @@ import Chats from './Chats';
 import UserProfile from './UserProfile'
 import Chatss from './Chatss'
 import Home from '../pages/Home';
+import SelectUser from './SelecUser';
 
 
 const Body = () => {
@@ -59,15 +60,15 @@ const Body = () => {
                 })}
             </Feed>
             <SectionRight>
-                <TopBar>
+                <TopBar style={{display: 'none'}}>
                     <h3>Cumpleaños</h3>
                     <Birthday>
                         <RedeemIcon />
                         <h4>Hoy es el Cumpleaños de dos de tus amigos</h4>
                     </Birthday>
                 </TopBar>              
-                <UserProfile />
-                <Chats/>
+                <SelectUser />
+                {/* <Chats/> */}
                 {/* <Chats /> */}
          </SectionRight> 
         </Container>
@@ -79,7 +80,7 @@ export default Body;
 const Container = styled.div`
     width: 100%;
     display: flex;
-    background-color: blue;
+    background-color: #FFF;
 
     
 `;
@@ -106,6 +107,8 @@ const Carousel = styled(motion.div)`
     margin-top: 20px;
     border-radius: 15px;
     overflow: hidden;
+
+    display: none;
 
     @media (max-width: 1200px) {
         width: 60em;

@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ListItem from './ListItem';
 import ImgStory from '../ImageStore';
+import { db } from '../firebase';
 import Alert from '@mui/material/Alert';
+import onUserSelected from './SelecUser'
+import users from './SelecUser'
+
 
 const Chats = () => {
+     const [users, setUsers] = useState([]);
     return (
         <Container>
             <ChatHeader>
@@ -18,14 +23,24 @@ const Chats = () => {
                     <MoreHorizIcon />
                 </IconChat>
             </ChatHeader>
-            {ImgStory.map((img, index) => (
+            {users.map((user) => (
                 <ListItem
-                    key={index}
+                    key={user.id}
                     avatar
-                    img={img.imgProfile}
-                    name={img.name}
+                    // img={img.imgProfile}
+                    // name={img.name}
                 />    
             ))}
+
+            <ul>
+                {users.map((user) => (
+                <li key={user.id}>
+                    <button onClick={() => onUserSelected(user)}>
+                    {user.displayName}
+                    </button>
+                </li>
+                ))}
+            </ul>
         </Container>
     );
 }

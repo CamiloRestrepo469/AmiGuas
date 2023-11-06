@@ -35,7 +35,7 @@ const Header = () => {
         <Container>
             <HeaderLeft>
                 <img src={amiguas} alt='el logo amiguas' />
-                <InputSearch>
+                <InputSearch style={{display: 'none'}}>
                     <Search />
                     <input type='Search' placeholder='Buscar en AmiGuas' />
                 </InputSearch>
@@ -62,14 +62,14 @@ const Header = () => {
             </HeaderCenter>
             
             <HeaderRight>
-                <IconRight>
+                <IconRight style={{display: 'none'}}>
                     <AppsIcon />
                 </IconRight>
                 <IconRight>
                     <MessageIcon onClick={handleChatIconClick} />
                 </IconRight>
-                    {isChatOpen && <Home />}
-                <IconRight>
+                    {isChatOpen && <Chat />}
+                <IconRight style={{display: 'none'}}>
                     <NotificationsActiveIcon />
                 </IconRight>
                 <Avatar onClick={logout} />
@@ -123,7 +123,7 @@ const InputSearch = styled.div`
     display: flex;
     align-items: center;
     margin-left: 20px;
-    border: 3px solid black;
+    border: 3px solid #fff;
     border-radius: 25px;
     background-color: #cfcfcfc;
     padding: 0 8px;
@@ -141,7 +141,7 @@ const InputSearch = styled.div`
     @media (max-width: 1200px) {
         width: 40px;
         height: 40px;
-        border: 2px solid black;
+        border: 2px solid #fff;
 
         input {
             display: none; 
@@ -151,7 +151,7 @@ const InputSearch = styled.div`
 
 
 const HeaderCenter = styled.div`
-    display: flex;
+    display: none;
     flex: 0.60;
     align-Items: center;
     justify-content: space-around;
@@ -177,7 +177,7 @@ const IconCenter = styled.div`
     }
 
     :hover {
-        border-bottom: 5px solid #3964bf;
+        border-bottom: 5px solid #fff;
         color: #3964bf !important;
         cursor: pointer;
         font-size: 40px;

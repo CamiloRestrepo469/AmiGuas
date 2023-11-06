@@ -84,7 +84,9 @@ const Container = styled.div`
 `;
 
 
-const GroupList = styled.div``;
+const GroupList = styled.div`
+    display: none;
+`;
 
 
 const OptionsList = styled(motion.div)`

@@ -40,64 +40,68 @@ const Search2 = () => {
     }
   };
 
-  const handleSelect = async () => {
-    // Asegúrate de que currentUser esté definido y contenga la información necesaria
-
-      const combinedId =
-       currentUser.uid > user.uid
-        ? currentUser.uid + user.uid
-        : user.uid + currentUser.uid;
+  const handleSelect = async (selectedUserId) => {
+    if (currentUser && user) {
+      const selectedUser = user.find(u => u.userId === selectedUserId);
+      if (selectedUser) {
+        const combinedId =
+          currentUser.uid > selectedUser.userId
+            ? currentUser.uid + selectedUser.userId
+            : selectedUser.userId + currentUser.uid;
         console.log(currentUser);
-        console.log(user);
-  
-      try {
-        const chatDocRef = doc(db, "chats", combinedId);
-        const chatDocSnapshot = await getDoc(chatDocRef);
-        console.log(chatDocRef);
-        console.log(chatDocSnapshot);
+        console.log();
 
-  
-        if (!chatDocSnapshot.exists()) {
-          await setDoc(chatDocRef, { messages: [] });
-          
-          await updateDoc(doc(db, "userChats", currentUser.uid), {
-            [combinedId + ".userInfo"]: {
-              uid: user.uid,
-              displayName: user.displayName,
-              photoURL: user.photoURL,
-            },
-            [combinedId + "date"]: serverTimestamp(),
-          });console.log(chatDocSnapshot);
-  
-          await updateDoc(doc(db, "userChats", user.uid), {
-            [combinedId + ".userInfo"]: {
-              uid: currentUser.uid,
-              displayName: currentUser.displayName,
-              photoURL: currentUser.photoURL,
-            },
-            [combinedId + "date"]: serverTimestamp(),
-          });
+        try {
+          const chatDocRef = doc(db, "messages", combinedId);
+          const chatDocSnapshot = await getDoc(chatDocRef);
+          console.log(chatDocRef);
+          console.log(chatDocSnapshot);
+
+
+          if (!chatDocSnapshot.exists()) {
+            await setDoc(chatDocRef, { messages: [] });
+
+            await updateDoc(doc(db, "userChats", currentUser.uid), {
+              [combinedId + ".userInfo"]: {
+                uid: user.userId,
+                displayName: user.displayName,
+                photoURL: user.photoURL,
+              },
+              [combinedId + "date"]: serverTimestamp(),
+            }); console.log(chatDocSnapshot);
+
+            await updateDoc(doc(db, "userChats", user.userId), {
+              [combinedId + ".userInfo"]: {
+                userId: currentUser.uid,
+                displayName: currentUser.displayName,
+                photoURL: currentUser.photoURL,
+              },
+              [combinedId + "date"]: serverTimestamp(),
+            });
+          }
+        } catch (error) {
+          console.error('Error al seleccionar el usuario:', error);
         }
-      } catch (error) {
-        console.error('Error al seleccionar el usuario:', error);
       }
+    }
 
     setUser(null);
-    setUserName('');
 
   };
-  
-  
+
+
 
 
   return (
     <SearchContainer>
       <SearchForm>
+        <label htmlFor="searchInput" style={{display: 'none'}}>¿A quién buscas?</label>
         <input
           type="text"
-          placeholder={`¿A quién buscas?`}
+          id="searchInput"
+          placeholder="¿A quién buscas?"
           onKeyDown={handleKey}
-          value={userName} // Bind the input value to the state
+          value={userName}
           onChange={(e) => setUserName(e.target.value)}
         />
       </SearchForm>

@@ -112,7 +112,7 @@ const PostContent = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: red;
+    background-color: #fff;
 
     img {
         width: 100%;
@@ -170,7 +170,7 @@ const Footer = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 15px;
-    border-top: 5px solid blue;
+    border-top: 5px solid transparent;
 `;
 
 const IconFooter = styled.div`

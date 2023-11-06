@@ -1,22 +1,27 @@
 import { Avatar } from '@mui/material';
-import React from 'react';
+import React, { useContext } from 'react';
 import { styled } from 'styled-components';
+import { AuthContext } from '../context/AuthContext';
+import { ChatContext } from '../context/ChatContext';
 
 
-const Message2 = () => {
+const Message2 = ({message}) => {
+  const {currentUse} = useContext(AuthContext);
+  const {data} = useContext(ChatContext);
+
+  console.log(message);
     return (
       <Container className="message owner">
-        <MessageInfo>
+        {/* <MessageInfo>
           <Avatar />
           <Span> Justo ahora</Span>
         </MessageInfo>
         <MessageContent>
           <P>hello</P>
-          {/* <Avatar /> */}
-          <img src='https://images.pexels.com/photos/18929375/pexels-photo-18929375/free-photo-of-arte-firmar-festival-arquitectura.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load'
+          <img src={}
           alt='foto'
           />
-        </MessageContent>
+        </MessageContent> */}
       </Container>
     ); 
 }

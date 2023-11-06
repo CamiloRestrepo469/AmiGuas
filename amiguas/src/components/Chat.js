@@ -127,7 +127,7 @@ const ChatForm = styled.div`
     background-color: red;
     border-radius: 10px;
     overflow: hidden; 
-    background: gold;
+    background: #0f0f0f0f;
 
 
     @media (max-width: 1200px) {

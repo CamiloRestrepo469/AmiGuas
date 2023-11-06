@@ -4,16 +4,18 @@ import { Avatar } from '@mui/material';
 import { onSnapshot, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { AuthContext } from '../context/AuthContext';
+import { ChatContext } from '../context/ChatContext';
 
 
 const Chats2 = () => {
   const [chats, setChats] = useState([]);
 
   const { currentUser } = useContext(AuthContext);
+  const { dispatch } = useContext(ChatContext);
 
   useEffect(() => {
     const getChats = () => {
-      const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+      const unsub = onSnapshot(doc(db, "messages", currentUser.uid), (doc) => {
         const data = doc.data();
         if (data) {
           setChats(data);
@@ -30,10 +32,14 @@ const Chats2 = () => {
 
   console.log(Object.entries(chats));
 
+  const handleSelect = (u)=>{
+    dispatch({type:"CHANGE_USER", payload:u})
+  }
+
   return (
     <Container className="Chat2">
       {Object.entries(chats)?.map((chat) => (
-        <UserChat className="UserChat" key={chat[0]}>
+        <UserChat className="UserChat" key={chat[0]}  onClick={()=>handleSelect(chat[1].userInfo)}>
           <Avatar src={chat[1].userInfo.photoURL} />
           <UserChatInfo className="UserChatInfo">
             <Span>{chat[1].userInfo.displayName}</Span>

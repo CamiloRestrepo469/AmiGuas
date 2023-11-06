@@ -1,18 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Messages2 from './Messages2';
 import Input2 from './Input2';
+import { ChatContext } from '../context/ChatContext';
 
 
 
 const Chat2 = () => {
+  const { data } = useContext(ChatContext);
+  console.log(data);
+  console.log(useContext);
+  console.log(ChatContext);
   return (
     <Container className="Chat2">
       <ChatInfo>
-        <Span>Jane</Span>
+        <Span>{data.user?.displayName}</Span>
         <ChatIcons>
           <VideoCallIcon />
           <PersonAddIcon />

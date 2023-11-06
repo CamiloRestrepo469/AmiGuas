@@ -109,7 +109,6 @@ const handleTelefonoChange = (event) => {
         // Otros campos que desees guardar
       });
   
-      // Resto de tu código...
     } catch (error) {
       console.log(error.message);
     }
