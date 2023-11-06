@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, serverTimestamp,collection, query, where, getDocs  } from 'firebase/firestore';
 import { db } from '../firebase';
 import { auth } from '../firebase';
 import Post from './Post';
@@ -32,16 +32,33 @@ const NewPost = () => {
 
     const [userProfile, setUserProfile] = useState(null);
 
-    useEffect(() => {
-        const user = auth.currentUser;
-        if (user) {
-            const displayName = user.displayName;
-            const photoURL = user.photoURL;
-            const phoneNumber = user.phoneNumber;
+    // useEffect(() => {
+    //     const user = auth.currentUser;
+    //     if (user) {
+    //         const displayName = user.displayName;
+    //         const photoURL = user.photoURL;
+    //         const phoneNumber = user.phoneNumber;
 
-            setUserProfile({ displayName, photoURL, phoneNumber });
-        }
-    }, []);
+    //         setUserProfile({ displayName, photoURL, phoneNumber });
+    //     }
+    // }, []);
+
+    useEffect(() => {
+        const getUserProfile = async () => {
+          const user = auth.currentUser;
+          if (user) {
+            const userId = user.uid;
+            const usersRef = collection(db, 'users');
+            const q = query(usersRef, where('userId', '==', userId));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+              setUserProfile(doc.data());
+            });
+          }
+        };
+    
+        getUserProfile();
+      }, []);
 
     function renderUserProfile() {
         if (userProfile) {

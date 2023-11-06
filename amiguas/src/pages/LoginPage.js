@@ -13,12 +13,14 @@ import RegisterComponent from '../components/RegisterComponent';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 const LoginPage = (props) => {
     const { setUser } = props;
-
+    const navigate = useNavigate();
     const [openRegister, setopenRegister] = useState(false);
     const [loginEmail, setloginEmail] = useState('');
     const [loginPassword, setloginPassword] = useState('');
@@ -49,7 +51,7 @@ const LoginPage = (props) => {
                 auth,
                 loginEmail,
                 loginPassword
-            );
+            ); navigate ('/')
             console.log(user);
         } catch (error) {
             console.log(error.message);

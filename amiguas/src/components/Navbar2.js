@@ -1,22 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 import { Avatar } from '@mui/material';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase';
+import { AuthContext } from '../context/AuthContext';
+import  userProfile from './NewPost';
 
 const Navbar2 = () => {
+  const {currentUser} = useContext(AuthContext)
     return (
       <Container className='navbar'>
         <Span className='logo' >Chat</Span>
         <ContainerUser className='user'>
           <HeaderImag>
             <Avatar 
-              src='https://images.pexels.com/photos/15104206/pexels-photo-15104206/free-photo-of-coches-vehiculos-animal-perro.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load'
+              src={currentUser.photoUrl}
               alt='user'
             />
           </HeaderImag>
-            
-            <Span>John</Span>
-            <Button variant="contained">logout</Button>
+            <Span>{currentUser.displayName}</Span>
+            <Button variant="contained" onClick={()=>signOut(auth)}>logout</Button>
         </ContainerUser>
        
       </Container>

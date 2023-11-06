@@ -1,44 +1,49 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Avatar } from '@mui/material';
+import { onSnapshot, doc } from 'firebase/firestore';
+import { db } from '../firebase';
+import { AuthContext } from '../context/AuthContext';
 
 
 const Chats2 = () => {
+  const [chats, setChats] = useState([]);
+
+  const { currentUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    const getChats = () => {
+      const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+        const data = doc.data();
+        if (data) {
+          setChats(data);
+        }
+      });
+      return () => {
+        unsub();
+      };
+    };
+    if (currentUser?.uid) {
+      getChats();
+    }
+  }, [currentUser]);
+
+  console.log(Object.entries(chats));
+
   return (
     <Container className="Chat2">
-      <UserChat className=' UserChat'>
-        <Avatar src='https://images.pexels.com/photos/18802844/pexels-photo-18802844/free-photo-of-mar-oceano-barcos-yates.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load' />
-        <UserChatInfo className='UserChatInfo'>
-          <Span>Junio</Span>
-          <P>Hello</P>
-        </UserChatInfo>
-      </UserChat>
-
-      <UserChat className=' UserChat'>
-        <Avatar src='https://images.pexels.com/photos/18802844/pexels-photo-18802844/free-photo-of-mar-oceano-barcos-yates.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load' />
-        <UserChatInfo className='UserChatInfo'>
-          <Span>Junio</Span>
-          <P>Hello</P>
-        </UserChatInfo>
-      </UserChat>
-
-      <UserChat className=' UserChat'>
-        <Avatar src='https://images.pexels.com/photos/18802844/pexels-photo-18802844/free-photo-of-mar-oceano-barcos-yates.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load' />
-        <UserChatInfo className='UserChatInfo'>
-          <Span>Junio</Span>
-          <P>Hello</P>
-        </UserChatInfo>
-      </UserChat>
-
-      <UserChat className=' UserChat'>
-        <Avatar src='https://images.pexels.com/photos/18802844/pexels-photo-18802844/free-photo-of-mar-oceano-barcos-yates.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load' />
-        <UserChatInfo className='UserChatInfo'>
-          <Span>Junio</Span>
-          <P>Hello</P>
-        </UserChatInfo>
-      </UserChat>
+      {Object.entries(chats)?.map((chat) => (
+        <UserChat className="UserChat" key={chat[0]}>
+          <Avatar src={chat[1].userInfo.photoURL} />
+          <UserChatInfo className="UserChatInfo">
+            <Span>{chat[1].userInfo.displayName}</Span>
+            <P>{chat[1].userInfo.lastMessage?.text}</P>
+          </UserChatInfo>
+        </UserChat>
+      ))}
     </Container>
   );
+  
 }
 
 export default Chats2;

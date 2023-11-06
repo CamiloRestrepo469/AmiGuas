@@ -5,8 +5,13 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SendIcon from '@mui/icons-material/Send';
 import Button from '@mui/material/Button';
 import { auth } from '../firebase';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 import Alert from '@mui/material/Alert';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { uploadFile } from '../firebase';
+import { createUserWithEmailAndPassword, updateProfile, updatePhoneNumber } from 'firebase/auth';
+import { uploadBytesResumable } from 'firebase/storage';
+
 
 const RegisterComponent = ({ setopenRegister }) => {
   const [nombreCompleto, setNombreCompleto] = useState('');
@@ -14,6 +19,8 @@ const RegisterComponent = ({ setopenRegister }) => {
   const [telefono, setTelefono] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [photoURL, setphotoURL] = useState('');
+
   const [nombreCompletoError, setNombreCompletoError] = useState('');
   const [aliasError, setAliasError] = useState('');
   const [telefonoError, setTelefonoError] = useState('');
@@ -89,20 +96,23 @@ const handleTelefonoChange = (event) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-    
-      // Agregar campos personalizados a la información del usuario en Firebase
-      await updateProfile(user, {
-        displayName: nombreCompleto, // Nombre completo
-        photoURL: alias, // Alias
-        phoneNumber: telefono, // Teléfono
+  
+      // Guardar datos del usuario en la colección "users"
+      const usersCollectionRef = collection(db, 'users');
+      await addDoc(usersCollectionRef, {
+        userId: user.uid,
+        displayName: nombreCompleto,
+        alias: alias,
+        phoneNumber: telefono,
+        email: email,
+        photoURL: photoURL,
+        // Otros campos que desees guardar
       });
-      console.log(user);
-    
-      // Resto del código
+  
+      // Resto de tu código...
     } catch (error) {
       console.log(error.message);
     }
-    
   };
 
 
@@ -124,7 +134,6 @@ const handleTelefonoChange = (event) => {
               setNombreCompleto(event.target.value);
               setNombreCompletoError('');
               setFormError('');
-
             }}
             type="text"
             placeholder="Nombre Pepito Perez"
