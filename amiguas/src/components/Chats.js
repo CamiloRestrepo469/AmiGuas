@@ -23,12 +23,12 @@ const Chats = () => {
                     <MoreHorizIcon />
                 </IconChat>
             </ChatHeader>
-            {users.map((user) => (
+            {ImgStory.map((img, index) => (
                 <ListItem
-                    key={user.id}
+                    key={index}
                     avatar
-                    // img={img.imgProfile}
-                    // name={img.name}
+                    img={img.imgProfile}
+                    name={img.name}
                 />    
             ))}
 

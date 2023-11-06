@@ -117,12 +117,12 @@ const Container = styled.div`
 `;
 
 const ChatForm = styled.div`
-    width: 50%;
+    width: 30%;
     box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
     display: flex;
     flex-direction: column;
     bottom: 0;
-    margin: 20px 0px 0 0px;
+    margin: 10px 0px 0 0px;
     align-items: flex-end; 
     background-color: red;
     border-radius: 10px;
@@ -130,8 +130,8 @@ const ChatForm = styled.div`
     background: #0f0f0f0f;
 
 
-    @media (max-width: 1200px) {
-        width: 100%;
+    @media (max-width: 990px) {
+        width: 10px;
         margin: 50% 10px 0% -20%;
     }
 `;
@@ -205,7 +205,7 @@ const MessageText = styled.div`
   flex-direction: column;
   border-radius: 15px;
   overflow-x: hidden;
-  background-color: #f0f0f0;
+  background-color: #e0fbfc;
   font-size: 18px;
   padding: 5px 10px;
   margin: 4px;

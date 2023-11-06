@@ -19,6 +19,7 @@ import PublicIcon from '@mui/icons-material/Public';
 import BloodtypeIcon from '@mui/icons-material/Bloodtype';
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import MessageIcon from '@mui/icons-material/Message';
+import logo from '../assets/img/amiGuas.png';
 
 const Sidebar = () => {
     const [showOptions, setShowOptions] = useState(false);
@@ -43,7 +44,13 @@ const Sidebar = () => {
     return (
         <Container>
             <GroupList>
-                <ListItem avatar
+                <LoginLeft>
+                    <img
+                        src={logo}
+                        alt="logo amigas"
+                    />
+                </LoginLeft>
+                {/* <ListItem avatar
                     img='https://thumbs.dreamstime.com/b/colores-vivos-10349002.jpg'
                     name='Usuario'
                 />
@@ -61,7 +68,7 @@ const Sidebar = () => {
                             <ListItem key={Icon} name={option.name} Icon={option.Icon} />
                         ))}
                     </OptionsList>
-                )}
+                )} */}
             </GroupList>
         </Container>
     )
@@ -83,9 +90,40 @@ const Container = styled.div`
     }
 `;
 
+const LoginLeft = styled.div`
+    width: 100%;
+    height: 100%;
+    min-height: 10vh;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 10px ; 
+
+    img {
+        width: 20em;
+        display: block; 
+        margin: 0 auto; 
+    }
+    
+
+    p {
+        font-size: 20px;
+        font-weight: 400;
+        padding: 15px 10px;
+        
+
+    }
+
+    @media (max-width: 1500px) {
+        width: 50%;
+    }
+
+    @media (max-width: 1200px) {
+        display: none;
+    }
+`;
 
 const GroupList = styled.div`
-    display: none;
 `;
 
 
