@@ -1,24 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import SendIcon from '@mui/icons-material/Send';
 
-const Chat = () => {
+const Chat = ({ user }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-
-  //ultimo mensaje
   const lastMessageRef = useRef(null);
 
-
+  // Manejar cambios en el nuevo mensaje
   const handleNewMessageChange = (event) => {
     setNewMessage(event.target.value);
   };
 
+  // Crear referencia a la colección "messages"
   const messageRef = collection(db, 'messages');
-  const messageQuery = query(messageRef, orderBy('createdAt'));
+  console.log(messageRef);
 
+  // Crear una consulta para mensajes del usuario actual, ordenados por 'createdAt'
+  const userQuery = query(messageRef, where('user', '==', user.displayName), orderBy('createdAt'));
+
+  // Manejar el envío de un nuevo mensaje
   const handleSendMessage = async () => {
     if (newMessage.trim() !== '') {
       try {
@@ -26,16 +29,21 @@ const Chat = () => {
           text: newMessage,
           createdAt: serverTimestamp(),
           user: auth.currentUser.displayName,
+          
         });
-        setNewMessage('');
+        console.log(auth.currentUser.displayName);
+        console.log(newMessage);
+        console.log(newDocRef);
+        setNewMessage(''); // Limpiar el campo de nuevo mensaje
       } catch (error) {
         console.error('Error al enviar el mensaje:', error);
       }
     }
   };
 
+  // Escuchar cambios en la consulta de mensajes
   useEffect(() => {
-    const unsubscribe = onSnapshot(messageQuery, (querySnapshot) => {
+    const unsubscribe = onSnapshot(userQuery, (querySnapshot) => {
       const updatedMessages = [];
       querySnapshot.forEach((doc) => {
         updatedMessages.push({ id: doc.id, ...doc.data() });
@@ -43,15 +51,15 @@ const Chat = () => {
       setMessages(updatedMessages);
     });
 
-    return unsubscribe;
-  }, []);
-  //este efecto me llama el ultimo mensaje siempre que abra la aplicacion
+    return unsubscribe; // Desuscribirse cuando el componente se desmonte
+  }, []); // El segundo argumento vacío asegura que el efecto se ejecute solo una vez
+
+  // Hacer scroll hacia el último mensaje cuando cambia la lista de mensajes
   useEffect(() => {
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages]);
-  
 
   return (
     <Container>
@@ -59,15 +67,15 @@ const Chat = () => {
         <div style={{ height: '300px', overflowY: 'scroll' }}>
           {messages.map((message, index) => (
             <Message
-            key={index}
-            ref={index === messages.length - 1 ? lastMessageRef : null}
-            className={message.sender === 'user' ? 'user-message' : 'other-message'}
-            isUserMessage={message.user === auth.currentUser.displayName}>
+              key={index}
+              ref={index === messages.length - 1 ? lastMessageRef : null}
+              className={message.sender === 'user' ? 'user-message' : 'other-message'}
+              isUserMessage={message.user === auth.currentUser.displayName}
+            >
               <MessageUser>{message.user}</MessageUser>
               <MessageText>{message.text}</MessageText>
               <MessageTime>
-                {message.createdAt &&
-                  new Date(message.createdAt.seconds * 1000).toLocaleTimeString('es')}
+                {message.createdAt && new Date(message.createdAt.seconds * 1000).toLocaleTimeString('es')}
               </MessageTime>
             </Message>
           ))}
@@ -79,7 +87,9 @@ const Chat = () => {
             value={newMessage}
             onChange={handleNewMessageChange}
           />
-          <button type='submit' onClick={handleSendMessage}><SendIcon /></button>
+          <button type="submit" onClick={handleSendMessage}>
+            <SendIcon />
+          </button>
         </FormComponent>
       </ChatForm>
     </Container>
@@ -90,93 +100,87 @@ export default Chat;
 
 
 const Container = styled.div`
-    position: absolute;
-    width: 100vw;
-    background-color: rgba(255, 255, 255, 0.7);
-    height: 100vh;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: right;
-    white-space: nowrap;
-    overflow: hidden;
-    margin-bottom: 15px;
-    padding: 27% 25px 0 60%;
- 
+  position: absolute;
+  width: 100vw;
+  background-color: rgba(255, 255, 255, 0.7);
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-bottom: 15px;
+  padding: 27% 25px 0 60%;
 
-    @media (max-width: 1200) {
-      background-color: blue;
+  @media (max-width: 1200) {
+    background-color: blue;
+  }
 
-    }
-
-    @media (max-width: 900) {
-      background-color: red;
-
-    }
+  @media (max-width: 900) {
+    background-color: red;
+  }
 `;
 
 const ChatForm = styled.div`
-    width: 30%;
-    box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
-    display: flex;
-    flex-direction: column;
-    bottom: 0;
-    margin: 10px 0px 0 0px;
-    align-items: flex-end; 
-    background-color: red;
-    border-radius: 10px;
-    overflow: hidden; 
-    background: #0f0f0f0f;
+  width: 30%;
+  box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
+  display: flex;
+  flex-direction: column;
+  bottom: 0;
+  margin: 10px 0px 0 0px;
+  align-items: flex-end;
+  background-color: red;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0f0f0f0f;
 
-
-    @media (max-width: 990px) {
-        width: 10px;
-        margin: 50% 10px 0% -20%;
-    }
+  @media (max-width: 990px) {
+    width: 10px;
+    margin: 50% 10px 0% -20%;
+  }
 `;
-
 
 const FormComponent = styled.div`
+  width: 100%;
+  display: flex;
+  bottom: 0;
+  flex-direction: row;
+  align-items: left;
+  padding: 1px 4px 5px 5px;
+  margin: 20px 0px 0 0px;
+  align-items: flex-end;
+  background-color: #f0f0f0;
+  overflow: hidden;
+  border: none;
+
+  input {
+    display: flex;
+    flex-direction: column;
+    margin: 1px;
     width: 100%;
-    display: flex; 
-    bottom: 0;
-    flex-direction: row;
-    align-items: left;
-    padding: 1px 4px 5px 5px;
-    margin: 20px 0px 0 0px;
-    align-items: flex-end; 
-    background-color: #f0f0f0;
-    overflow: hidden;
-    border: none; 
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid #f0f0f0;
+    outline: none;
+    font-size: 14px;
 
-    input {
-      display: flex; 
-      flex-direction: column;
-        margin: 1px;
-        width: 100%;
-        padding: 8px;
-        border-radius: 12px;
-        border: 1px solid  #f0f0f0;
-        outline: none;
-        font-size: 14px;
-
-        &:hover {
-            background: rgba(0, 0, 0, 0.1);    
-        }
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
     }
+  }
 
-    .MuiSvgIcon-root {
-        margin: 10px;
-        font-size: 10px;
-        color: red;
+  .MuiSvgIcon-root {
+    margin: 10px;
+    font-size: 10px;
+    color: red;
 
-        &:hover {
-          background: rgba(0, 0, 0, 0.1);    
-      }
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
     }
+  }
 `;
-
 
 const Message = styled.div`
   display: flex;
@@ -209,11 +213,9 @@ const MessageText = styled.div`
   font-size: 18px;
   padding: 5px 10px;
   margin: 4px;
-  word-wrap: break-word; 
-  white-space: pre-wrap; 
+  word-wrap: break-word;
+  white-space: pre-wrap;
 `;
-
-
 
 const MessageUser = styled.div`
   box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
@@ -237,5 +239,5 @@ const MessageTime = styled.div`
   overflow-x: hidden;
   background-color: #f0f0f0;
   font-size: 8px;
-  margin:  1px 15px 15px 5px;
+  margin: 1px 15px 15px 5px;
 `;

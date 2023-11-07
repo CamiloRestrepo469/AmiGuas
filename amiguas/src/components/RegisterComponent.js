@@ -7,10 +7,7 @@ import Button from '@mui/material/Button';
 import { auth } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import Alert from '@mui/material/Alert';
-import { uploadFile } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile, updatePhoneNumber } from 'firebase/auth';
-import { uploadBytesResumable } from 'firebase/storage';
 
 
 const RegisterComponent = ({ setopenRegister }) => {

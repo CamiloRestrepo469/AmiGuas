@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
-import Stack from '@mui/material/Stack';
 import { styled } from "styled-components";
 import logo from '../assets/img/amiGuas.png';
-import { Avatar } from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LockIcon from '@mui/icons-material/Lock';
 import RegisterComponent from '../components/RegisterComponent';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase';
+
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -28,31 +27,45 @@ const LoginPage = (props) => {
     const [emptyFieldsError, setEmptyFieldsError] = useState(null); // Nuevo estado
 
     const signInWithGoogle = async () => {
-        try{
-        const result = await signInWithPopup(auth, provider);
-        cookies.set('auth-token', result.user.refreshToken);
-        setUser(true);
-        console.log(result);
+        try {
+            const result = await signInWithPopup(auth, provider);
+            cookies.set('auth-token', result.user.refreshToken);
+            
+            // Guardar información del usuario en la base de datos
+            const usersCollectionRef = collection(db, 'users');
+            await addDoc(usersCollectionRef, {
+                userId: result.user.uid,
+                displayName: result.user.displayName,
+                alias: '', // Puedes agregar más campos si es necesario
+                phoneNumber: '', // Puedes agregar más campos si es necesario
+                email: result.user.email,
+                photoURL: result.user.photoURL,
+            });
+
+            setUser(result.user); // Actualizar el estado del usuario
+            console.log(result);
         } catch (error) {
             console.error(error);
         }
-
     };
 
-    const loginFuntion = async () => {
-        
+    const loginFunction = async () => {
         try {
             if (!loginEmail.trim() || !loginPassword.trim()) {
                 setEmptyFieldsError('Ambos campos son obligatorios');
                 return;
             }
 
-            const user = await signInWithEmailAndPassword(
+            const userCredential = await signInWithEmailAndPassword(
                 auth,
                 loginEmail,
                 loginPassword
-            ); navigate ('/')
-            console.log(user);
+            );
+            navigate('/');
+
+            setUser(userCredential.user); // Actualizar el estado del usuario
+
+            console.log(userCredential.user);
         } catch (error) {
             console.log(error.message);
             setLoginError(error.message);
@@ -84,7 +97,7 @@ const LoginPage = (props) => {
                         placeholder="Contraseña"
                     />
                     <BtnSubmit>
-                        <Button onClick={loginFuntion} variant="contained" endIcon={<SendIcon />}>
+                        <Button onClick={loginFunction} variant="contained" endIcon={<SendIcon />}>
                             Inicio Sesion
                         </Button>
                     </BtnSubmit>

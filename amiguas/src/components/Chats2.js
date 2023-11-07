@@ -38,12 +38,12 @@ const Chats2 = () => {
 
   return (
     <Container className="Chat2">
-      {Object.entries(chats)?.map((chat) => (
+      {Object.entries(chats)?.sort((a,b)=>b[1].data - a[1].date).map((chat) => (
         <UserChat className="UserChat" key={chat[0]}  onClick={()=>handleSelect(chat[1].userInfo)}>
           <Avatar src={chat[1].userInfo.photoURL} />
           <UserChatInfo className="UserChatInfo">
             <Span>{chat[1].userInfo.displayName}</Span>
-            <P>{chat[1].userInfo.lastMessage?.text}</P>
+            <P>{chat[1].lastMessage?.text}</P>
           </UserChatInfo>
         </UserChat>
       ))}

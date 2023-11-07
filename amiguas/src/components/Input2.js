@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import ImageIcon from '@mui/icons-material/Image';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
-import { Timestamp, arrayUnion, updateDoc, doc, } from 'firebase/firestore';
+import { Timestamp, arrayUnion, updateDoc, doc, serverTimestamp, } from 'firebase/firestore';
 import { db, store } from '../firebase';
 import { v4 as uuid } from 'uuid';
 import { getDownloadURL, uploadBytesResumable, getStorage, ref } from 'firebase/storage'; // Importa 'ref' desde Firebase Storage
@@ -51,6 +51,22 @@ const Input2 = () => {
         }),
       });
     }
+
+    await updateDoc (doc(db,"useChats", currentUser.uid),{
+      [data.chatId + ".lastMessage"]:{
+        text
+      },
+      [data.chatId+"date"]: serverTimestamp(),
+    });
+    await updateDoc (doc(db,"useChats", data.user.uid),{
+      [data.chatId + ".lastMessage"]:{
+        text
+      },
+      [data.chatId+"date"]: serverTimestamp(),
+    });
+
+    setText("");
+    setImg(null);
   };
 
   return (

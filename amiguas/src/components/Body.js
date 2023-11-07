@@ -142,10 +142,15 @@ const SectionRight = styled.div`
 
     @media (max-width: 1200px) {
         flex:0.30;
+        position: sticky; 
+        background-color: #cfcfcf;
+        right: 0;
+        height: 92vh;
+        overflow-x: scroll; 
     }
 
     @media (max-width: 990px) {
-        display: none;
+        flex:0.29;
     }
 `;
 

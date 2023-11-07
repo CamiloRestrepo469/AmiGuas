@@ -16,16 +16,14 @@ export const ChatContextProvider = ({ children }) => {
         switch (action.type) {
             case "CHANGE_USER":
                 console.log(ChatContext);
-                console.log("CHANGE_USER");
                 console.log(action);
                 console.log(currentUser);
                 return {
                     user: action.payload,
                     chatId:
                         currentUser.uid > action.payload.uid
-                            ? currentUser.uid + action.payload.uid
-                            : action.payload.uid + currentUser.uid,
-
+                        ? currentUser.uid + action.payload.uid
+                        : action.payload.uid + currentUser.uid,
                 };
 
             default:

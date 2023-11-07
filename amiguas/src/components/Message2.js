@@ -1,29 +1,42 @@
 import { Avatar } from '@mui/material';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { styled } from 'styled-components';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
 
 
-const Message2 = ({message}) => {
-  const {currentUse} = useContext(AuthContext);
-  const {data} = useContext(ChatContext);
+const Message2 = ({ message }) => {
+  const { currentUser } = useContext(AuthContext);
+  const { data } = useContext(ChatContext);
+
+  const ref = useRef();
+
+  useEffect(()=>{
+    ref.current?.scrollIntoView({ behavor: "smooth"});
+  },[message]);
 
   console.log(message);
-    return (
-      <Container className="message owner">
-        {/* <MessageInfo>
-          <Avatar />
-          <Span> Justo ahora</Span>
-        </MessageInfo>
-        <MessageContent>
-          <P>hello</P>
-          <img src={}
+  return (
+    <Container ref={ref}
+     className={message.senderId === currentUser.uid ? 'owner' : ''}>
+      <MessageInfo>
+        <Avatar
+        src={message.senderId === currentUser.uid 
+          ? currentUser.photoURL 
+          : data.user.photoURL
+        }
+        />
+        <Span>Justo ahora</Span>
+      </MessageInfo>
+      <MessageContent>
+        <P>{message.text}</P>
+       {message.img && <img 
+          src={message.img}
           alt='foto'
-          />
-        </MessageContent> */}
-      </Container>
-    ); 
+        />}
+      </MessageContent>
+    </Container>
+  );
 }
 
 export default Message2;

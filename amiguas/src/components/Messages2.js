@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ChatContext } from '../context/ChatContext';
-import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { collection, query, orderBy, onSnapshot, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 import Message2 from './Message2'
 
@@ -10,20 +10,8 @@ const Messages2 = () => {
   const { data } = useContext(ChatContext);
 
   useEffect(() => {
-    const messagesCollectionRef = collection(db, 'messages');
-
-    // Crea una consulta para obtener los mensajes ordenados por createdAt
-    const messagesQuery = query(
-      messagesCollectionRef,
-      orderBy('createdAt')
-    );
-
-    const unSub = onSnapshot(messagesQuery, (snapshot) => {
-      const messageList = [];
-      snapshot.forEach((doc) => {
-        messageList.push(doc.data());
-      });
-      setMessages(messageList);
+    const unSub = onSnapshot(doc(db,"chats",data.chatId), (doc)=>{
+      doc.exists() && setMessages(doc.data().messages);
     });
 
     return () => {
