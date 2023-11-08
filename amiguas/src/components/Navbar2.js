@@ -2,32 +2,36 @@ import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import Button from '@mui/material/Button';
 import { Avatar } from '@mui/material';
-import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
+import { signOut } from 'firebase/auth'; // Asegúrate de importar esto de manera adecuada
 import { AuthContext } from '../context/AuthContext';
-import  userProfile from './NewPost';
 
 const Navbar2 = () => {
-  const {currentUser} = useContext(AuthContext)
-    return (
-      <Container className='navbar'>
-        <Span className='logo' >Chat</Span>
+  const { currentUser } = useContext(AuthContext);
+
+  return (
+    <Container className='navbar'>
+      <Span className='logo'>Chat</Span>
+      {currentUser && ( // Asegúrate de verificar si currentUser está definido antes de acceder a sus propiedades
         <ContainerUser className='user'>
           <HeaderImag>
-            <Avatar 
-              src={currentUser.photoUrl}
+            <Avatar
+              src={currentUser.photoURL} // Usar photoURL en lugar de photoUrl
               alt='user'
             />
           </HeaderImag>
-            <Span>{currentUser.displayName}</Span>
-            <Button variant="contained" onClick={()=>signOut(auth)}>logout</Button>
+          <Span>{currentUser.displayName}</Span>
+          <Button variant="contained" onClick={() => signOut(auth)}>Logout</Button>
         </ContainerUser>
-       
-      </Container>
-    ); 
-}
+      )}
+    </Container>
+  );
+};
 
 export default Navbar2;
+
+
+
 
 const Container = styled.div`
   border: 1px solid blue;
@@ -123,4 +127,8 @@ const HeaderImag = styled.div`
       @content;
     }
 `;
+
+
+
+
 

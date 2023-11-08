@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import Chat from './Chat';
 import { styled } from 'styled-components';
 import { Avatar, Button } from '@mui/material';
+import { User } from 'firebase/auth';
+import { AuthContext } from '../context/AuthContext';
 
 function SelectUser() {
+  const { currentUser } = useContext(AuthContext);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [users, setUsers] = useState([]);
@@ -13,9 +16,6 @@ function SelectUser() {
   const onUserSelected = (user) => {
     setSelectedUser(user);
     setIsChatOpen(true);
-    console.log(selectedUser);
-    console.log(user);
-    console.log(setSelectedUser);
   };
 
   useEffect(() => {
@@ -28,7 +28,6 @@ function SelectUser() {
         usersData.push({ id: doc.id, ...userData });
       });
       setUsers(usersData);
-      console.log(usersData);
     };
 
     fetchUsers();
@@ -38,19 +37,23 @@ function SelectUser() {
     <Container>
       <Span>Seleccionar usuario</Span>
       <UserChat>
-        {users.map((user) => (
-          <UserItem key={user.id}>
-            <UserButton>
-              <Button onClick={() => onUserSelected(user)}>
-                <Avatar src={user.photoURL} />
-                <UserText>{user.displayName}</UserText>
-              </Button>
-            </UserButton>
-          </UserItem>
-        ))}
+        {users
+          .filter((user) => user.uid === currentUser.uid) // Filtra solo al usuario logueado
+          .map((user) => (
+            <UserItem key={user.id}>
+              <UserButton>
+                <Button onClick={() => onUserSelected(user)}>
+                  <Avatar src={user.photoURL} />
+                  <UserText>{user.displayName}</UserText>
+                </Button>
+              </UserButton>
+            </UserItem>
+          ))
+        }
       </UserChat>
-      {isChatOpen && selectedUser && <Chat user={selectedUser} />}
+      {isChatOpen && <Chat user={selectedUser} />}
     </Container>
+
   );
 }
 

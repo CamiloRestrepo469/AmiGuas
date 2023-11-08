@@ -7,7 +7,7 @@ import { AuthContext } from '../context/AuthContext';
 
 const Search2 = () => {
   const [userName, setUserName] = useState('');
-  const [user, setUser] = useState(null);
+  const [users, setUsers] = useState([]); // Cambiar 'user' a 'users' para almacenar múltiples usuarios
   const [error, setError] = useState(false);
   const { currentUser } = useContext(AuthContext);
 
@@ -21,17 +21,16 @@ const Search2 = () => {
     try {
       const querySnapshot = await getDocs(q);
       console.log(querySnapshot);
-      const users = [];
-      querySnapshot.forEach((doc) => {
-        users.push(doc.data()); // Agrega el documento completo
+      const foundUsers = [];
+      querySnapshot.forEach((userDoc) => {
+        foundUsers.push(userDoc.data()); // Agregar los datos del documento a la lista de usuarios
       });
-      console.log(users);
-      setUser(users); // Establece el estado con los documentos completos
+      console.log(foundUsers);
+      setUsers(foundUsers); // Establecer el estado con la lista de usuarios encontrados
     } catch (error) {
       setError(true);
       console.error(error);
     }
-
   };
 
   const handleKey = (e) => {
@@ -40,62 +39,52 @@ const Search2 = () => {
     }
   };
 
-  const handleSelect = async (selectedUserId) => {
-    if (currentUser && user) {
-      const selectedUser = user.find(u => u.userId === selectedUserId);
-      if (selectedUser) {
-        const combinedId =
-          currentUser.uid > selectedUser.userId
-            ? currentUser.uid + selectedUser.userId
-            : selectedUser.userId + currentUser.uid;
-        console.log(currentUser);
-        console.log();
+  const handleSelect = async (selectedUser) => { // Cambiar 'selectedUserId' a 'selectedUser'
+    if (currentUser && selectedUser) { // Cambiar 'user' a 'selectedUser'
+      const combinedId =
+        currentUser.uid > selectedUser.userId
+          ? currentUser.uid + selectedUser.userId
+          : selectedUser.userId + currentUser.uid;
 
-        try {
-          const chatDocRef = doc(db, "messages", combinedId);
-          const chatDocSnapshot = await getDoc(chatDocRef);
-          console.log(chatDocRef);
-          console.log(chatDocSnapshot);
+      try {
+        const chatDocRef = doc(db, "messages", combinedId);
+        const chatDocSnapshot = await getDoc(chatDocRef);
+        console.log(chatDocRef);
+        console.log(chatDocSnapshot);
 
+        if (!chatDocSnapshot.exists()) {
+          await setDoc(chatDocRef, { messages: [] });
 
-          if (!chatDocSnapshot.exists()) {
-            await setDoc(chatDocRef, { messages: [] });
+          await updateDoc(doc(db, "userChats", currentUser.uid), {
+            [combinedId + ".userInfo"]: {
+              uid: selectedUser.userId, // Cambiar 'user.userId' a 'selectedUser.userId'
+              displayName: selectedUser.displayName, // Cambiar 'user.displayName' a 'selectedUser.displayName'
+              photoURL: selectedUser.photoURL, // Cambiar 'user.photoURL' a 'selectedUser.photoURL'
+            },
+            [combinedId + "date"]: serverTimestamp(),
+          });
 
-            await updateDoc(doc(db, "userChats", currentUser.uid), {
-              [combinedId + ".userInfo"]: {
-                uid: user.userId,
-                displayName: user.displayName,
-                photoURL: user.photoURL,
-              },
-              [combinedId + "date"]: serverTimestamp(),
-            }); console.log(chatDocSnapshot);
-
-            await updateDoc(doc(db, "userChats", user.userId), {
-              [combinedId + ".userInfo"]: {
-                userId: currentUser.uid,
-                displayName: currentUser.displayName,
-                photoURL: currentUser.photoURL,
-              },
-              [combinedId + "date"]: serverTimestamp(),
-            });
-          }
-        } catch (error) {
-          console.error('Error al seleccionar el usuario:', error);
+          await updateDoc(doc(db, "userChats", selectedUser.userId), {
+            [combinedId + ".userInfo"]: {
+              userId: currentUser.uid,
+              displayName: currentUser.displayName,
+              photoURL: currentUser.photoURL,
+            },
+            [combinedId + "date"]: serverTimestamp(),
+          });
         }
+      } catch (error) {
+        console.error('Error al seleccionar el usuario:', error);
       }
     }
 
-    setUser(null);
-
+    setUsers([]); // Limpiar la lista de usuarios después de seleccionar uno
   };
-
-
-
 
   return (
     <SearchContainer>
       <SearchForm>
-        <label htmlFor="searchInput" style={{display: 'none'}}>¿A quién buscas?</label>
+        <label htmlFor="searchInput" style={{ display: 'none' }}>¿A quién buscas?</label>
         <input
           type="text"
           id="searchInput"
@@ -105,10 +94,10 @@ const Search2 = () => {
           onChange={(e) => setUserName(e.target.value)}
         />
       </SearchForm>
-      {error && <Span>Usuario No existe</Span>}
-      {user && (
-        user.map((user, index) => (
-          <UserChat key={index} onClick={() => handleSelect(user.userId)}>
+      {error && <Span>Usuario no existe</Span>}
+      {users.length > 0 && (
+        users.map((user, index) => (
+          <UserChat key={index} onClick={() => handleSelect(user)}>
             <Avatar src={user.photoURL || ''} />
             <UserChatInfo>
               <Span>{user.displayName}</Span>
@@ -116,17 +105,15 @@ const Search2 = () => {
           </UserChat>
         ))
       )}
-
-
-
-      {user && user.length === 0 && (
+      {/* {users.length === 0 && (
         <Span>No se encontraron usuarios</Span>
-      )}
+      )} */}
     </SearchContainer>
   );
 };
 
 export default Search2;
+
 
 const SearchContainer = styled.div`
   border-right: 1px solid blue;

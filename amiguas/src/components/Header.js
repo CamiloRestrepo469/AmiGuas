@@ -15,6 +15,7 @@ import { Avatar } from '@mui/material';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
 import Chat from './Chat';
+import { db } from '../firebase';
 import Home from '../pages/Home';
 
 
@@ -22,8 +23,11 @@ import Home from '../pages/Home';
 const Header = () => {
 
     const [isChatOpen, setIsChatOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
 
-    const handleChatIconClick = () => {
+
+    const handleChatIconClick = (user) => {
+        setSelectedUser(user);
         setIsChatOpen(true);
     };
 
@@ -68,7 +72,7 @@ const Header = () => {
                 <IconRight>
                     <MessageIcon onClick={handleChatIconClick} />
                 </IconRight>
-                    {isChatOpen && <Chat />}
+                    {isChatOpen && <Home />}
                 <IconRight style={{display: 'none'}}>
                     <NotificationsActiveIcon />
                 </IconRight>

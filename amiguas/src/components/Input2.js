@@ -6,10 +6,20 @@ import Stack from '@mui/material/Stack';
 import ImageIcon from '@mui/icons-material/Image';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
-import { Timestamp, arrayUnion, updateDoc, doc, serverTimestamp, } from 'firebase/firestore';
+import {
+  Timestamp,
+  arrayUnion,
+  updateDoc,
+  doc,
+  serverTimestamp,
+} from 'firebase/firestore';
 import { db, store } from '../firebase';
 import { v4 as uuid } from 'uuid';
-import { getDownloadURL, uploadBytesResumable, getStorage, ref } from 'firebase/storage'; // Importa 'ref' desde Firebase Storage
+import {
+  getDownloadURL,
+  uploadBytesResumable,
+  ref,
+} from 'firebase/storage'; // Importa 'ref' desde Firebase Storage
 
 const Input2 = () => {
   const [text, setText] = useState("");
@@ -20,10 +30,14 @@ const Input2 = () => {
 
   const handleSend = async () => {
     if (img) {
-      const storageRef = ref(store, uuid()); // Inicializa 'storageRef' correctamente
-      const uploadTask = uploadBytesResumable(storageRef, img); // Inicializa 'uploadTask' correctamente
+      const storageRef = ref(store, uuid());
+      const uploadTask = uploadBytesResumable(storageRef, img);
 
       uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Manejo de progreso de carga
+        },
         (error) => {
           // Manejo de errores
         },
@@ -52,17 +66,18 @@ const Input2 = () => {
       });
     }
 
-    await updateDoc (doc(db,"useChats", currentUser.uid),{
-      [data.chatId + ".lastMessage"]:{
+    await updateDoc(doc(db, "userChats", currentUser.uid), {
+      [data.chatId + ".lastMessage"]: {
         text
       },
-      [data.chatId+"date"]: serverTimestamp(),
+      [data.chatId + "date"]: serverTimestamp(),
     });
-    await updateDoc (doc(db,"useChats", data.user.uid),{
-      [data.chatId + ".lastMessage"]:{
+
+    await updateDoc(doc(db, "userChats", data.user.uid), {
+      [data.chatId + ".lastMessage"]: {
         text
       },
-      [data.chatId+"date"]: serverTimestamp(),
+      [data.chatId + "date"]: serverTimestamp(),
     });
 
     setText("");
@@ -72,21 +87,21 @@ const Input2 = () => {
   return (
     <Container className="Input2">
       <input
-        type='text'
-        placeholder='Mensaje nuevo...'
-        value={text} // Usar 'value' en lugar de 'onChange' para mostrar el texto
+        type="text"
+        placeholder="Mensaje nuevo..."
+        value={text}
         onChange={(e) => setText(e.target.value)}
       />
       <IconInput>
         <Stack direction="row" spacing={3}>
           <AttachFileIcon />
           <input
-            type='file'
+            type="file"
             style={{ display: 'none' }}
-            id='file'
+            id="file"
             onChange={(e) => setImg(e.target.files[0])}
           />
-          <label htmlFor='file'>
+          <label htmlFor="file">
             <ImageIcon />
           </label>
           <SendIcon onClick={handleSend} />
@@ -97,6 +112,7 @@ const Input2 = () => {
 }
 
 export default Input2;
+
 
 const Container = styled.div`
   color: blue;

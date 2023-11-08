@@ -68,8 +68,6 @@ const Body = () => {
                     </Birthday>
                 </TopBar>              
                 <SelectUser />
-                {/* <Chats/> */}
-                {/* <Chats /> */}
          </SectionRight> 
         </Container>
     )

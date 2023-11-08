@@ -28,13 +28,15 @@ const Chat = ({ user }) => {
         const newDocRef = await addDoc(messageRef, {
           text: newMessage,
           createdAt: serverTimestamp(),
-          user: auth.currentUser.displayName,
-          
+          user: user.displayName,
+
+
         });
         console.log(auth.currentUser.displayName);
         console.log(newMessage);
         console.log(newDocRef);
-        setNewMessage(''); // Limpiar el campo de nuevo mensaje
+        setNewMessage('');
+        return newDocRef; // Limpiar el campo de nuevo mensaje
       } catch (error) {
         console.error('Error al enviar el mensaje:', error);
       }
@@ -56,10 +58,14 @@ const Chat = ({ user }) => {
 
   // Hacer scroll hacia el último mensaje cuando cambia la lista de mensajes
   useEffect(() => {
+    console.log('Mensajes:', messages); 
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
+        console.log(messages);
+
     }
   }, [messages]);
+  console.log('al final',messages);
 
   return (
     <Container>
@@ -69,16 +75,17 @@ const Chat = ({ user }) => {
             <Message
               key={index}
               ref={index === messages.length - 1 ? lastMessageRef : null}
-              className={message.sender === 'user' ? 'user-message' : 'other-message'}
-              isUserMessage={message.user === auth.currentUser.displayName}
+              className={message.user === auth.currentUser.displayName ? 'other-message' :  'user-message'}  // Aquí se decide si es un mensaje del usuario actual o de otro usuario
             >
               <MessageUser>{message.user}</MessageUser>
+              
               <MessageText>{message.text}</MessageText>
               <MessageTime>
                 {message.createdAt && new Date(message.createdAt.seconds * 1000).toLocaleTimeString('es')}
               </MessageTime>
             </Message>
           ))}
+
         </div>
         <FormComponent>
           <input
@@ -102,8 +109,9 @@ export default Chat;
 const Container = styled.div`
   position: absolute;
   width: 100vw;
-  background-color: rgba(255, 255, 255, 0.7);
-  height: 100vh;
+  // background-color: rgba(255, 255, 255, 0.7);
+  background-color: red;
+  height: auto;
   top: 0;
   left: 0;
   display: flex;
@@ -111,8 +119,8 @@ const Container = styled.div`
   justify-content: right;
   white-space: nowrap;
   overflow: hidden;
-  margin-bottom: 15px;
-  padding: 27% 25px 0 60%;
+  margin: 40rem 0 0 -80rem;
+  padding: 2% 5px 0 60%;
 
   @media (max-width: 1200) {
     background-color: blue;
@@ -124,21 +132,20 @@ const Container = styled.div`
 `;
 
 const ChatForm = styled.div`
-  width: 30%;
+  width: 28%;
   box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
   display: flex;
   flex-direction: column;
   bottom: 0;
-  margin: 10px 0px 0 0px;
+  margin: 0px 0px 0 50px;
   align-items: flex-end;
-  background-color: red;
+  background-color: green;
   border-radius: 10px;
   overflow: hidden;
-  background: #0f0f0f0f;
 
   @media (max-width: 990px) {
-    width: 10px;
-    margin: 50% 10px 0% -20%;
+    width: 25%;
+    margin: 50% 1px 0% 20%;
   }
 `;
 
@@ -151,7 +158,7 @@ const FormComponent = styled.div`
   padding: 1px 4px 5px 5px;
   margin: 20px 0px 0 0px;
   align-items: flex-end;
-  background-color: #f0f0f0;
+  background-color: blue;
   overflow: hidden;
   border: none;
 
@@ -190,13 +197,13 @@ const Message = styled.div`
 
   .user-message {
     background-color: #3498DB;
-    color: white;
+    color: red;
     align-self: flex-end;
   }
 
   .other-message {
     background-color: #e0e0e0;
-    color: #333;
+    color: blue;
     align-self: flex-start;
   }
 `;
@@ -209,7 +216,7 @@ const MessageText = styled.div`
   flex-direction: column;
   border-radius: 15px;
   overflow-x: hidden;
-  background-color: #e0fbfc;
+  background-color: red;
   font-size: 18px;
   padding: 5px 10px;
   margin: 4px;

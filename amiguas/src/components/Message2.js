@@ -4,42 +4,42 @@ import { styled } from 'styled-components';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
 
-
 const Message2 = ({ message }) => {
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
   const ref = useRef();
 
-  useEffect(()=>{
-    ref.current?.scrollIntoView({ behavor: "smooth"});
-  },[message]);
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: "smooth" }); // Corregir "behavor" a "behavior"
+  }, [message]);
 
   console.log(message);
   return (
-    <Container ref={ref}
-     className={message.senderId === currentUser.uid ? 'owner' : ''}>
+    <Container
+      ref={ref}
+      className={message.senderId === currentUser.uid ? 'owner' : ''}
+    >
       <MessageInfo>
         <Avatar
-        src={message.senderId === currentUser.uid 
-          ? currentUser.photoURL 
-          : data.user.photoURL
-        }
+          src={
+            message.senderId === currentUser.uid
+              ? currentUser.photoURL
+              : data.user.photoURL
+          }
         />
         <Span>Justo ahora</Span>
       </MessageInfo>
       <MessageContent>
         <P>{message.text}</P>
-       {message.img && <img 
-          src={message.img}
-          alt='foto'
-        />}
+        {message.img && <img src={message.img} alt="foto" />}
       </MessageContent>
     </Container>
   );
-}
+};
 
 export default Message2;
+
 
 
 const Container = styled.div`

@@ -7,13 +7,9 @@ import Messages2 from './Messages2';
 import Input2 from './Input2';
 import { ChatContext } from '../context/ChatContext';
 
-
-
 const Chat2 = () => {
   const { data } = useContext(ChatContext);
-  console.log(data);
-  console.log(useContext);
-  console.log(ChatContext);
+
   return (
     <Container className="Chat2">
       <ChatInfo>
@@ -31,6 +27,7 @@ const Chat2 = () => {
 }
 
 export default Chat2;
+
 
 const Container = styled.div`
   flex: 2;

@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Avatar } from '@mui/material';
-import { onSnapshot, doc } from 'firebase/firestore';
+import { onSnapshot, collection, query, orderBy, where } from 'firebase/firestore';
 import { db } from '../firebase';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
-
 
 const Chats2 = () => {
   const [chats, setChats] = useState([]);
@@ -14,45 +13,59 @@ const Chats2 = () => {
   const { dispatch } = useContext(ChatContext);
 
   useEffect(() => {
-    const getChats = () => {
-      const unsub = onSnapshot(doc(db, "messages", currentUser.uid), (doc) => {
-        const data = doc.data();
-        if (data) {
-          setChats(data);
-        }
+    const getChats = async () => {
+      const chatQuery = query(
+        collection(db, 'chats'),
+        where('participants', 'array-contains', currentUser.uid),
+        orderBy('lastMessage.timestamp', 'desc')
+      );
+
+      const unsubscribe = onSnapshot(chatQuery, (querySnapshot) => {
+        const chatData = [];
+        querySnapshot.forEach((doc) => {
+          chatData.push({ id: doc.id, ...doc.data() });
+        });
+        setChats(chatData);
       });
+
       return () => {
-        unsub();
+        unsubscribe();
       };
     };
+
     if (currentUser?.uid) {
       getChats();
     }
   }, [currentUser]);
 
-  console.log(Object.entries(chats));
-
-  const handleSelect = (u)=>{
-    dispatch({type:"CHANGE_USER", payload:u})
-  }
+  const handleSelect = (chat) => {
+    dispatch({ type: "CHANGE_USER", payload: chat });
+  };
 
   return (
     <Container className="Chat2">
-      {Object.entries(chats)?.sort((a,b)=>b[1].data - a[1].date).map((chat) => (
-        <UserChat className="UserChat" key={chat[0]}  onClick={()=>handleSelect(chat[1].userInfo)}>
-          <Avatar src={chat[1].userInfo.photoURL} />
-          <UserChatInfo className="UserChatInfo">
-            <Span>{chat[1].userInfo.displayName}</Span>
-            <P>{chat[1].lastMessage?.text}</P>
-          </UserChatInfo>
-        </UserChat>
-      ))}
-    </Container>
+  {chats
+    .sort((a, b) => b.lastMessage.timestamp - a.lastMessage.timestamp)
+    .map((chat) => (
+      <UserChat
+        className="UserChat"
+        key={chat.id}
+        onClick={() => handleSelect(chat)}
+      >
+        <Avatar src={chat.userInfo.photoURL} />
+        <UserChatInfo className="UserChatInfo">
+          <Span>{chat.userInfo.displayName}</Span>
+          <P>{chat.lastMessage?.text}</P>
+        </UserChatInfo>
+      </UserChat>
+    ))}
+</Container>
+
   );
-  
 }
 
 export default Chats2;
+
 
 const Container = styled.div`
   
