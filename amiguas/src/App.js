@@ -64,10 +64,10 @@ function App() {
         />
 
         <Route
-          path="/chat"
+          path="/home"
           element={
             <ProtecteRoute>
-              <Chat selectedUser={selectedUser} />
+              <Home selectedUser={selectedUser} />
             </ProtecteRoute>
           }
         />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Search from '@mui/icons-material/Search';
-import amiguas from '../assets/img/amiGuas.png';
+import amiguas from '../assets/img/anaranjasinfondo.png';
 import HomeIcon from '@mui/icons-material/Home';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import StorefrontIcon from '@mui/icons-material/Storefront';
@@ -12,6 +12,7 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import MessageIcon from '@mui/icons-material/Message';
 import AppsIcon from '@mui/icons-material/Apps';
 import { Avatar } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
 import Chat from './Chat';
@@ -39,7 +40,7 @@ const Header = () => {
         <Container>
             <HeaderLeft>
                 <img src={amiguas} alt='el logo amiguas' />
-                <InputSearch style={{display: 'none'}}>
+                <InputSearch >
                     <Search />
                     <input type='Search' placeholder='Buscar en AmiGuas' />
                 </InputSearch>
@@ -64,20 +65,25 @@ const Header = () => {
                     <MenuIcon />
                 </IconCenterMenu>
             </HeaderCenter>
-            
+
             <HeaderRight>
-                <IconRight style={{display: 'none'}}>
+                <IconRight style={{ display: 'none' }}>
                     <AppsIcon />
                 </IconRight>
                 <IconRight>
                     <MessageIcon onClick={handleChatIconClick} />
                 </IconRight>
-                    {isChatOpen && <Home />}
-                <IconRight style={{display: 'none'}}>
+                {isChatOpen && <Home />}
+                <IconRight style={{ display: 'none' }}>
                     <NotificationsActiveIcon />
                 </IconRight>
-                <Avatar onClick={logout} />
+                {/* <Avatar onClick={logout} /> */}
+                <IconRight>
+                <CloseIcon  onClick={logout}/>
+            </IconRight>
             </HeaderRight>
+            
+
         </Container>
     )
 }
@@ -94,11 +100,12 @@ const Container = styled.div`
     top: 0;
     left: 0;
     z-index: 100;
-    background: linear-gradient(to right, #FFF, #fff);
-    border-image: linear-gradient(to right, #0ef, #fff);
+    background: #FFF;
+    border-image: #000;
     border-image-slice: 1;
     border-image-width: 0 0 3px 0; 
     border-image-outset: 0;
+    border-bottom: 5px solid #92D2F7;
     padding: 0 10px;
 
     @media (max-width: 1200px) {
@@ -207,21 +214,25 @@ const HeaderRight = styled.div`
     align-items: center;
     justify-content: flex-end;
     padding: 0 20px;
+    margin: 10px;
 
     .MuiAvatar-root {
-        width: 40px;
-        height: 40px;
+        width: 46px;
+        height: 46px;
         color: #000;
         
         &:hover {
+            background-color: #ff6529;
+            color: #FFF;
             cursor: pointer;
         }
     }
 `;
 
 const IconRight = styled.div`
-    width: 40px;
-    height: 40px;
+    width: 46px;
+    height: 46px;
+    color: #000;
     background-color: #C0C0C0;
     display: flex;
     justify-content: center;
@@ -229,15 +240,26 @@ const IconRight = styled.div`
     border-radius: 50%;
     margin-right: 15px;
 
-    .MuiSvgIcon-root {
-        font-size: 30px;
-        cursor: pointer;   
+    &:hover {
+        background-color: #ff6529;
+        color: #FFF;
+        cursor: pointer;
     }
+       
 
     .MuiSvgIcon-root {
         font-size: 30px;
-        transition: color 0.3s;
-        color: #6b6b6b;
+        color: #000;
+        cursor: pointer;   
+        
+        &:hover {
+            color: #FFF;
+            cursor: pointer;
+        }
+
+        
+
+        
     }
 `;
 

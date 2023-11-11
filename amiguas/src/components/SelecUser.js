@@ -38,7 +38,7 @@ function SelectUser() {
       <Span>Seleccionar usuario</Span>
       <UserChat>
         {users
-          .filter((user) => user.uid === currentUser.uid) // Filtra solo al usuario logueado
+          .filter((user) => user.uid !== currentUser.uid) // Filtra usuarios diferentes al usuario logueado
           .map((user) => (
             <UserItem key={user.id}>
               <UserButton>
@@ -51,6 +51,7 @@ function SelectUser() {
           ))
         }
       </UserChat>
+
       {isChatOpen && <Chat user={selectedUser} />}
     </Container>
 

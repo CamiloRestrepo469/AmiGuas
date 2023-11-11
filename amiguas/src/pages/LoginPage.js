@@ -6,6 +6,7 @@ import logo from '../assets/img/amiGuas.png';
 import PersonIcon from '@mui/icons-material/Person';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import RegisterComponent from '../components/RegisterComponent';
+import GoogleIcon from '@mui/icons-material/Google';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
@@ -15,6 +16,20 @@ import { db } from '../firebase';
 
 
 import Cookies from 'universal-cookie';
+
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    ochre: {
+      main: '#E3D026',
+      light: '#E9DB5D',
+      dark: '#A29415',
+      contrastText: '#242105',
+    },
+  },
+});
+
 const cookies = new Cookies();
 
 const LoginPage = (props) => {
@@ -97,18 +112,18 @@ const LoginPage = (props) => {
                         placeholder="Contraseña"
                     />
                     <BtnSubmit>
-                        <Button onClick={loginFunction} variant="contained" endIcon={<SendIcon />}>
+                        <Button style={{height: '50px'}} fullWidth onClick={loginFunction} variant="contained" endIcon={<SendIcon />}>
                             Inicio Sesion
-                        </Button>
+                        </Button >
                     </BtnSubmit>
                     <BtnSubmit>
-                        <Button onClick={() => {setopenRegister(true)}} variant="contained" color="success" endIcon={<PersonIcon />}>
+                        <Button style={{height: '50px', backgroundColor: 'deepskyblue'}}  fullWidth startIcon={<PersonIcon />} onClick={() => {setopenRegister(true)}} variant="contained" color="success" >
                             Crear Nueva Cuenta
                         </Button>
                     </BtnSubmit>
                     <BtnSubmit>
-                        <p>Sign In With Google To Continue</p>
-                        <Button onClick={signInWithGoogle} variant="contained">
+                        <P>Sign In With Google To Continue</P>
+                        <Button style={{height: '50px', backgroundColor: 'lightgray', color: 'black'}}  fullWidth onClick={signInWithGoogle} variant="contained" startIcon={<GoogleIcon style={{color: 'red'}}/>} >
                             Sign In With Google
                         </Button>
                     </BtnSubmit>
@@ -183,11 +198,11 @@ const FormLogin = styled.div`
     max-width: 4500px;
     height: 70vh;
     margin-top: 20vh;
-    box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
+    box-shadow: 1px 1px 5px rgba(146, 210, 247, 0.9), 0px -1px 5px rgba(146, 210, 247, 1);
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f0f0f0;
+    background-color: transparent;
     border-radius: 10px;
 
     @media (max-width: 1500px) {
@@ -216,16 +231,17 @@ const FormComponent = styled.div`
     padding-bottom: 0px;
 
     input {
-        margin-top: 30px;
+        margin-top: 24px;
         width: 90%;
         padding: 15px;
-        border-radius: 15px;
+        border-radius: 5px;
         border: 1px solid #cfcfcf;
         outline: none;
         font-size: 14px;
+        background-color: ivory;
 
         &:hover {
-            background: rgba(0, 0, 0, 0.2);    
+            background: rgba(0, 0, 0, 0.1);    
         }
     }
     .MuiSvgIcon-root {
@@ -238,9 +254,10 @@ const FormComponent = styled.div`
 const BtnSubmit = styled.div`
     width: 90%;
     padding: 10px 0;
-    margin-top: 20px;
+    margin-top: 10px;
     text-align: center;
     border-radius: 12px;
+    color: BLUE;
     // cambiar el color 
     // background-color: ${props => props.color}
 
@@ -266,3 +283,17 @@ const ErrorMessage = styled.p`
     font-size: 16px;
     margin-top: 10px;
 `;
+
+const P = styled.p`
+ color: #cfcfcf;
+ margin-bottom: 10px;
+`;
+
+//boton
+// const useStyles = styled.makeStyles`
+//     btn: {
+//       // you'll probably want the hex color code below
+//       background: 'yellow',
+//       // ... other css properties
+//     },
+//     `;

@@ -79,6 +79,7 @@ const UserChat = styled.div`
   gap: 10px;
   color: white;
   cursor: pointer;
+  background-color:blue;
 
   &:hover{
     background-color: rgba(255, 255, 255, 0.7);
@@ -93,14 +94,20 @@ const UserChat = styled.div`
 const UserChatInfo = styled.div`
   color: red;
   font-size: 18px;
+  background-color:blue;
+
 `;
 
 const Span = styled.span`
   font-weight: bold;
+  background-color:blue;
+
 `;
 
 const P = styled.p`
   color: blue;
   font-size: 12px;
+  background-color:blue;
+
   
 `;

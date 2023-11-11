@@ -39,76 +39,81 @@ const Search2 = () => {
     }
   };
 
-  const handleSelect = async (selectedUser) => { // Cambiar 'selectedUserId' a 'selectedUser'
-    if (currentUser && selectedUser) { // Cambiar 'user' a 'selectedUser'
+  const handleSelect = async (selectedUser) => {
+    // Limpiar la lista de usuarios
+    setUsers([]);
+  
+    if (currentUser && selectedUser) {
       const combinedId =
         currentUser.uid > selectedUser.userId
-          ? currentUser.uid + selectedUser.userId
-          : selectedUser.userId + currentUser.uid;
-
+          ? selectedUser.userId + currentUser.uid
+          : currentUser.uid + selectedUser.userId;
+  
       try {
-        const chatDocRef = doc(db, "messages", combinedId);
+        const chatDocRef = doc(db, "chats", combinedId);
         const chatDocSnapshot = await getDoc(chatDocRef);
-        console.log(chatDocRef);
-        console.log(chatDocSnapshot);
-
+  
         if (!chatDocSnapshot.exists()) {
-          await setDoc(chatDocRef, { messages: [] });
-
+          // Iniciar una conversación y almacenar datos en la base de datos
+          await setDoc(chatDocRef, { chats: [] });
+  
+          // Actualizar los chats de ambos usuarios
           await updateDoc(doc(db, "userChats", currentUser.uid), {
             [combinedId + ".userInfo"]: {
-              uid: selectedUser.userId, // Cambiar 'user.userId' a 'selectedUser.userId'
-              displayName: selectedUser.displayName, // Cambiar 'user.displayName' a 'selectedUser.displayName'
-              photoURL: selectedUser.photoURL, // Cambiar 'user.photoURL' a 'selectedUser.photoURL'
+              uid: selectedUser.userId,
+              displayName: selectedUser.displayName,
+              photoURL: selectedUser.photoURL,
             },
             [combinedId + "date"]: serverTimestamp(),
           });
-
+  
           await updateDoc(doc(db, "userChats", selectedUser.userId), {
             [combinedId + ".userInfo"]: {
-              userId: currentUser.uid,
+              uid: currentUser.uid,
               displayName: currentUser.displayName,
               photoURL: currentUser.photoURL,
             },
             [combinedId + "date"]: serverTimestamp(),
           });
         }
+  
+        // Puedes mostrar un mensaje o redirigir a la conversación aquí
+        console.log(`Conversación iniciada con ${selectedUser.displayName}`);
       } catch (error) {
         console.error('Error al seleccionar el usuario:', error);
       }
     }
-
-    setUsers([]); // Limpiar la lista de usuarios después de seleccionar uno
   };
+  
 
   return (
     <SearchContainer>
-      <SearchForm>
-        <label htmlFor="searchInput" style={{ display: 'none' }}>¿A quién buscas?</label>
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="¿A quién buscas?"
-          onKeyDown={handleKey}
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
-      </SearchForm>
-      {error && <Span>Usuario no existe</Span>}
-      {users.length > 0 && (
-        users.map((user, index) => (
-          <UserChat key={index} onClick={() => handleSelect(user)}>
-            <Avatar src={user.photoURL || ''} />
-            <UserChatInfo>
-              <Span>{user.displayName}</Span>
-            </UserChatInfo>
-          </UserChat>
-        ))
-      )}
-      {/* {users.length === 0 && (
-        <Span>No se encontraron usuarios</Span>
-      )} */}
-    </SearchContainer>
+  <SearchForm>
+    <label htmlFor="searchInput" style={{ display: 'none' }}>¿A quién buscas?</label>
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="¿A quién buscas?"
+      onKeyDown={handleKey}
+      value={userName}
+      onChange={(e) => setUserName(e.target.value)}
+    />
+  </SearchForm>
+  {error && <Span>Usuario no existe</Span>}
+  {users.length > 0 ? (
+    users.map((user, index) => (
+      <UserChat key={index} onClick={() => handleSelect(user)}>
+        <Avatar src={user.photoURL || ''} />
+        <UserChatInfo>
+          <Span>{user.displayName}</Span>
+        </UserChatInfo>
+      </UserChat>
+    ))
+  ) : (
+    <Span>No se encontraron usuarios</Span>
+  )}
+</SearchContainer>
+
   );
 };
 

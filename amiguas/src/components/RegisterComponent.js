@@ -176,7 +176,7 @@ const handleTelefonoChange = (event) => {
             placeholder="Contraseña PepitoPerez123"
           />
           <BtnSubmit>
-            <Button variant="contained" onClick={registerFunction} color="success" endIcon={<SendIcon />}>
+            <Button fullWidth style={{height: '50px', width: '90%'}} variant="contained" onClick={registerFunction} color="success" endIcon={<SendIcon />}>
               Registrarse
             </Button>
           </BtnSubmit>
@@ -211,7 +211,7 @@ const ErrorMessage = styled.p`
 const Container = styled.div`
     position: absolute;
     width: 100vw;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: #FFF;
     height: 100vh;
     top: 0;
     left: 0;
@@ -224,11 +224,12 @@ const RegisterForm = styled.div`
     width: 55%;
     height: 70%;
     max-widht: 400px;
-    box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
+    box-shadow: 1px 1px 10px rgba(195, 247, 209, 1), 0px -1px 5px rgba(195, 247, 209, 1);
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f0f0f0;
+    background-color: transparent;
     border-radius: 10px;
     align-items: center;
 
@@ -245,12 +246,16 @@ const HeaderRegister = styled.div`
     padding: 15px 0;
     justefy-content: space-between;
     border-bottom: 1px solid #cfcfcf;
+    position: relative;
 
     .MuiSvgIcon-root {
         margin-top: 20px;
         font-size: 30px;
         color: #3964bf;
         cursor: pointer;
+        position: absolute;
+        right: 0;
+        top: 0;
     }
 `;
 
@@ -265,22 +270,23 @@ const FormComponent = styled.div`
     padding-bottom: 0px;
 
     input {
-        margin-top: 10px;
-        width: 70%;
-        padding: 8px;
-        border-radius: 12px;
+        margin-top: 18px;
+        width: 80%;
+        heigth: 50px;
+        padding: 10px;
+        border-radius: 8px;
         border: 1px solid #cfcfcf;
         outline: none;
         font-size: 14px;
 
         &:hover {
-            background: rgba(0, 0, 0, 0.2);    
+            background: rgba(0, 0, 0, 0.1);    
         }
     }
 
     .MuiSvgIcon-root {
-        margin-top: 20px;
-        font-size: 70px;
+        margin: 14px auto 0px;
+        font-size: 120px;
         color: #8ac926;
     }
 `;

@@ -1,26 +1,28 @@
 import { createContext, useContext, useReducer } from "react";
-import { AuthContext } from "./AuthContext"; // Asegúrate de que esta importación esté completa
+import { AuthContext } from "./AuthContext";
 
 export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children }) => {
   const { currentUser } = useContext(AuthContext);
   const INITIAL_STATE = {
-    chatId: "null",
+    chatId: currentUser,
     user: {}
   };
 
   const chatReducer = (state, action) => {
     switch (action.type) {
       case "CHANGE_USER":
-        const selectedUser = action.payload; // Cambiado de "user" a "selectedUser"
+        const selectedUser = action.payload;
         const chatId =
-          currentUser.uid > selectedUser.userId
-            ? currentUser.uid + selectedUser.userId
-            : selectedUser.userId + currentUser.uid;
+          currentUser.uid > selectedUser.uid
+            ? currentUser.uid + selectedUser.uid
+            : selectedUser.uid + currentUser.uid;
+
+        console.log("Chat ID:", chatId); // Agregar este mensaje de depuración
 
         return {
-          user: selectedUser, // Cambiado de "action.payload" a "selectedUser"
+          user: selectedUser,
           chatId: chatId,
         };
 
@@ -30,6 +32,8 @@ export const ChatContextProvider = ({ children }) => {
   };
 
   const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
+
+  console.log("ChatContext State:", state); // Agregar este mensaje de depuración
 
   return (
     <ChatContext.Provider value={{ data: state, dispatch }}>

@@ -42,7 +42,7 @@ const Sidebar = () => {
     ];
 
     return (
-        <Container>
+        <Container style={{display: 'none'}}>
             <GroupList>
                 <LoginLeft>
                     <img

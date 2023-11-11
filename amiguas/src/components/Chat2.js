@@ -6,14 +6,17 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Messages2 from './Messages2';
 import Input2 from './Input2';
 import { ChatContext } from '../context/ChatContext';
+import { AuthContext } from '../context/AuthContext';
 
 const Chat2 = () => {
   const { data } = useContext(ChatContext);
+  const { currentUser } = useContext(AuthContext);
 
   return (
     <Container className="Chat2">
       <ChatInfo>
-        <Span>{data.user?.displayName}</Span>
+        <Span>{currentUser.displayName}</Span>
+        <Span>{data.displayName}</Span>
         <ChatIcons>
           <VideoCallIcon />
           <PersonAddIcon />
@@ -56,5 +59,6 @@ const ChatIcons = styled.div`
 
 const Span = styled.span`
   color: lightgray;
-  font-size: 18px;
+  font-size: 8px;
+
 `;

@@ -21,27 +21,33 @@ const Chat = ({ user }) => {
   // Crear una consulta para mensajes del usuario actual, ordenados por 'createdAt'
   const userQuery = query(messageRef, where('user', '==', user.displayName), orderBy('createdAt'));
 
+  // ...
+
   // Manejar el envío de un nuevo mensaje
   const handleSendMessage = async () => {
-    if (newMessage.trim() !== '') {
-      try {
-        const newDocRef = await addDoc(messageRef, {
-          text: newMessage,
-          createdAt: serverTimestamp(),
-          user: user.displayName,
+    // if (!auth.currentUser) {
+    //   console.error('Usuario no autenticado. No se pueden enviar mensajes.');
+    // }
 
+      if (newMessage.trim() !== '') {
+        try {
+          const newDocRef = await addDoc(messageRef, {
+            text: newMessage,
+            createdAt: serverTimestamp(),
+            user: auth.currentUser.displayName,
+          });
 
-        });
-        console.log(auth.currentUser.displayName);
-        console.log(newMessage);
-        console.log(newDocRef);
-        setNewMessage('');
-        return newDocRef; // Limpiar el campo de nuevo mensaje
-      } catch (error) {
-        console.error('Error al enviar el mensaje:', error);
+          setNewMessage('');
+          return newDocRef; // Limpiar el campo de nuevo mensaje
+        } catch (error) {
+          console.error('Error al enviar el mensaje:', error);
+        }
       }
-    }
+      return;
+    
+
   };
+
 
   // Escuchar cambios en la consulta de mensajes
   useEffect(() => {
@@ -58,33 +64,37 @@ const Chat = ({ user }) => {
 
   // Hacer scroll hacia el último mensaje cuando cambia la lista de mensajes
   useEffect(() => {
-    console.log('Mensajes:', messages); 
+    console.log('Mensajes:', messages);
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
-        console.log(messages);
+      console.log(messages);
 
     }
   }, [messages]);
-  console.log('al final',messages);
+  console.log('al final', messages);
+  console.log('al messages', messages.user);
+
+
 
   return (
     <Container>
       <ChatForm>
-        <div style={{ height: '300px', overflowY: 'scroll' }}>
+        <div style={{ height: '300px', overflowY: 'scroll', width: '98%' }}>
           {messages.map((message, index) => (
             <Message
               key={index}
               ref={index === messages.length - 1 ? lastMessageRef : null}
-              className={message.user === auth.currentUser.displayName ? 'other-message' :  'user-message'}  // Aquí se decide si es un mensaje del usuario actual o de otro usuario
+              className={message.user === user.displayName ? 'other-message' : 'user-message' }
             >
+
               <MessageUser>{message.user}</MessageUser>
-              
               <MessageText>{message.text}</MessageText>
               <MessageTime>
                 {message.createdAt && new Date(message.createdAt.seconds * 1000).toLocaleTimeString('es')}
               </MessageTime>
             </Message>
           ))}
+
 
         </div>
         <FormComponent>
@@ -107,20 +117,20 @@ export default Chat;
 
 
 const Container = styled.div`
-  position: absolute;
+  position: fixed;
+  z-index: 999;
+  
   width: 100vw;
-  // background-color: rgba(255, 255, 255, 0.7);
-  background-color: red;
-  height: auto;
+  background-color: rgba(100, 100, 100, 1);
+  // background-color: red;
+  height: 100vh;
   top: 0;
-  left: 0;
+  right: 0;
   display: flex;
   align-items: center;
-  justify-content: right;
+  justify-content: center;
   white-space: nowrap;
   overflow: hidden;
-  margin: 40rem 0 0 -80rem;
-  padding: 2% 5px 0 60%;
 
   @media (max-width: 1200) {
     background-color: blue;
@@ -132,19 +142,19 @@ const Container = styled.div`
 `;
 
 const ChatForm = styled.div`
-  width: 28%;
+  width: 50%;
   box-shadow: 1px 1px 5px rgba(145, 145, 145, 0.6), 0px -1px 5px rgba(145, 145, 145, 0.4);
   display: flex;
   flex-direction: column;
   bottom: 0;
   margin: 0px 0px 0 50px;
   align-items: flex-end;
-  background-color: green;
+  background-color: #f0f0f0;
   border-radius: 10px;
   overflow: hidden;
 
   @media (max-width: 990px) {
-    width: 25%;
+    width: 50%;
     margin: 50% 1px 0% 20%;
   }
 `;
@@ -158,7 +168,7 @@ const FormComponent = styled.div`
   padding: 1px 4px 5px 5px;
   margin: 20px 0px 0 0px;
   align-items: flex-end;
-  background-color: blue;
+  background-color: #fff;
   overflow: hidden;
   border: none;
 
@@ -196,13 +206,13 @@ const Message = styled.div`
   margin: 5px;
 
   .user-message {
-    background-color: #3498DB;
+    background-color: #92D2F7;
     color: red;
     align-self: flex-end;
   }
 
   .other-message {
-    background-color: #e0e0e0;
+    background-color: #fff;
     color: blue;
     align-self: flex-start;
   }
@@ -216,7 +226,8 @@ const MessageText = styled.div`
   flex-direction: column;
   border-radius: 15px;
   overflow-x: hidden;
-  background-color: red;
+  left: 0;
+  background-color: #fff;
   font-size: 18px;
   padding: 5px 10px;
   margin: 4px;

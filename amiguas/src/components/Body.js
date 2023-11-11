@@ -78,15 +78,17 @@ export default Body;
 const Container = styled.div`
     width: 100%;
     display: flex;
+    justify-content: space-between;
     background-color: #FFF;
-
+    
     
 `;
 
 const Feed = styled.div`
     display: flex;
     flex-direction: column;
-    flex: 0.50;
+    //cambio de tamaño de la columna central
+    flex: 1;
     align-items: center;
 
     @media (max-width: 1200px) {

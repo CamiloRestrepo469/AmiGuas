@@ -1,6 +1,6 @@
 import { Avatar } from '@mui/material';
 import React, { useContext, useEffect, useRef } from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components'; // Asegúrate de importar 'styled' desde 'styled-components'
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
 
@@ -18,17 +18,17 @@ const Message2 = ({ message }) => {
   return (
     <Container
       ref={ref}
-      className={message.senderId === currentUser.uid ? 'owner' : ''}
+      className={message.senderId === currentUser.uid ? '' : 'owner'}
     >
       <MessageInfo>
         <Avatar
           src={
             message.senderId === currentUser.uid
-              ? currentUser.photoURL
-              : data.user.photoURL
+              ? data.user.photoURL
+              : currentUser.photoURL 
           }
         />
-        <Span>Justo ahora</Span>
+        <Span>{currentUser.displayName}</Span>
       </MessageInfo>
       <MessageContent>
         <P>{message.text}</P>
@@ -82,7 +82,7 @@ const MessageInfo = styled.div`
 `;
 
 const Span = styled.div`
-    font-size: 10px;
+    font-size: 7px;
     margin: 4px;
 
 `;
