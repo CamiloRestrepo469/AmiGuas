@@ -66,6 +66,11 @@ const Container = styled.div`
   right: 0;
   height: 92vh;
   overflow-x: scroll;
+
+  @media (max-width: 990px){
+    width: auto;
+  }
+  
 `;
 
 const UserChat = styled.ul`
@@ -73,9 +78,11 @@ const UserChat = styled.ul`
   list-style: none;
   display: flex;
   flex-direction: column;
+
   @media (max-width: 990px) {
-    display: grid;
+    display: flex;
     place-items: center;
+    align-items: center;
   }
 `;
 
@@ -83,8 +90,9 @@ const UserItem = styled.li`
   display: flex;
   flex-direction: row;
   margin-left: 0;
+
   &:hover {
-    background-color: #e0fbfc;
+    background-color: rgba(255, 255, 255, 0.7);
   }
 `;
 
@@ -92,13 +100,24 @@ const UserButton = styled.div`
   display: flex;
   flex-direction: row;
   margin-left: 0;
+  
   .MuiAvatar-root {
     width: 45px;
     height: 45px;
     position: relative;
     margin: 3px 10px;
     color: #3d5a80;
+    
+    &:hover{
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    @media(max-width: 990px){
+      width: 55px;
+      height: 55px;
+    }
   }
+
 `;
 
 const UserText = styled.p`
@@ -108,11 +127,11 @@ const UserText = styled.p`
     font-size: 12px;
   }
   @media (max-width: 990px) {
-    font-size: 12px;
+    font-size: 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 9px; /* Ancho de una letra */
+    width: 0px; /* Ancho de una letra */
   }
 `;
 
@@ -120,4 +139,13 @@ const Span = styled.div`
   margin: 10px;
   font-size: 30px;
   color: #3d5a80;
+
+  @media(max-width: 990px){
+    margin: 20px;
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 65px;
+  }
 `;

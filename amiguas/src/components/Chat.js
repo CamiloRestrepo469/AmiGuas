@@ -1,7 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore';
-import { auth, db } from '../firebase';
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+  where,
+} from 'firebase/firestore';
+import { db } from '../firebase';
 import SendIcon from '@mui/icons-material/Send';
 
 const Chat = ({ user }) => {
@@ -9,47 +17,34 @@ const Chat = ({ user }) => {
   const [newMessage, setNewMessage] = useState('');
   const lastMessageRef = useRef(null);
 
-  // Manejar cambios en el nuevo mensaje
   const handleNewMessageChange = (event) => {
     setNewMessage(event.target.value);
   };
 
-  // Crear referencia a la colección "messages"
   const messageRef = collection(db, 'messages');
-  console.log(messageRef);
+  const userQuery = query(
+    messageRef,
+    where('user', '==', user?.displayName),
+    orderBy('createdAt')
+  );
 
-  // Crear una consulta para mensajes del usuario actual, ordenados por 'createdAt'
-  const userQuery = query(messageRef, where('user', '==', user.displayName), orderBy('createdAt'));
-
-  // ...
-
-  // Manejar el envío de un nuevo mensaje
   const handleSendMessage = async () => {
-    // if (!auth.currentUser) {
-    //   console.error('Usuario no autenticado. No se pueden enviar mensajes.');
-    // }
-
+    try {
       if (newMessage.trim() !== '') {
-        try {
-          const newDocRef = await addDoc(messageRef, {
-            text: newMessage,
-            createdAt: serverTimestamp(),
-            user: auth.currentUser.displayName,
-          });
+        const newDocRef = await addDoc(messageRef, {
+          text: newMessage,
+          createdAt: serverTimestamp(),
+          user: user?.displayName,
+        });
 
-          setNewMessage('');
-          return newDocRef; // Limpiar el campo de nuevo mensaje
-        } catch (error) {
-          console.error('Error al enviar el mensaje:', error);
-        }
+        setNewMessage('');
+        return newDocRef;
       }
-      return;
-    
-
+    } catch (error) {
+      console.error('Error al enviar el mensaje:', error);
+    }
   };
 
-
-  // Escuchar cambios en la consulta de mensajes
   useEffect(() => {
     const unsubscribe = onSnapshot(userQuery, (querySnapshot) => {
       const updatedMessages = [];
@@ -59,22 +54,14 @@ const Chat = ({ user }) => {
       setMessages(updatedMessages);
     });
 
-    return unsubscribe; // Desuscribirse cuando el componente se desmonte
-  }, []); // El segundo argumento vacío asegura que el efecto se ejecute solo una vez
+    return unsubscribe;
+  }, [userQuery]);
 
-  // Hacer scroll hacia el último mensaje cuando cambia la lista de mensajes
   useEffect(() => {
-    console.log('Mensajes:', messages);
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
-      console.log(messages);
-
     }
   }, [messages]);
-  console.log('al final', messages);
-  console.log('al messages', messages.user);
-
-
 
   return (
     <Container>
@@ -84,18 +71,17 @@ const Chat = ({ user }) => {
             <Message
               key={index}
               ref={index === messages.length - 1 ? lastMessageRef : null}
-              className={message.user === user.displayName ? 'other-message' : 'user-message' }
             >
-
               <MessageUser>{message.user}</MessageUser>
               <MessageText>{message.text}</MessageText>
               <MessageTime>
-                {message.createdAt && new Date(message.createdAt.seconds * 1000).toLocaleTimeString('es')}
+                {message.createdAt &&
+                  new Date(message.createdAt.seconds * 1000).toLocaleTimeString(
+                    'es'
+                  )}
               </MessageTime>
             </Message>
           ))}
-
-
         </div>
         <FormComponent>
           <input
@@ -104,7 +90,7 @@ const Chat = ({ user }) => {
             value={newMessage}
             onChange={handleNewMessageChange}
           />
-          <button type="submit" onClick={handleSendMessage}>
+          <button type="button" onClick={handleSendMessage}>
             <SendIcon />
           </button>
         </FormComponent>

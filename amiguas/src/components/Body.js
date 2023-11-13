@@ -96,7 +96,7 @@ const Feed = styled.div`
     }
 
     @media (max-width: 990px) {
-        flex: 0.25;
+        flex: 1;
     }
 `;
 
@@ -150,7 +150,8 @@ const SectionRight = styled.div`
     }
 
     @media (max-width: 990px) {
-        flex:0.29;
+        flex: 0.12;
+        background-color: blue;
     }
 `;
 

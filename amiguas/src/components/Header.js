@@ -15,6 +15,7 @@ import { Avatar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
+import { Link } from 'react-router-dom';
 import Chat from './Chat';
 import { db } from '../firebase';
 import Home from '../pages/Home';
@@ -39,7 +40,12 @@ const Header = () => {
     return (
         <Container>
             <HeaderLeft>
-                <img src={amiguas} alt='el logo amiguas' />
+                <Link to="/"> {/* Ajusta la ruta según tu configuración de rutas */}
+                    <img
+                        src={amiguas}
+                        alt='el logo amiguas'
+                    />
+                </Link>
                 <InputSearch >
                     <Search />
                     <input type='Search' placeholder='Buscar en AmiGuas' />
@@ -70,7 +76,7 @@ const Header = () => {
                 <IconRight style={{ display: 'none' }}>
                     <AppsIcon />
                 </IconRight>
-                <IconRight>
+                <IconRight style={{ display: 'none' }}>
                     <MessageIcon onClick={handleChatIconClick} />
                 </IconRight>
                 {isChatOpen && <Home />}
@@ -79,10 +85,10 @@ const Header = () => {
                 </IconRight>
                 {/* <Avatar onClick={logout} /> */}
                 <IconRight>
-                <CloseIcon  onClick={logout}/>
-            </IconRight>
+                    <CloseIcon onClick={logout} />
+                </IconRight>
             </HeaderRight>
-            
+
 
         </Container>
     )
@@ -96,7 +102,9 @@ const Container = styled.div`
     width: 100%;
     height: 4em;
     display: flex;
-    position: sticky;
+    // position: sticky;
+    justify-content: space-between;
+
     top: 0;
     left: 0;
     z-index: 100;
@@ -120,6 +128,7 @@ const HeaderLeft = styled.div`
     justify-content: center;
     flex: 0.25;
     padding: 10px 15px 15px 10px;
+    cursor: pointer;
 
     img {
         width: 50px;
@@ -165,8 +174,10 @@ const HeaderCenter = styled.div`
     display: none;
     flex: 0.60;
     align-Items: center;
-    justify-content: space-around;
     padding: 0 15px;
+    justify-content: space-between;   
+    padding: 0 20px;
+
 
     @media (max-width: 990px) {
         justify-content: flex-start;
@@ -211,7 +222,7 @@ const IconCenterMenu = styled(IconCenter)`
 const HeaderRight = styled.div`
     flex: 0.25;
     display: flex;
-    align-items: center;
+    align-items: right;
     justify-content: flex-end;
     padding: 0 20px;
     margin: 10px;
