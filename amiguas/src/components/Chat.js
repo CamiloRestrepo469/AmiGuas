@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import CloseIcon from '@mui/icons-material/Close';
+import { signOut } from 'firebase/auth';
+import { Link, useNavigate } from 'react-router-dom';
+import Homepa from '../pages/Home';
+
 import {
   addDoc,
   collection,
@@ -9,10 +14,16 @@ import {
   serverTimestamp,
   where,
 } from 'firebase/firestore';
-import { db } from '../firebase';
+import { auth, db } from '../firebase';
 import SendIcon from '@mui/icons-material/Send';
+import Homepages from '../pages/homepages';
+
+
 
 const Chat = ({ user }) => {
+  const navigate = useNavigate();
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const lastMessageRef = useRef(null);
@@ -20,6 +31,10 @@ const Chat = ({ user }) => {
   const handleNewMessageChange = (event) => {
     setNewMessage(event.target.value);
   };
+  const logout = async () => {
+    await signOut(auth);
+    navigate('/');
+}
 
   const messageRef = collection(db, 'messages');
   const userQuery = query(
@@ -65,8 +80,13 @@ const Chat = ({ user }) => {
 
   return (
     <Container>
+     
       <ChatForm>
-        <div style={{ height: '300px', overflowY: 'scroll', width: '98%' }}>
+        <ContainerLogin>
+        <CloseIcon onClick={logout} />
+        </ContainerLogin>
+      
+        <div style={{ height: '300px', overflowY: 'scroll', width: '98%', index: '999' }}>
           {messages.map((message, index) => (
             <Message
               key={index}
@@ -139,6 +159,8 @@ const ChatForm = styled.div`
   border-radius: 10px;
   overflow: hidden;
 
+  
+
   @media (max-width: 990px) {
     width: 50%;
     margin: 50% 1px 0% 20%;
@@ -154,9 +176,9 @@ const FormComponent = styled.div`
   padding: 1px 4px 5px 5px;
   margin: 20px 0px 0 0px;
   align-items: flex-end;
-  background-color: #fff;
+  color: #fff;
   overflow: hidden;
-  border: none;
+
 
   input {
     display: flex;
@@ -175,9 +197,10 @@ const FormComponent = styled.div`
   }
 
   .MuiSvgIcon-root {
-    margin: 10px;
-    font-size: 10px;
-    color: red;
+    margin: 5px;
+    padding: 0px;
+    font-size: 15px;
+    border: none;
 
     &:hover {
       background: rgba(0, 0, 0, 0.1);
@@ -244,4 +267,20 @@ const MessageTime = styled.div`
   background-color: #f0f0f0;
   font-size: 8px;
   margin: 1px 15px 15px 5px;
+`;
+
+
+const ContainerLogin = styled.div`
+    .MuiSvgIcon-root {
+      margin: 20px;
+      font-size: 40px;
+      color: #FFF;
+      cursor: pointer;
+      position: absolute;
+      right: 0;
+      top: 0;
+      border: 3px solid #fff;
+      border-radius: 50px;
+  }
+
 `;
