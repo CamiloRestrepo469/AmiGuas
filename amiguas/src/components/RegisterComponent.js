@@ -9,27 +9,28 @@ import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile, updatePhoneNumber } from 'firebase/auth';
 
-
+// Componente para el registro de usuarios
 const RegisterComponent = ({ setopenRegister }) => {
+   // Estados para gestionar la información del registro y los errores
   const [nombreCompleto, setNombreCompleto] = useState('');
   const [alias, setAlias] = useState('');
   const [telefono, setTelefono] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [photoURL, setphotoURL] = useState('');
-
+  // ... (otros estados similares para alias, teléfono, email, contraseña y errores)
   const [nombreCompletoError, setNombreCompletoError] = useState('');
   const [aliasError, setAliasError] = useState('');
   const [telefonoError, setTelefonoError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [formError, setFormError] = useState('');
-
+  // Función para validar el formato del correo electrónico
   const validateEmail = (email) => {
     const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
     return emailRegex.test(email);
   };
-
+  // Función para validar la fortaleza de la contraseña
   const validatePassword = (password) => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     return passwordRegex.test(password);
@@ -47,6 +48,8 @@ const handleTelefonoChange = (event) => {
 };
 
   const registerFunction = async () => {
+    // Reinicio de los errores al intentar registrar
+    // Validación de los campos ingresados y manejo de errores específicos
     setEmailError('');
     setPasswordError('');
     setFormError('');
@@ -91,6 +94,7 @@ const handleTelefonoChange = (event) => {
 
 
     try {
+      // Creación del usuario y guardado de datos en la base de datos
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
   
@@ -111,7 +115,7 @@ const handleTelefonoChange = (event) => {
     }
   };
 
-
+  // JSX que representa la interfaz de registro
   return (
     <Container>
       <RegisterForm>

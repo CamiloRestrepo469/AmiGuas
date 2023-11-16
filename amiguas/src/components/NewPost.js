@@ -17,7 +17,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 const NewPost = () => {
 
-
+  // Declaración de estados para manejar datos del usuario y los inputs del nuevo post
 
     const [userName, setUserName] = useState('');
     const [showInput, setShowInput] = useState(false);
@@ -43,6 +43,7 @@ const NewPost = () => {
     //     }
     // }, []);
 
+      // useEffect para obtener los datos del perfil de usuario al cargar el componente
     useEffect(() => {
         const getUserProfile = async () => {
           const user = auth.currentUser;
@@ -59,7 +60,7 @@ const NewPost = () => {
     
         getUserProfile();
       }, []);
-
+  // Función para renderizar los datos del perfil de usuario
     function renderUserProfile() {
         if (userProfile) {
             const userProfileData = [
@@ -82,8 +83,8 @@ const NewPost = () => {
         }
     }
  
-    //subir archivos 
-    const handleSubmit = async (e) => {
+  // Función para manejar la subida de archivos    
+  const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const result = await uploadFile(File);
@@ -99,7 +100,7 @@ const NewPost = () => {
         };
     };
 
-    //crear post
+    // Función para crear un nuevo post
     const createPost = async () => {
         try {
             if (!postText || !imageUrl) {
@@ -129,6 +130,8 @@ const NewPost = () => {
         }
     };
 
+
+  // JSX que representa la interfaz del componente NewPost
     return (
         <Container>
             <InputText>

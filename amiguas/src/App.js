@@ -1,3 +1,4 @@
+// Importaciones de módulos y componentes necesarios
 import React, { useState, useEffect, useContext } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import './App.css';
@@ -16,40 +17,47 @@ import SelectUser from './components/SelecUser'; // Importa el componente Select
 import Chat from './components/Chat';
 
 function App() {
+  // Estado para el usuario actual y el usuario seleccionado
   const [user, setUser] = useState(null);
-  const [selectedUser, setSelectedUser] = useState(null); // Nuevo estado para el usuario seleccionado
+  const [selectedUser, setSelectedUser] = useState(null);
 
+  // Efecto para manejar el cambio en la autenticación del usuario
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
 
+    // Limpia el efecto cuando el componente se desmonta
     return () => unsubscribe();
   }, []);
 
+  // Obtiene el usuario actual del contexto
   const { currentUser } = useContext(AuthContext);
 
-  const ProtecteRoute = ({ children }) => {
+  // Componente para redirigir si no hay un usuario autenticado
+  const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to="/login" replace />;
     }
     return children;
   };
 
-  // Manejar la selección de usuario
+  // Maneja la selección de usuario
   const handleUserSelected = (user) => {
     setSelectedUser(user);
   };
 
+  // Renderizado del componente principal
   return (
     <BrowserRouter>
       <Routes>
+        {/* Ruta para la página de inicio de sesión */}
         <Route
           path="/login"
-          element={
-            !user ? <LoginPage /> : <Navigate to="/" replace />
-          }
+          element={!user ? <LoginPage /> : <Navigate to="/" replace />}
         />
+
+        {/* Ruta para la página principal */}
         <Route
           path="/"
           element={
@@ -63,12 +71,13 @@ function App() {
           }
         />
 
+        {/* Ruta para la página de inicio protegida */}
         <Route
           path="/home"
           element={
-            <ProtecteRoute>
+            <ProtectedRoute>
               <Home selectedUser={selectedUser} />
-            </ProtecteRoute>
+            </ProtectedRoute>
           }
         />
       </Routes>

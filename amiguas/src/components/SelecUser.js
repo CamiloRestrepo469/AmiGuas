@@ -8,16 +8,19 @@ import { User } from 'firebase/auth';
 import { AuthContext } from '../context/AuthContext';
 
 function SelectUser() {
+    // Estados para gestionar la selección del usuario y el estado del chat
   const { currentUser } = useContext(AuthContext);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [users, setUsers] = useState([]);
 
+   // Función para manejar la selección de un usuario y abrir el chat correspondiente
   const onUserSelected = (user) => {
     setSelectedUser(user);
     setIsChatOpen(true);
   };
 
+    // Efecto para obtener la lista de usuarios al cargar el componente
   useEffect(() => {
     const fetchUsers = async () => {
       const usersCollection = collection(db, 'users');
@@ -33,6 +36,8 @@ function SelectUser() {
     fetchUsers();
   }, []);
 
+
+  // JSX que representa la interfaz de selección de usuario y chat
   return (
     <Container>
       <Span>Seleccionar usuario</Span>
@@ -60,6 +65,7 @@ function SelectUser() {
 
 export default SelectUser;
 
+// Estilos usando styled-components para el componente SelectUser
 const Container = styled.div`
   position: sticky;
   background-color: #f0f0f0;

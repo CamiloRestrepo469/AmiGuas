@@ -16,23 +16,11 @@ import { db } from '../firebase';
 
 
 import Cookies from 'universal-cookie';
-
-import { createTheme } from '@mui/material/styles';
-
-const theme = createTheme({
-  palette: {
-    ochre: {
-      main: '#E3D026',
-      light: '#E9DB5D',
-      dark: '#A29415',
-      contrastText: '#242105',
-    },
-  },
-});
-
+// Creación de instancia para utilizar cookies
 const cookies = new Cookies();
-
+// Definición del componente LoginPage
 const LoginPage = (props) => {
+    // Estados para manejar la lógica de la página de inicio de sesión
     const { setUser } = props;
     const navigate = useNavigate();
     const [openRegister, setopenRegister] = useState(false);
@@ -41,6 +29,7 @@ const LoginPage = (props) => {
     const [loginError, setLoginError] = useState(null);
     const [emptyFieldsError, setEmptyFieldsError] = useState(null); // Nuevo estado
 
+     // Función para iniciar sesión con Google
     const signInWithGoogle = async () => {
         try {
             const result = await signInWithPopup(auth, provider);
@@ -64,6 +53,7 @@ const LoginPage = (props) => {
         }
     };
 
+    // Función para realizar el inicio de sesión con correo y contraseña
     const loginFunction = async () => {
         try {
             if (!loginEmail.trim() || !loginPassword.trim()) {
@@ -86,7 +76,8 @@ const LoginPage = (props) => {
             setLoginError(error.message);
         }
     };
-
+    
+    // Renderizado del componente LoginPage
     return (
         <Container>
             <LoginLeft>

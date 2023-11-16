@@ -34,7 +34,7 @@ const Chat = ({ user }) => {
   const logout = async () => {
     await signOut(auth);
     navigate('/');
-}
+  }
 
   const messageRef = collection(db, 'messages');
   const userQuery = query(
@@ -42,6 +42,8 @@ const Chat = ({ user }) => {
     where('user', '==', user?.displayName),
     orderBy('createdAt')
   );
+  console.log("Updated Messages:", userQuery);
+
 
   const handleSendMessage = async () => {
     try {
@@ -60,6 +62,8 @@ const Chat = ({ user }) => {
     }
   };
 
+  console.log("Updated Messages:", setNewMessage);
+
   useEffect(() => {
     const unsubscribe = onSnapshot(userQuery, (querySnapshot) => {
       const updatedMessages = [];
@@ -67,9 +71,12 @@ const Chat = ({ user }) => {
         updatedMessages.push({ id: doc.id, ...doc.data() });
       });
       setMessages(updatedMessages);
+
+      // Logging messages for debugging
+      console.log("Updated Messages:", updatedMessages);
     });
 
-    return unsubscribe;
+    return () => unsubscribe();
   }, [userQuery]);
 
   useEffect(() => {
@@ -80,29 +87,29 @@ const Chat = ({ user }) => {
 
   return (
     <Container>
-     
+
       <ChatForm>
         <ContainerLogin>
-        <CloseIcon onClick={logout} />
+          <CloseIcon onClick={logout} />
         </ContainerLogin>
-      
-        <div style={{ height: '300px', overflowY: 'scroll', width: '98%', index: '999' }}>
+
+        <div style={{ height: '300px', overflowY: 'scroll' }}>
           {messages.map((message, index) => (
             <Message
               key={index}
               ref={index === messages.length - 1 ? lastMessageRef : null}
+              className={message.user === user?.displayName ? 'user-message' : 'other-message'}
             >
               <MessageUser>{message.user}</MessageUser>
               <MessageText>{message.text}</MessageText>
               <MessageTime>
                 {message.createdAt &&
-                  new Date(message.createdAt.seconds * 1000).toLocaleTimeString(
-                    'es'
-                  )}
+                  new Date(message.createdAt.seconds * 1000).toLocaleTimeString('en-US')}
               </MessageTime>
             </Message>
           ))}
         </div>
+
         <FormComponent>
           <input
             type="text"
@@ -211,19 +218,18 @@ const FormComponent = styled.div`
 const Message = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: ${(props) => (props.isUserMessage ? 'flex-end' : 'flex-start')};
   margin: 5px;
 
   .user-message {
+    align-self: flex-end;
     background-color: #92D2F7;
     color: red;
-    align-self: flex-end;
   }
 
   .other-message {
+    align-self: flex-start;
     background-color: #fff;
     color: blue;
-    align-self: flex-start;
   }
 `;
 

@@ -80,7 +80,7 @@ const Header = () => {
                     <MessageIcon onClick={handleChatIconClick} />
                 </IconRight>
                 {isChatOpen && <Home />}
-                <IconRight style={{ display: 'none' }}>
+                <IconRight >
                     <NotificationsActiveIcon />
                 </IconRight>
                 {/* <Avatar onClick={logout} /> */}
