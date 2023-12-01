@@ -137,3 +137,20 @@ npx serve -s build
 `npx serve -s build`
 
 ###
+
+Alinear = "centro"Hola, soy Camilo Restrepo/h1
+.h3 align="center" Desarrollador de software.
+
+- Actualmente estoy trabajando en **Amiguas Red social**
+
+"h3 align="left"Conéctate conmigo: *h3"
+P. alineación="izá-Lénquicalo".
+- Actualmente estoy trabajando en **Amiguas Red social****
+
+Eh3 align="left".Idiomas y herramientas:
+P. alineación="izá-Lénquicalo". A href="https://getbootstrap.com" target="blank" rel="noreferrer" . .img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="40" height="40"/o- - Ah, sí. A href="https://www.w3schools.com/css/" target="-blank" rel="noreferrer" . .img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/oc' - Ah, sí. "https://firebase.google.com/" target="blank" rel="noreferrer" . .img src="https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg" alt="firebase" width="40" height="40"/ocavado. - Ah, sí. A href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="-blank" rel="noreferrer" .img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/original.svg" alt="javascript" width="40" height="40"/o - Ah, sí. A href="https://www.linux.org/" target="-blank" rel=noreferrer" .img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="linux" width="40" height="40"/octubre - Ah, sí. A href="https://www.microsoft.com/en-us/sql-server" target="-blank" rel=noreferrer" . .img src="https://www.svgrepo.com/show/303229/microsoft-sql-server-logo.svg" alt="mssql" width="40" height="40"/o. - Ah, sí. A href="https://reactjs.org/" target="blank" rel="noreferrer" .img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-word.svg" alt="react" width="40" height="40"/octubre/o - Ah, sí. - *
+
+.p.img align="left" src="https://github-readme-stats.vercel.app/api/top-langs?username=camilorestrepo469&show-icons=true&locale=en&layout=compacto" alt=camilorestrepo469" /-/p.
+
+.p.&nbsp;-img align="center" src="https://github-readme-stats.vercel.app/api?username=camilorestrepo469&show-icons=true&locale=en" alt=camilorestrepo469" /-/p.
+

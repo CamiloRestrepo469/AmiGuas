@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useContext } from 'react';
 import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
 import { signOut } from 'firebase/auth';
@@ -17,6 +17,7 @@ import {
 import { auth, db } from '../firebase';
 import SendIcon from '@mui/icons-material/Send';
 import Homepages from '../pages/homepages';
+import { AuthContext } from '../context/AuthContext';
 
 
 // Componente funcional Chat que recibe un usuario como prop
@@ -31,6 +32,8 @@ const Chat = ({ user }) => {
    const [newMessage, setNewMessage] = useState('');
    // Referencia mutable para el último mensaje en la lista
    const lastMessageRef = useRef(null);
+
+   const { currentUser } = useContext(AuthContext);
  
    // Manejador del cambio en el nuevo mensaje
 
@@ -46,12 +49,15 @@ const Chat = ({ user }) => {
     // Referencia a la colección 'messages' en Firestore
   const messageRef = collection(db, 'messages');
     // Query para obtener los mensajes de un usuario específico, ordenados por tiempo de creación
-  const userQuery = query(
-    messageRef,
-    where('user', '==', user?.displayName),
-    orderBy('createdAt')
+  const userQuery = useMemo(
+    () =>
+      query(
+        messageRef,
+        where('user', '==', user?.displayName),
+        orderBy('createdAt')
+      ),
+    [messageRef, user?.displayName]
   );
-  console.log("Updated Messages:", userQuery);
 
 
     // Función para enviar un nuevo mensaje
@@ -72,10 +78,12 @@ const Chat = ({ user }) => {
     }
   };
 
-  console.log("Updated Messages:", setNewMessage);
+  console.log("nuevo:", setNewMessage);
 
     // Efecto para suscribirse a cambios en los mensajes del usuario
   useEffect(() => {
+    if (!userQuery) return; // No suscribirse si la consulta no está lista
+
     const unsubscribe = onSnapshot(userQuery, (querySnapshot) => {
       const updatedMessages = [];
       querySnapshot.forEach((doc) => {
@@ -84,11 +92,14 @@ const Chat = ({ user }) => {
       setMessages(updatedMessages);
 
       // Logging messages for debugging
-      console.log("Updated Messages:", updatedMessages);
+        console.log("Messages:", updatedMessages); 
+        console.log("Messages:", setMessages); 
+
     });
 
     return () => unsubscribe();
   }, [userQuery]);
+  console.log(userQuery);
 
     // Efecto para hacer scroll al último mensaje cuando hay cambios en los mensajes
   useEffect(() => {
@@ -96,6 +107,7 @@ const Chat = ({ user }) => {
       lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages]);
+  console.log("State Messages:", messages); 
 
     // JSX que representa la interfaz del componente Chat
   return (
@@ -111,10 +123,10 @@ const Chat = ({ user }) => {
             <Message
               key={index}
               ref={index === messages.length - 1 ? lastMessageRef : null}
-              className={message.user === user?.displayName ? 'user-message' : 'other-message'}
+              className={message.user === currentUser?.displayName ? 'user-message' : 'other-message'}
             >
-              <MessageUser>{message.user}</MessageUser>
-              <MessageText>{message.text}</MessageText>
+              <MessageUser>{message.user}hola</MessageUser>
+              <MessageText>{message.text}como va</MessageText>
               <MessageTime>
                 {message.createdAt &&
                   new Date(message.createdAt.seconds * 1000).toLocaleTimeString('en-US')}
@@ -235,13 +247,13 @@ const Message = styled.div`
 
   .user-message {
     align-self: flex-end;
-    background-color: #92D2F7;
+    background-color: red;
     color: red;
   }
 
   .other-message {
     align-self: flex-start;
-    background-color: #fff;
+    background-color: blue;
     color: blue;
   }
 `;
